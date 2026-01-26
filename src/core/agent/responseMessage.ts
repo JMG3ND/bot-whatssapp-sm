@@ -9,13 +9,13 @@ export default async function responseMessage(message: string) {
         messages: [
           { role: 'user', content: instruction }
         ],
+        temperature: 0.1,
         max_tokens: 1000,
       })
       
       const aiResponse = response.choices[0]?.message?.content || 'Sin respuesta'
       return aiResponse
     } catch (error) {
-      console.error('Error al llamar a DeepSeek:', error)
-      throw new Error('Error al obtener la respuesta de DeepSeek')
+      throw new Error(`Error al obtener la respuesta de DeepSeek: ${error}`)
     }
 }
