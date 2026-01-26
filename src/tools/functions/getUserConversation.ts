@@ -1,5 +1,5 @@
-import { prisma } from '../database'
-import { formatConversation } from './utils/formatConversation'
+import { prisma } from '../../database'
+import { formatConversation } from '../utils/formatConversation'
 
 export async function getUserConversation(user: string, newMessage: string) {
   return formatConversation(

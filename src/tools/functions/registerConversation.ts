@@ -1,4 +1,4 @@
-import { prisma } from '../database'
+import { prisma } from '../../database'
 
 interface RegisterConversationProps {
   user: string

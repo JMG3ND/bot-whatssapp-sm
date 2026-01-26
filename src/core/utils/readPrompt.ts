@@ -1,4 +1,4 @@
-import { listCommands } from '../comands/listCommands'
+import { listCommands } from '../onMessageCreate/comands/listCommands'
 
 const regexCommand = listCommands.find(cmd => cmd.comandName === 'ai')?.regex
 

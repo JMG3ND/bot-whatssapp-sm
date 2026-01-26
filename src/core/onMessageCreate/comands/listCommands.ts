@@ -6,8 +6,13 @@ type ListCommands = {
 
 export const listCommands: ListCommands[] = [
   {
+    comandName: "help",
+    description: "Muestra la lista de comandos disponibles",
+    regex: /^\/help\b/i
+  },
+  {
     comandName: "ai",
-    description: "Comando para interactuar con la inteligencia artificial",
+    description: "Interactúa con la inteligencia artificial",
     regex: /^\/ai\b/i
   },
 ]
