@@ -9,7 +9,7 @@ import { getUserConversation } from '../../../tools/functions/getUserConversatio
 export async function replyConversation(message: Message) {
   if (!validateCommand(message.body)) return
   const user = readUserId(message);
-  const newMessage = readPrompt(message.body);
+  const newMessage = readPrompt(message);
   const conversation = await getUserConversation(user, newMessage);
   const aiResponse = await responseMessage(conversation);
   await registerConversation({
