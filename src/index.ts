@@ -1,3 +1,3 @@
-import client from './config/setFunctionsOnClient';
+import client from './config/setFunctionsOnClient'
 
-client.initialize();
+client.initialize()

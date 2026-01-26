@@ -1,4 +1,4 @@
-import { saveError } from './registerErrorLog';
+import { saveError } from './registerErrorLog'
 
 interface Options {
   nameLog?: string;
@@ -8,6 +8,6 @@ export async function controlErrors(fn: () => unknown, options?: Options): Promi
   try {
     await fn()
   } catch (error) {
-    await saveError(error, options?.nameLog);
+    await saveError(error, options?.nameLog)
   }
 }

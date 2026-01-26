@@ -6,3 +6,4 @@ brain.db
 /src/generated/prisma
 dist
 logs
+.vscode
