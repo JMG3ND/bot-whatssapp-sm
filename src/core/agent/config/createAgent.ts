@@ -2,7 +2,7 @@ import OpenAI from "openai"
 import 'dotenv/config'
 
 const agent = new OpenAI({
-  apiKey: process.env.DEEPSEEK_API_KEY,
+  apiKey: process.env.LLM_API_KEY,
   baseURL: 'https://api.deepseek.com'
 })
 

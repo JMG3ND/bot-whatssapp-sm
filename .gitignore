@@ -4,3 +4,5 @@ node_modules
 .wwebjs_cache
 brain.db
 /src/generated/prisma
+dist
+logs

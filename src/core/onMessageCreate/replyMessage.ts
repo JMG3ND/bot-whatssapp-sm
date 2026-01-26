@@ -1,12 +1,21 @@
 import type { Message } from 'whatsapp-web.js'
 import responseMessage from '../agent/responseMessage';
-
-const regComand = /^\/ai\b/i;
+import { validateCommand } from '../comands/validateComands';
+import { readPrompt } from '../utils/readPrompt';
+import { readUserId } from '../utils/readUser';
+import { registerConversation } from '../../tools';
+import { getUserConversation } from '../../tools/getUserConversation';
 
 export default async function replyMessage(message: Message) {
-  if(regComand.test(message.body)){
-    const prompt = message.body.replace(regComand, '').trim()
-    const aiResponse = await responseMessage(prompt);
-    await message.reply(aiResponse);
-  }
+  if (!validateCommand(message.body)) return
+  const user = readUserId(message)
+  const newMessage = readPrompt(message.body)
+  const conversation = await getUserConversation(user, newMessage)
+  const aiResponse = await responseMessage(conversation);
+  await registerConversation({
+    user: user,
+    user_message: newMessage,
+    bot_response: aiResponse,
+  });
+  await message.reply(aiResponse);
 }
