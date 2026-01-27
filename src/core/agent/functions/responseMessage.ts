@@ -1,8 +1,8 @@
-import agent from './config/createAgent'
-import { allTools } from './tools'
-import { getStock } from '../../database'
+import agent from '../config/createAgent'
+import { allTools } from '../tools'
+import { getStock } from '../../../database'
 
-export default async function responseMessage(message: string) {
+export async function responseMessage(message: string) {
   try {
     const response = await agent.chat.completions.create({
       model: 'deepseek-chat',

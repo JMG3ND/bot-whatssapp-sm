@@ -3,7 +3,7 @@ import 'dotenv/config'
 
 const agent = new OpenAI({
   apiKey: process.env.LLM_API_KEY,
-  baseURL: 'https://api.deepseek.com',
+  baseURL: process.env.LLM_API_BASE_URL,
 })
 
 export default agent
