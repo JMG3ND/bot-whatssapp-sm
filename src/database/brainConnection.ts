@@ -6,4 +6,4 @@ const databaseUrl = process.env.BRAIN_DATABASE_URL || "";
 
 const adapter = new PrismaBetterSqlite3({ url: databaseUrl });
 
-export const prisma = new PrismaClient({ adapter });
+export const brainConnection = new PrismaClient({ adapter });

@@ -1,4 +1,4 @@
-import { prisma } from '../../database'
+import { brainConnection } from '../../index'
 
 interface RegisterConversationProps {
   user: string
@@ -8,7 +8,7 @@ interface RegisterConversationProps {
 
 export async function registerConversation(registerConversationProps: RegisterConversationProps) {
   const { user, user_message, bot_response } = registerConversationProps
-  return await prisma.conversation.create({
+  return await brainConnection.conversation.create({
     data: {
       user: user,
       user_message: user_message,

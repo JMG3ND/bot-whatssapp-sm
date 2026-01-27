@@ -1,4 +1,4 @@
-import type { ChatCompletionTool } from './types'
+import type { ChatCompletionTool } from '../types'
 
 import { obtener_stock_inventario } from './functions/obtenerStockInventario'
 
