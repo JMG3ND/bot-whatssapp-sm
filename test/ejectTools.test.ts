@@ -30,6 +30,6 @@ describe('ejectTools', () => {
       },
     ]
     const result = await ejectTools(toolCalls)
-    expect(result).toContain('No hay stock para el producto con descripción')
+    expect(result).toContain('Tool: obtener_stock_inventario')
   })
 })

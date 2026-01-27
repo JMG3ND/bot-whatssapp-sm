@@ -15,4 +15,9 @@ export const listCommands: ListCommands[] = [
     description: 'Interactúa con la inteligencia artificial',
     regex: /^\/ai\b/i,
   },
+  {
+    comandName: 'clear-momory',
+    description: 'Limpia la memoria de la conversación actual',
+    regex: /^\/clear-momory\b/i,
+  },
 ]
