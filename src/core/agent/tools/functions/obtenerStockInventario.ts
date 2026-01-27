@@ -6,13 +6,13 @@ export const obtener_stock_inventario: ChatCompletionTool = {
   type: 'function',
   function: {
     name: 'obtener_stock_inventario',
-    description: 'Te da la lista del stock del inventario por descripción del producto',
+    description: 'Te da la lista del stock del inventario por descripción o upc de un producto',
     parameters: {
       type: 'object',
       properties: {
         descripción: {
           type: 'string',
-          description: 'Descripción del producto a buscar en el inventario',
+          description: 'Descripción del producto a buscar en el inventario, puede ser el nombre el upc o la especie',
         },
       },
       required: ['descripción'],
@@ -39,7 +39,7 @@ async function ejectTool(args: string) {
     const response = await getStock(descripción)
 
     if (response.length === 0) {
-      return `No hay stock para el producto con descripción: "${descripción}".`
+      return `No existe producto con la descripción o upc: "${descripción}".`
     }
 
     return response

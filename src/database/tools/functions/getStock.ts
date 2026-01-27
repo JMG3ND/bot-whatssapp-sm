@@ -9,9 +9,10 @@ interface Stock {
 
 export async function getStock(description: string) {
   const stock = await montainConnection.$queryRaw`
-    SELECT UPC, [Description], COUNT(*) cantidad_cajas, SUM(OrigWeight) peso_libras from vStockInfo
-    WHERE [Description] + ' ' + UPC LIKE '%' + ${description} + '%'
-    and rebox = 0
+    with stock as (
+	SELECT UPC, [Description], COUNT(*) cantidad_cajas, SUM(OrigWeight) peso_libras from vStockInfo
+    WHERE
+    rebox = 0
     and void = 0
     and IdentOrder = 0
     and StorageName not like '#desc'
@@ -70,7 +71,24 @@ export async function getStock(description: string) {
       '#PLAN2_CON'
     )
     GROUP BY [upc], [Description]
+  )
 
+  SELECT 
+    d.UPC, 
+    d.Description,
+      CASE 
+          WHEN v.cantidad_cajas is null THEN 0
+          ELSE v.cantidad_cajas
+      END AS cantidad_cajas,
+      CASE 
+          WHEN v.peso_libras is null THEN 0
+          ELSE v.peso_libras
+      END AS peso_libras
+  FROM dProduct d
+  left join stock v on v.UPC = d.UPC
+  left join dProductPropertyPivot dp on dp.IdentProduct = d.Identifier
+  where PageTitle like 'CONGELADO'
+  and CONCAT(d.UPC, d.Description, d.Description2 , d.Description3, dp.NameSPECIES) like '%' + ${description} + '%'
   `
   return stock as Stock[]
 }
