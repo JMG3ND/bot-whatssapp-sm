@@ -1,6 +1,6 @@
 import agent from './config/createAgent'
-import { tools } from './tools'
-import { getStock } from '../../tools/functions/getStock'
+import { allTools } from './tools'
+import { getStock } from '../../database'
 
 export default async function responseMessage(message: string) {
   try {
@@ -9,7 +9,7 @@ export default async function responseMessage(message: string) {
       messages: [
         { role: 'user', content: message },
       ],
-      tools: tools,
+      tools: allTools,
       tool_choice: 'auto',
       temperature: 0.1,
       max_tokens: 1000,
@@ -39,7 +39,7 @@ ${stockString}`
               messages: [
                 { role: 'user', content: message2 },
               ],
-              tools: tools,
+              tools: allTools,
               tool_choice: 'auto',
               temperature: 0.1,
               max_tokens: 1000,

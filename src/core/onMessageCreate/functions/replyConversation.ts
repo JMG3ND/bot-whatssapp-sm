@@ -3,8 +3,8 @@ import responseMessage from '../../agent/responseMessage'
 import { validateCommand } from '../comands/validateComands'
 import { readPrompt } from '../../utils/readPrompt'
 import { readUserId } from '../../utils/readUser'
-import { registerConversation } from '../../../tools'
-import { getUserConversation } from '../../../tools/functions/getUserConversation'
+import { registerConversation } from '../../../database/tools'
+import { getUserConversation } from '../../../database/tools/functions/getUserConversation'
 import { getInstruction } from '../../agent/tools'
 
 export async function replyConversation(message: Message) {
