@@ -1,0 +1,3127 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../../src/database/montain"
+}
+
+datasource db {
+  provider = "sqlserver"
+  schemas  = ["dbo"]
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model Colaboradores {
+  Address_ID    String? @map("Address ID") @db.VarChar(Max)
+  Customer_ID   String? @map("Customer ID") @db.VarChar(Max)
+  Customer_Name String? @map("Customer Name") @db.VarChar(Max)
+
+  @@ignore
+  @@schema("dbo")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model compareInventory {
+  Serial String @db.NVarChar(Max)
+
+  @@ignore
+  @@schema("dbo")
+}
+
+model Conf_EOQSTOK {
+  UPC          String   @id(map: "PK__Conf_EOQ__C5B16F6865E01B03") @db.VarChar(50)
+  Description  String?  @db.VarChar(150)
+  Stock_Minimo Decimal? @db.Decimal(18, 2)
+
+  @@schema("dbo")
+}
+
+model dAddress {
+  Identifier    Int      @id(map: "PK_dAddress_Identifier") @default(autoincrement())
+  Status        String   @default("A", map: "DC_dAddress_Status") @db.Char(1)
+  Creation      DateTime @default(now(), map: "DC_dAddress_Creation") @db.DateTime
+  CreationID    Int      @default(0, map: "DC_dAddress_CreationID")
+  Maintenance   DateTime @default(now(), map: "DC_dAddress_Maintenance") @db.DateTime
+  MaintenanceID Int      @default(0, map: "DC_dAddress_MaintenanceID")
+  AddressType   String?  @db.VarChar(20)
+  AddressLink   Int      @default(0, map: "DC_dAddress_Link")
+  AddressSource Int      @default(0, map: "DC_dAddress_Source")
+  AddressID     String   @unique(map: "IN_dAddress_AddressID") @default("", map: "DC_dAddress_AddressID") @db.VarChar(20)
+  AddressName   String?  @unique(map: "IN_dAddress_AddressName") @db.VarChar(60)
+  Address1      String?  @db.VarChar(60)
+  Address2      String?  @db.VarChar(60)
+  Address3      String?  @db.VarChar(60)
+  Address4      String?  @db.VarChar(60)
+  City          String?  @db.VarChar(60)
+  State         String?  @db.VarChar(2)
+  Zip           String?  @db.VarChar(10)
+  Country       String?  @db.VarChar(60)
+  Attention     String?  @db.VarChar(60)
+  Contact1      String?  @db.VarChar(60)
+  Contact2      String?  @db.VarChar(60)
+  Phone1        String?  @db.VarChar(20)
+  Phone2        String?  @db.VarChar(20)
+  Fax1          String?  @db.VarChar(20)
+  Fax2          String?  @db.VarChar(20)
+  Email1        String?  @db.VarChar(100)
+  Email2        String?  @db.VarChar(100)
+  URL1          String?  @db.VarChar(100)
+  URL2          String?  @db.VarChar(100)
+  UsePrimary    Boolean  @default(false, map: "DC_dAddress_UsePrimary")
+  UseLocation   Boolean  @default(false, map: "DC_dAddress_UseLocation")
+  UseShip       Boolean  @default(false, map: "DC_dAddress_UseShip")
+  UseBill       Boolean  @default(false, map: "DC_dAddress_UseBill")
+  UseMail       Boolean  @default(false, map: "DC_dAddress_UseMail")
+  UseOther      Boolean  @default(false, map: "DC_dAddress_UseOther")
+  IdentParent   Int      @default(0, map: "DC_dAddress_IdentParent")
+
+  @@index([Identifier, AddressID, AddressName], map: "dAddress_IdentifierAddressIDAddressName")
+  @@schema("dbo")
+}
+
+model dChannelOrder {
+  Identifier Int     @id(map: "PK_dChannelOrder") @default(autoincrement())
+  Channel    String? @db.NChar(20)
+
+  @@schema("dbo")
+}
+
+model dCode {
+  Identifier    Int       @id(map: "PK_dCode_Identifer") @default(autoincrement())
+  Status        String    @default("A", map: "DC_dCode_Status") @db.Char(1)
+  Creation      DateTime  @default(now(), map: "DC_dCode_Creation") @db.DateTime
+  CreationID    Int       @default(0, map: "DC_dCode_CreationID")
+  Maintenance   DateTime  @default(now(), map: "DC_dCode_Maintenance") @db.DateTime
+  MaintenanceID Int       @default(0, map: "DC_dCode_MaintenanceID")
+  CodeSequence  Int       @default(0, map: "DC_dCode_Sequence")
+  CodeCategory  String    @db.VarChar(20)
+  CodeValue     String    @db.VarChar(20)
+  CodeLink      String?   @db.VarChar(20)
+  CodeFlags     String?   @db.VarChar(10)
+  CodeInteger   Int?
+  CodeFloat     Decimal?  @db.Decimal(20, 4)
+  CodeDate      DateTime? @db.Date
+  CodeString    String?   @db.VarChar(100)
+
+  @@index([CodeCategory], map: "IN_dCode_Category")
+  @@index([CodeCategory, CodeValue], map: "IN_dCode_CategoryValue")
+  @@schema("dbo")
+}
+
+model dCommand {
+  Identifier    Int       @id(map: "PK_dCommand_Identifer") @default(autoincrement())
+  Status        String?   @default("A", map: "DF_dCommand_Status") @db.Char(1)
+  Creation      DateTime? @default(now(), map: "DF_dCommand_Creation") @db.DateTime
+  CreationID    Int?      @default(0, map: "DF_dCommand_CreationID")
+  Maintenance   DateTime? @default(now(), map: "DF_dCommand_Maintenance") @db.DateTime
+  MaintenanceID Int?      @default(0, map: "DF_dCommand_MaintenanceID")
+  Type          String    @db.VarChar(1)
+  Sequence      Int?
+  Control       String?   @db.VarChar(40)
+  Command       String?   @db.VarChar(20)
+  Mode          String?   @db.VarChar(10)
+  Flags         String?   @db.VarChar(10)
+  Stage         String?   @db.VarChar(20)
+  SourceStage   String?   @db.VarChar(20)
+  SourceName    String?   @db.VarChar(40)
+  HostName      String?   @db.VarChar(40)
+  CommandText   String?   @db.VarChar(4000)
+
+  @@schema("dbo")
+}
+
+model dControl {
+  Identifier           Int      @id(map: "PK_dControl_Identifer") @default(autoincrement())
+  Status               String   @default("A", map: "DC_dControl_Status") @db.Char(1)
+  Creation             DateTime @default(now(), map: "DC_dControl_Creation") @db.DateTime
+  CreationID           Int      @default(0, map: "DC_dControl_CreationID")
+  Maintenance          DateTime @default(now(), map: "DC_dControl_Maintenance") @db.DateTime
+  MaintenanceID        Int      @default(0, map: "DC_dControl_MaintenanceID")
+  SiteName             String   @db.VarChar(60)
+  SerialNumber         String   @db.VarChar(60)
+  Subscription         String   @db.VarChar(400)
+  Name                 String   @unique(map: "IN_dControl_Name") @db.VarChar(60)
+  Plant                String?  @db.VarChar(60)
+  PlantType            String?  @db.VarChar(20)
+  PlantID              String?  @db.VarChar(20)
+  CFN                  String?  @db.VarChar(20)
+  FDA                  String?  @db.VarChar(20)
+  GS1                  String?  @db.VarChar(100)
+  BranchWO             String?  @db.VarChar(20)
+  BranchTran           String?  @db.VarChar(20)
+  AirPort              String?  @db.VarChar(3)
+  Timeout              Int?     @default(0, map: "DC_dControl_Timeout")
+  SortFile             String?  @db.VarChar(30)
+  ShipFile             String?  @db.VarChar(30)
+  ShipAccount          String?  @db.VarChar(30)
+  PortName             String?  @db.VarChar(30)
+  Season               String?  @db.VarChar(10)
+  IdentAddressLocation Int      @default(0, map: "DC_dControl_IdentAddrressLocation")
+  IdentAddressBill     Int      @default(0, map: "DC_dControl_IdentAddressBill")
+  IdentAddressShip     Int      @default(0, map: "DC_dControl_IdentAddressShip")
+  SerialNext           BigInt?  @default(0, map: "DC_dControl_SerialNext")
+  PalletNext           BigInt?  @default(0, map: "DC_dControl_PalletNext")
+  ERPNext              BigInt?  @default(0, map: "DC_dControl_ERPNext")
+  BLNext               BigInt?  @default(0, map: "DC_dControl_BLNext")
+  SerialLength         Int?     @default(8, map: "DC_dControl_SerialLength")
+  PalletLength         Int?     @default(5, map: "DC_dControl_PalletLength")
+  PalletWeight         Decimal? @default(0, map: "DC_dControl_PalletWeight") @db.Decimal(20, 4)
+  BoxWeight            Decimal? @default(0, map: "DC_dControl_BoxWeight") @db.Decimal(20, 4)
+  TierSize             Decimal? @default(0, map: "DC_dControl_TierSize") @db.Decimal(20, 4)
+  SerialTare           Decimal? @default(0, map: "DC_dControl_SerialTare") @db.Decimal(20, 4)
+  Interval             Int?     @default(0, map: "DC_dControl_Interval")
+  Frequency            Int?     @default(0, map: "DC_dControl_Frequency")
+  Location             String?  @db.VarChar(20)
+  DatePref             String?  @db.Char(1)
+  ReboxPref            String?  @default(" ", map: "DC_dControl_ReboxPref") @db.Char(1)
+  ReboxMethod          String?  @default(" ", map: "DC_dControl_ReboxMethod") @db.Char(1)
+  Password             Boolean? @default(false, map: "DC_dControl_Password")
+  SelfStrip            Boolean? @default(false, map: "DC_dControl_SelfStrip")
+  Palletize            Boolean? @default(false, map: "DC_dControl_Palletize")
+  PalletDups           Boolean  @default(false, map: "DC_dControl_PalletDups")
+  AutoProc             Boolean  @default(false, map: "DC_dControl_AutoProc")
+  AddScanned           Boolean  @default(false, map: "DC_dControl_AddScanned")
+  PrepDate             Boolean  @default(false, map: "DC_dControl_PrepDate")
+  Reindex              Boolean  @default(false, map: "DC_dControl_Reindex")
+  ColdStore            Boolean  @default(false, map: "DC_dControl_ColdStore")
+  Depth                Boolean  @default(false, map: "DC_dControl_Depth")
+  Julian               Boolean  @default(false, map: "DC_dControl_Julian")
+  Metric               Boolean  @default(false, map: "DC_dControl_Metric")
+  Network              Boolean  @default(false, map: "DC_dControl_Network")
+  Mail                 Boolean  @default(false, map: "DC_dControl_Mail")
+  FTP                  Boolean  @default(false, map: "DC_dControl_FTP")
+  ERP                  Boolean  @default(false, map: "DC_dControl_ERP")
+
+  @@schema("dbo")
+}
+
+model dCustomer {
+  Identifier    Int      @id(map: "PK_dCustomer_Identifer") @default(autoincrement())
+  Status        String   @default("A", map: "DC_dCustomer_Status") @db.Char(1)
+  Creation      DateTime @default(now(), map: "DC_dCustomer_Creation") @db.DateTime
+  CreationID    Int      @default(0, map: "DC_dCustomer_CreationID")
+  Maintenance   DateTime @default(now(), map: "DC_dCustomer_Maintenance") @db.DateTime
+  MaintenanceID Int      @default(0, map: "DC_dCustomer_MaintenanceID")
+  CustomerID    String   @unique(map: "IN_dCustomer_CustomerID") @db.VarChar(20)
+  CustomerName  String   @db.VarChar(60)
+  Transfer      Boolean  @default(false, map: "DC_dCustomer_Transfer")
+  StockLabel    String?  @db.VarChar(20)
+  PalletLabel   String?  @db.VarChar(20)
+  LabelPrefix   String?  @db.VarChar(10)
+  Route         String?  @db.VarChar(60)
+  IdentAddress  Int      @default(0, map: "DC_dCustomer_IdentAddress")
+  ExternalID    Int?     @default(0, map: "DC_dCustomer_ExternalID")
+  UsePrimary    Boolean  @default(false, map: "DC_dCustomer_UsePrimary")
+  UseLocation   Boolean  @default(false, map: "DC_dCustomer_UseLocation")
+  UseShip       Boolean  @default(false, map: "DC_dCustomer_UseShip")
+  UseBill       Boolean  @default(false, map: "DC_dCustomer_UseBill")
+  UseMail       Boolean  @default(false, map: "DC_dCustomer_UseMail")
+  UseOther      Boolean  @default(false, map: "DC_dCustomer_UseOther")
+  IdentParent   Int      @default(0, map: "DC_dCustomer_IdentParent")
+
+  @@index([CustomerName], map: "IN_dCustomer_CustomerName")
+  @@schema("dbo")
+}
+
+model dData {
+  Identifier    Int       @id(map: "PK_dData_Identifer") @default(autoincrement())
+  Status        String?   @default("A", map: "DF_dData_Status") @db.Char(1)
+  Creation      DateTime? @default(now(), map: "DF_dData_Creation") @db.DateTime
+  CreationID    Int?      @default(0, map: "DF_dData_CreationID")
+  Maintenance   DateTime? @default(now(), map: "DF_dData_Maintenance") @db.DateTime
+  MaintenanceID Int?      @default(0, map: "DF_dData_MaintenanceID")
+  DataClass     String    @db.VarChar(20)
+  DataName      String    @db.VarChar(60)
+  Sequence      Int       @default(0, map: "DC_dData_Sequence")
+  IntegerValue  Int?      @default(0, map: "DC_dData_IntegerValue")
+  FloatValue    Decimal?  @default(0, map: "DC_dData_FloatValue") @db.Decimal(20, 8)
+  DateTimeValue DateTime? @default(dbgenerated("0"), map: "DC_dData_DateTimeValue") @db.DateTime
+  StringValue   String?   @db.VarChar(8000)
+
+  @@index([DataClass, DataName], map: "IN_dDataClassName")
+  @@schema("dbo")
+}
+
+model dDepth {
+  Identifier    Int       @id(map: "PK_dDepth_Identifer") @default(autoincrement())
+  Status        String    @default("A", map: "DC_dDepth_Status") @db.Char(1)
+  Creation      DateTime  @default(now(), map: "DC_dDepth_Creation") @db.DateTime
+  CreationID    Int       @default(0, map: "DC_dDepth_CreationID")
+  Maintenance   DateTime  @default(now(), map: "DC_dDepth_Maintenance") @db.DateTime
+  MaintenanceID Int       @default(0, map: "DC_dDepth_MaintenanceID")
+  Type          String    @db.VarChar(4)
+  Season        String    @default("datepart(year,getdate())", map: "DC_dDepth_Year") @db.VarChar(4)
+  Serial        String    @db.VarChar(30)
+  Field         String?   @db.VarChar(20)
+  Data          String?   @db.VarChar(60)
+  Weight        Decimal   @default(0, map: "DC_dDepth_Weight") @db.Decimal(20, 4)
+  Quantity      Decimal   @default(0, map: "DC_dDepth_Quantity") @db.Decimal(20, 4)
+  Void          Boolean   @default(false, map: "DC_dDepth_Void")
+  Deleted       Boolean   @default(false, map: "DC_dDepth_Deleted")
+  AddDate       DateTime? @default(now(), map: "DC_dDepth_AddDate") @db.DateTime
+  ExpDate       DateTime? @db.DateTime
+  IdentStock    Int       @default(0, map: "DC_dDepth_Stock")
+  IdentStorage  Int       @default(0, map: "DC_dDepth_Storage")
+
+  @@index([Serial, Type, Field, AddDate], map: "dDepth_SerialTypeFieldAddDate")
+  @@index([Field, Data], map: "IN_dDepth_FieldData")
+  @@index([Season, Serial, Type, Field], map: "IN_dDepth_SeasonSerialTypeField")
+  @@index([Serial, Type, Field], map: "IN_dDepth_SerialTypeField")
+  @@schema("dbo")
+}
+
+model dERP {
+  Identifier      Int       @id(map: "PK_dERP_Identifer") @default(autoincrement())
+  Status          String    @default("A", map: "DC_dERP_Status") @db.Char(1)
+  Creation        DateTime  @default(now(), map: "DC_dERP_Creation") @db.DateTime
+  CreationID      Int       @default(0, map: "DC_dERP_CreationID")
+  Maintenance     DateTime  @default(now(), map: "DC_dERP_Maintenance") @db.DateTime
+  MaintenanceID   Int       @default(0, map: "DC_dERP_MaintenanceID")
+  TranCode        String    @default(" ", map: "DC_dERP_TranCode") @db.Char(1)
+  TranStatus      String    @default(" ", map: "DC_dERP_TranStaut") @db.Char(1)
+  Product         String?   @db.VarChar(50)
+  ItemCode        String?   @db.VarChar(20)
+  Serial          String?   @db.VarChar(30)
+  Lot             String?   @db.VarChar(50)
+  Weight          Decimal?  @default(0, map: "DC_dERP_Weight") @db.Decimal(20, 4)
+  Quantity        Decimal?  @default(0, map: "DC_dERP_Quantity") @db.Decimal(20, 4)
+  UOM             String?   @db.VarChar(10)
+  StorageFrom     String?   @db.VarChar(20)
+  StorageTo       String?   @db.VarChar(20)
+  Vendor          String?   @db.VarChar(50)
+  Customer        String?   @db.VarChar(50)
+  OrderNumber     String?   @db.VarChar(50)
+  PurchaseOrder   String?   @db.VarChar(50)
+  SalesOrder      String?   @db.VarChar(50)
+  WorkOrder       String?   @db.VarChar(50)
+  TransferOrder   String?   @db.VarChar(50)
+  BLSequence      Int?      @default(0, map: "DC_dERP_BLSequence")
+  Rate            Decimal?  @default(0, map: "DC_dERP_Rate") @db.Decimal(20, 4)
+  BestBuyDate     DateTime? @db.DateTime
+  Origin          String?   @db.VarChar(20)
+  TransferDate    DateTime? @db.DateTime
+  TransferStamp   DateTime? @db.DateTime
+  Message         String?   @db.VarChar(100)
+  ERPStamp        DateTime? @db.DateTime
+  ExternalIDSales String?   @db.VarChar(10)
+  ExternalIDTrans String?   @db.VarChar(10)
+  ExternalIDFull  String?   @db.VarChar(10)
+  ExternalIDAsm   String?   @db.VarChar(10)
+
+  @@schema("dbo")
+}
+
+model dMeta {
+  Identifier    Int      @id(map: "PK_dMeta_Identifer") @default(autoincrement())
+  Status        String   @default("A", map: "DC_dMeta_Status") @db.Char(1)
+  Creation      DateTime @default(now(), map: "DC_dMeta_Creation") @db.DateTime
+  CreationID    Int      @default(0, map: "DC_dMeta_CreationID")
+  Maintenance   DateTime @default(now(), map: "DC_dMeta_Maintenance") @db.DateTime
+  MaintenanceID Int      @default(0, map: "DC_dMeta_MaintenanceID")
+  Sequence      Int?
+  Type          String?  @db.VarChar(6)
+  Field         String?  @db.VarChar(40)
+  Kind          String?  @db.VarChar(6)
+  Width         String?  @db.VarChar(6)
+  Places        String?  @db.VarChar(2)
+  Display       String?  @db.VarChar(40)
+  Code          String?  @db.VarChar(10)
+  Activity      String?  @db.VarChar(6)
+  Title         String?  @db.VarChar(40)
+  Position      String?  @db.VarChar(20)
+  Setup         String?  @db.VarChar(6)
+  Class         String?  @db.VarChar(20)
+  PropertyField String?  @db.VarChar(4)
+  ProductField  String?  @db.VarChar(4)
+  SetupField    String?  @db.VarChar(4)
+  LongField     String?  @db.VarChar(4)
+  TableName     String?  @db.VarChar(60)
+  Operation     String?  @db.VarChar(400)
+
+  @@index([Type, Field], map: "IN_dMeta_TypeField")
+  @@schema("dbo")
+}
+
+model dOrder {
+  Identifier               Int       @id(map: "PK_dOrder_Identifer") @default(autoincrement())
+  Status                   String    @default("A", map: "DC_dOrder_Status") @db.Char(1)
+  Creation                 DateTime  @default(now(), map: "DC_dOrder_Creation") @db.DateTime
+  CreationID               Int       @default(0, map: "DC_dOrder_CreationID")
+  Maintenance              DateTime  @default(now(), map: "DC_dOrder_Maintenance") @db.DateTime
+  MaintenanceID            Int       @default(0, map: "DC_dOrder_MaintenanceID")
+  OrderNumber              String    @db.VarChar(50)
+  ImportDate               DateTime? @db.DateTime
+  ExportDate               DateTime? @db.DateTime
+  ExternalID               Int       @default(0, map: "DC_dOrder_ExternalID")
+  OrderType                String    @default("", map: "DC_dOrder_OrderType") @db.VarChar(4)
+  Seal                     String    @default("", map: "DC_dOrder_Seal") @db.VarChar(30)
+  Carrier                  String?   @db.VarChar(30)
+  LoadDate                 DateTime? @db.DateTime
+  ShipDate                 DateTime? @db.DateTime
+  Department               String?   @db.VarChar(30)
+  Insurance                String?   @db.VarChar(30)
+  CatchArea                String?   @db.VarChar(30)
+  Vessel                   String?   @db.VarChar(30)
+  Voyage                   String?   @db.VarChar(30)
+  Mawb                     String?   @db.VarChar(30)
+  Awb                      String?   @db.VarChar(30)
+  PortName                 String?   @db.VarChar(30)
+  PortDispatcher           String?   @db.VarChar(30)
+  Destination              String?   @db.VarChar(30)
+  BoxSize                  String?   @db.VarChar(10)
+  BoxTare                  Decimal?  @default(0, map: "DC_dOrder_BoxTare") @db.Decimal(20, 4)
+  ToteTare                 Decimal?  @default(0, map: "DC_dOrder_ToteTare") @db.Decimal(20, 4)
+  Transfer                 Boolean   @default(false, map: "DC_dOrder_Transfer")
+  Rebox                    Boolean   @default(false, map: "DC_dOrder_Rebox")
+  BLType                   String?   @db.VarChar(10)
+  BLNumber                 String?   @db.VarChar(30)
+  BLSequence               Decimal?  @default(0, map: "DC_dOrder_BLSequence") @db.Decimal(20, 0)
+  PLType                   String?   @db.VarChar(10)
+  PLNumber                 String?   @db.VarChar(30)
+  PLSequence               Decimal?  @default(0, map: "DC_dOrder_PLSequence") @db.Decimal(20, 0)
+  ExportNumber             String?   @db.VarChar(30)
+  Booking                  String?   @db.VarChar(30)
+  ControlNumber            String?   @db.VarChar(30)
+  Processor                String?   @db.VarChar(30)
+  Collect                  String?   @db.VarChar(30)
+  Inspect                  String?   @db.VarChar(30)
+  BeyondCarrier            String?   @db.VarChar(30)
+  SetTemp                  String?   @db.VarChar(10)
+  DepartTemp               String?   @db.VarChar(10)
+  RecordBy                 String?   @db.VarChar(30)
+  SignBy                   String?   @db.VarChar(30)
+  Priority                 String?   @db.VarChar(10)
+  NSI                      String?   @db.VarChar(30)
+  Flight                   String?   @db.VarChar(20)
+  Handling1                String?   @db.VarChar(30)
+  Handling2                String?   @db.VarChar(30)
+  QualityControl           String?   @db.VarChar(30)
+  PRO                      String?   @db.VarChar(20)
+  SPI                      String?   @db.VarChar(20)
+  Shipment                 String?   @db.VarChar(30)
+  Brand                    String?   @db.VarChar(30)
+  Commodity                String?   @db.VarChar(30)
+  PalletsOut               String?   @db.VarChar(30)
+  PalletType               String?   @db.VarChar(30)
+  Bay                      String?   @db.VarChar(30)
+  Container                String?   @db.VarChar(30)
+  DateTaken                DateTime? @db.DateTime
+  DateExpected             DateTime? @db.DateTime
+  Date1                    DateTime? @db.DateTime
+  Date2                    DateTime? @db.DateTime
+  Date3                    DateTime? @db.DateTime
+  Date4                    DateTime? @db.DateTime
+  Text1                    String?   @db.VarChar(100)
+  Text2                    String?   @db.VarChar(100)
+  IdentCustomer            Int?      @default(0, map: "DC_dOrder_IdentCustomer")
+  IdentStorage             Int?      @default(0, map: "DC_dOrder_IdentStorage")
+  IdentAddressLocation     Int?      @default(0, map: "DC_dOrder_IdentAddressLocation")
+  IdentAddressBill         Int?      @default(0, map: "DC_dOrder_IdentAddressBill")
+  IdentAddressShip         Int?      @default(0, map: "DC_dOrder_IdentAddressShip")
+  IdentAddressShipper      Int?      @default(0, map: "DC_dOrder_IdentAddressShipper")
+  IdentAddressCarrier      Int?      @default(0, map: "DC_dOrder_IdentAddressCarrier")
+  IdentAddressDestination  Int?      @default(0, map: "DC_dOrder_IdentAddressDestination")
+  IdentAddressDistribution Int?      @default(0, map: "DC_dOrder_IdentAddressDistribution")
+  LoadDateOnly             DateTime? @db.Date
+  ShipDateOnly             DateTime? @db.Date
+
+  @@unique([OrderNumber, OrderType], map: "IN_dOrder_OrderNumberType")
+  @@index([Identifier, OrderNumber], map: "IN_dOrder_IdentifierOrderNumber")
+  @@index([OrderNumber, ShipDate], map: "IN_dOrder_OrderShip")
+  @@index([ShipDate], map: "IN_dOrder_ShipDate")
+  @@schema("dbo")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model dOrderComplete {
+  IdentOrder Int
+  Complete   Boolean @default(false, map: "DF_dOrderComplete_Complete")
+  Status     Decimal @default(0, map: "DF_dOrderComplete_Status") @db.Decimal(18, 0)
+  Channel    Int?
+
+  @@ignore
+  @@schema("dbo")
+}
+
+model dPage {
+  Identifier    Int      @id(map: "PK_dPage_Identifer") @default(autoincrement())
+  Status        String   @default("A", map: "DC_dPage_Status") @db.Char(1)
+  Creation      DateTime @default(now(), map: "DC_dPage_Creation") @db.DateTime
+  CreationID    Int      @default(0, map: "DC_dPage_CreationID")
+  Maintenance   DateTime @default(now(), map: "DC_dPage_Maintenance") @db.DateTime
+  MaintenanceID Int      @default(0, map: "DC_dPage_MaintenanceID")
+  PageNumber    String   @db.VarChar(8)
+  PageTitle     String   @db.VarChar(60)
+  Title         String   @db.VarChar(20)
+  Name          String   @db.VarChar(60)
+  BarCode       String?  @db.VarChar(8)
+  Stations      String?  @db.VarChar(32)
+  Flags         String?  @db.VarChar(10)
+  IsDefault     Boolean  @default(false, map: "DC_dPage_IsDefault")
+  IdentProperty Int      @default(0, map: "DC_dPage_IdentProperty")
+
+  @@index([PageNumber, Title], map: "IN_dPage_PageTitle")
+  @@schema("dbo")
+}
+
+model dProduct {
+  Identifier    Int      @id(map: "PK_dProduct_Identifer") @default(autoincrement())
+  Status        String   @default("A", map: "DC_dProduct_Status") @db.Char(1)
+  Creation      DateTime @default(now(), map: "DC_dProduct_Creation") @db.DateTime
+  CreationID    Int      @default(0, map: "DC_dProduct_CreationID")
+  Maintenance   DateTime @default(now(), map: "DC_dProduct_Maintenance") @db.DateTime
+  MaintenanceID Int      @default(0, map: "DC_dProduct_MaintenanceID")
+  Product       String   @db.VarChar(30)
+  ItemCode      String?  @db.VarChar(30)
+  ProductKey    String?  @unique(map: "IN_dProduct_ProductKey") @db.VarChar(30)
+  PropertyGroup String?  @db.VarChar(4)
+  Description   String?  @db.VarChar(100)
+  Description2  String?  @db.VarChar(100)
+  Description3  String?  @db.VarChar(100)
+  UPC           String?  @db.VarChar(20)
+  GTIN          String?  @db.VarChar(20)
+  GS1           String?  @db.VarChar(100)
+  PLU           String?  @db.VarChar(20)
+  IMP           String?  @db.VarChar(20)
+  NAMP          String?  @db.VarChar(20)
+  SeasonType    String?  @db.VarChar(1)
+  PageTitle     String?  @db.VarChar(30)
+  StockLabel    String?  @db.VarChar(20)
+  PalletLabel   String?  @db.VarChar(20)
+  Picked        Boolean  @default(false, map: "DC_dProduct_Picked")
+  ReqRebox      String   @default("N", map: "DC_dProduct_ReqRebox") @db.VarChar(1)
+  HoldCode      String   @default("N", map: "DC_dProduct_HoldCode") @db.VarChar(1)
+  Plants        String?  @db.VarChar(40)
+  Class         String?  @db.VarChar(20)
+  UOM           String?  @db.VarChar(8)
+  PackUnit      String?  @db.VarChar(8)
+  BreakUnit     String?  @db.VarChar(8)
+  BreakNumber   Decimal? @default(0, map: "DC_dProduct_BreakNumber") @db.Decimal(20, 4)
+  SizeUnit      String?  @db.VarChar(8)
+  SizeNumber    Decimal? @default(0, map: "DC_dProduct_SizeNumber") @db.Decimal(20, 4)
+  SizeQuantity  Decimal? @default(0, map: "DC_dProduct_SizeQuantity") @db.Decimal(20, 4)
+  ERPExempt     Boolean  @default(false, map: "DC_dProduct_ERPExempt")
+  IdentStorage  Int      @default(0, map: "DC_dProduct_IdentStorage")
+  ExternalID    Int?     @default(0, map: "DC_dProduct_ExternalID")
+
+  @@index([Identifier, Product, Description], map: "dProduct_IdentifierProductDescription")
+  @@schema("dbo")
+}
+
+model dProductProperty {
+  Identifier    Int      @id(map: "PK_dProductProperty_Identifer") @default(autoincrement())
+  Status        String   @default("A", map: "DC_dProductProperty_Status") @db.Char(1)
+  Creation      DateTime @default(now(), map: "DC_dProductProperty_Creation") @db.DateTime
+  CreationID    Int      @default(0, map: "DC_dProductProperty_CreationID")
+  Maintenance   DateTime @default(now(), map: "DC_dProductProperty_Maintenance") @db.DateTime
+  MaintenanceID Int      @default(0, map: "DC_dProductProperty_MaintenanceID")
+  IdentProduct  Int
+  IdentProperty Int
+  IdentMeta     Int
+  Product       String?  @db.VarChar(30)
+  Title         String?  @db.VarChar(20)
+  Name          String?  @db.VarChar(60)
+  Short         String?  @db.VarChar(20)
+  Barcode       String?  @db.VarChar(8)
+  Flags         String?  @db.VarChar(10)
+  Misc          String?  @db.VarChar(30)
+
+  @@unique([IdentProduct, IdentProperty], map: "IN_dProductProperty_ProductProperty")
+  @@index([IdentProduct], map: "IN_dProductProperty_Product")
+  @@index([IdentProperty], map: "IN_dProductProperty_Property")
+  @@schema("dbo")
+}
+
+model dProductPropertyPivot {
+  Identifier                    Int      @id(map: "PK_dProductPropertyPivot_Identifier") @default(autoincrement())
+  Status                        String   @default("A", map: "DC_dProductPropertyPivot_Status") @db.Char(1)
+  Creation                      DateTime @default(now(), map: "DC_dProductPropertyPivot_Creation") @db.DateTime
+  CreationID                    Int      @default(0, map: "DC_dProductPropertyPivot_CreationID")
+  Maintenance                   DateTime @default(now(), map: "DC_dProductPropertyPivot_Maintenance") @db.DateTime
+  MaintenanceID                 Int      @default(0, map: "DC_dProductPropertyPivot_MaintenanceID")
+  IdentProduct                  Int      @default(0, map: "DC_dProductPropertyPivot_IdentProduct")
+  Product                       String   @default("", map: "DC_dProductPropertyPivot_Product") @db.VarChar(30)
+  UpdateFlag                    Boolean  @default(false, map: "DC_dProductPropertyPivot_UpdateFlag")
+  IdentProductPropertySPECIES   Int      @default(0, map: "DC_dProductPropertyPivot_IdentProductPropertySPECIES")
+  IdentProductPropertyCUT       Int      @default(0, map: "DC_dProductPropertyPivot_IdentProductPropertyCUT")
+  IdentProductPropertyTYPE      Int      @default(0, map: "DC_dProductPropertyPivot_IdentProductPropertyTYPE")
+  IdentProductPropertyFORM      Int      @default(0, map: "DC_dProductPropertyPivot_IdentProductPropertyFORM")
+  IdentProductPropertySIZE      Int      @default(0, map: "DC_dProductPropertyPivot_IdentProductPropertySIZE")
+  IdentProductPropertyGAS       Int      @default(0, map: "DC_dProductPropertyPivot_IdentProductPropertyGAS")
+  IdentProductPropertyINVENTORY Int      @default(0, map: "DC_dProductPropertyPivot_IdentProductPropertyINVENTORY")
+  IdentPropertySPECIES          Int      @default(0, map: "DC_dProductPropertyPivot_IdentPropertySPECIES")
+  IdentPropertyCUT              Int      @default(0, map: "DC_dProductPropertyPivot_IdentPropertyCUT")
+  IdentPropertyTYPE             Int      @default(0, map: "DC_dProductPropertyPivot_IdentPropertyTYPE")
+  IdentPropertyFORM             Int      @default(0, map: "DC_dProductPropertyPivot_IdentPropertyFORM")
+  IdentPropertySIZE             Int      @default(0, map: "DC_dProductPropertyPivot_IdentPropertySIZE")
+  IdentPropertyGAS              Int      @default(0, map: "DC_dProductPropertyPivot_IdentPropertyGAS")
+  IdentPropertyINVENTORY        Int      @default(0, map: "DC_dProductPropertyPivot_IdentPropertyINVENTORY")
+  NameSPECIES                   String?  @db.VarChar(60)
+  NameCUT                       String?  @db.VarChar(60)
+  NameTYPE                      String?  @db.VarChar(60)
+  NameFORM                      String?  @db.VarChar(60)
+  NameSIZE                      String?  @db.VarChar(60)
+  NameGAS                       String?  @db.VarChar(60)
+  NameINVENTORY                 String?  @db.VarChar(60)
+  ShortSPECIES                  String?  @db.VarChar(20)
+  ShortCUT                      String?  @db.VarChar(20)
+  ShortTYPE                     String?  @db.VarChar(20)
+  ShortFORM                     String?  @db.VarChar(20)
+  ShortSIZE                     String?  @db.VarChar(20)
+  ShortGAS                      String?  @db.VarChar(20)
+  ShortINVENTORY                String?  @db.VarChar(20)
+  BarcodeSPECIES                String?  @db.VarChar(8)
+  BarcodeCUT                    String?  @db.VarChar(8)
+  BarcodeTYPE                   String?  @db.VarChar(8)
+  BarcodeFORM                   String?  @db.VarChar(8)
+  BarcodeSIZE                   String?  @db.VarChar(8)
+  BarcodeGAS                    String?  @db.VarChar(8)
+  BarcodeINVENTORY              String?  @db.VarChar(8)
+
+  @@index([IdentProduct], map: "IN_dProductPropertyPivot_IdentProduct")
+  @@index([Product], map: "IN_dProductPropertyPivot_Product")
+  @@schema("dbo")
+}
+
+model dProperty {
+  Identifier    Int      @id(map: "PK_dProperty_Identifer") @default(autoincrement())
+  Status        String   @default("A", map: "DC_dProperty_Status") @db.Char(1)
+  Creation      DateTime @default(now(), map: "DC_dProperty_Creation") @db.DateTime
+  CreationID    Int      @default(0, map: "DC_dProperty_CreationID")
+  Maintenance   DateTime @default(now(), map: "DC_dProperty_Maintenance") @db.DateTime
+  MaintenanceID Int      @default(0, map: "DC_dProperty_MaintenanceID")
+  Field         String   @default("", map: "DC_dProperty_Field") @db.VarChar(20)
+  Title         String   @db.VarChar(20)
+  Name          String   @db.VarChar(60)
+  Short         String   @db.VarChar(20)
+  Barcode       String?  @db.VarChar(8)
+  Flags         String?  @db.VarChar(10)
+  Misc          String?  @db.VarChar(100)
+  Quantity      Decimal? @default(0, map: "DC_dProperty_Quantity") @db.Decimal(6, 0)
+  NetWeight     Decimal  @default(0, map: "DC_dProperty_NetWeight") @db.Decimal(20, 4)
+  GrossWeight   Decimal  @default(0, map: "DC_dProperty_GrossWeight") @db.Decimal(20, 4)
+  TareWeight    Decimal  @default(0, map: "DC_dProperty_TareWeight") @db.Decimal(20, 4)
+  CanWeight     Decimal  @default(0, map: "DC_dProperty_CanWeight") @db.Decimal(20, 4)
+  CaseSize      Decimal  @default(0, map: "DC_dProperty_CaseSize") @db.Decimal(20, 4)
+  Latin         String?  @db.VarChar(60)
+  English       String?  @db.VarChar(60)
+  Spanish       String?  @db.VarChar(60)
+  French        String?  @db.VarChar(60)
+  Japanese      String?  @db.VarChar(60)
+  Hebrew        String?  @db.VarChar(60)
+  Chinese       String?  @db.VarChar(60)
+  Lang7         String?  @db.VarChar(60)
+  Lang8         String?  @db.VarChar(60)
+  ExternalID    Int?     @default(0, map: "DC_dProperty_ExternalID")
+
+  @@unique([Title, Barcode], map: "IN_dProperty_TitleBarcode")
+  @@unique([Title, Name], map: "IN_dProperty_TitleName")
+  @@unique([Title, Short], map: "IN_dProperty_TitleShort")
+  @@schema("dbo")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model dProperty2 {
+  Identifier    Int      @default(autoincrement())
+  Status        String   @db.Char(1)
+  Creation      DateTime @db.DateTime
+  CreationID    Int
+  Maintenance   DateTime @db.DateTime
+  MaintenanceID Int
+  Field         String   @db.VarChar(20)
+  Title         String   @db.VarChar(20)
+  Name          String   @db.VarChar(60)
+  Short         String   @db.VarChar(20)
+  Barcode       String?  @db.VarChar(8)
+  Flags         String?  @db.VarChar(10)
+  Misc          String?  @db.VarChar(100)
+  Quantity      Decimal? @db.Decimal(6, 0)
+  NetWeight     Decimal  @db.Decimal(20, 4)
+  GrossWeight   Decimal  @db.Decimal(20, 4)
+  TareWeight    Decimal  @db.Decimal(20, 4)
+  CanWeight     Decimal  @db.Decimal(20, 4)
+  CaseSize      Decimal  @db.Decimal(20, 4)
+  Latin         String?  @db.VarChar(60)
+  English       String?  @db.VarChar(60)
+  Spanish       String?  @db.VarChar(60)
+  French        String?  @db.VarChar(60)
+  Japanese      String?  @db.VarChar(60)
+  Hebrew        String?  @db.VarChar(60)
+  Chinese       String?  @db.VarChar(60)
+  Lang7         String?  @db.VarChar(60)
+  Lang8         String?  @db.VarChar(60)
+  ExternalID    Int?
+
+  @@ignore
+  @@schema("dbo")
+}
+
+model dPurchaseOrder {
+  Identifier           Int       @id(map: "PK_dPurchaseOrder_Identifer") @default(autoincrement())
+  Status               String    @default("A", map: "DC_dPurchaseOrder_Status") @db.Char(1)
+  Creation             DateTime  @default(now(), map: "DC_dPurchaseOrder_Creation") @db.DateTime
+  CreationID           Int       @default(0, map: "DC_dPurchaseOrder_CreationID")
+  Maintenance          DateTime  @default(now(), map: "DC_dPurchaseOrder_Maintenance") @db.DateTime
+  MaintenanceID        Int       @default(0, map: "DC_dPurchaseOrder_MaintenanceID")
+  PurchaseOrder        String    @db.VarChar(50)
+  ImportDate           DateTime? @db.DateTime
+  ExportDate           DateTime? @db.DateTime
+  ExternalID           Int?      @default(0, map: "DC_dPurchaseOrder_ExternalID")
+  LineID               Int?      @default(0, map: "DC_dPurchaseOrder_LineID")
+  CommitID             Int?      @default(0, map: "DC_dPurchaseOrder_CommitID")
+  ItemID               Int?      @default(0, map: "DC_dPurchaseOrder_ItemID")
+  Type                 String    @default("", map: "DC_dPurchaseOrder_Type") @db.VarChar(4)
+  Line                 Int?      @default(0, map: "DC_dPurchaseOrder_Line")
+  ItemNumber           String?   @db.VarChar(20)
+  Quantity             Decimal?  @default(0, map: "DC_dPurchaseOrder_Quantity") @db.Decimal(20, 4)
+  QuantityCommit       Decimal?  @default(0, map: "DC_dPurchaseOrder_QuantityCommit") @db.Decimal(20, 4)
+  UOM                  String?   @db.VarChar(8)
+  UOMCommit            String?   @db.VarChar(8)
+  Weight               Decimal?  @default(0, map: "DC_dPurchaseOrder_Weight") @db.Decimal(20, 4)
+  UOMWeight            String?   @db.VarChar(8)
+  Lot                  String?   @db.VarChar(50)
+  Storage              String?   @db.VarChar(20)
+  StorageTo            String?   @db.VarChar(20)
+  Initial              DateTime  @default(now(), map: "DC_dPurchaseOrder_Initial") @db.DateTime
+  Expected             DateTime? @db.DateTime
+  Committed            DateTime? @db.DateTime
+  Completed            DateTime? @db.DateTime
+  Supplier             String?   @db.VarChar(60)
+  Customer             String?   @db.VarChar(60)
+  Owner                String?   @db.VarChar(60)
+  IdentProduct         Int       @default(0, map: "DC_dPurchaseOrder_IdentProduct")
+  IdentStorage         Int       @default(0, map: "DC_dPurchaseOrder_IdentStorage")
+  IdentStorageTo       Int       @default(0, map: "DC_dPurchaseOrder_IdentStorageTo")
+  IdentSupplier        Int       @default(0, map: "DC_dPurchaseOrder_IdentSupplier")
+  IdentCustomer        Int       @default(0, map: "DC_dPurchaseOrder_IdentCustomer")
+  IdentAddressLocation Int       @default(0, map: "DC_dPurchaseOrder_IdentAddressLocation")
+  IdentAddressBill     Int       @default(0, map: "DC_dPurchaseOrder_IdentAddressBill")
+  IdentAddressShip     Int       @default(0, map: "DC_dPurchaseOrder_IdentAddressShip")
+
+  @@unique([PurchaseOrder, Line, ItemNumber], map: "IN_dPurchaseOrder_PurchaseOrderLineItemNumber")
+  @@index([ExternalID, LineID], map: "IN_dPurchaseOrder_ExternalIDLineID")
+  @@schema("dbo")
+}
+
+model dSalesOrder {
+  Identifier               Int       @id(map: "PK_dSalesOrder_Identifer") @default(autoincrement())
+  Status                   String    @default("A", map: "DC_dSalesOrder_Status") @db.Char(1)
+  Creation                 DateTime  @default(now(), map: "DC_dSalesOrder_Creation") @db.DateTime
+  CreationID               Int       @default(0, map: "DC_dSalesOrder_CreationID")
+  Maintenance              DateTime  @default(now(), map: "DC_dSalesOrder_Maintenance") @db.DateTime
+  MaintenanceID            Int       @default(0, map: "DC_dSalesOrder_MaintenanceID")
+  SalesOrder               String    @db.VarChar(50)
+  ImportDate               DateTime? @db.DateTime
+  ExportDate               DateTime? @db.DateTime
+  ExternalID               Int?      @default(0, map: "DC_dSalesOrder_ExternalID")
+  LineID                   Int?      @default(0, map: "DC_dSalesOrder_LineID")
+  CommitID                 Int?      @default(0, map: "DC_dSalesOrder_CommitID")
+  ItemID                   Int?      @default(0, map: "DC_dSalesOrder_ItemID")
+  Type                     String    @default("", map: "DC_dSalesOrder_Type") @db.VarChar(4)
+  Line                     Int?      @default(0, map: "DC_dSalesOrder_Line")
+  ItemNumber               String?   @db.VarChar(20)
+  Quantity                 Decimal?  @default(0, map: "DC_dSalesOrder_Quantity") @db.Decimal(20, 4)
+  QuantityCommit           Decimal?  @default(0, map: "DC_dSalesOrder_QuantityCommit") @db.Decimal(20, 4)
+  UOM                      String?   @db.VarChar(8)
+  UOMCommit                String?   @db.VarChar(8)
+  Weight                   Decimal?  @default(0, map: "DC_dSalesOrder_Weight") @db.Decimal(20, 4)
+  UOMWeight                String?   @db.VarChar(8)
+  Lot                      String?   @db.VarChar(50)
+  Storage                  String?   @db.VarChar(20)
+  StorageTo                String?   @db.VarChar(20)
+  Initial                  DateTime  @default(now(), map: "DC_dSalesOrder_Initial") @db.DateTime
+  Expected                 DateTime? @db.DateTime
+  Committed                DateTime? @db.DateTime
+  Completed                DateTime? @db.DateTime
+  PurchaseOrder            String?   @db.VarChar(50)
+  Customer                 String?   @db.VarChar(60)
+  Owner                    String?   @db.VarChar(60)
+  IdentProduct             Int       @default(0, map: "DC_dSalesOrder_IdentProduct")
+  IdentStorage             Int       @default(0, map: "DC_dSalesOrder_IdentStorage")
+  IdentStorageTo           Int       @default(0, map: "DC_dSalesOrder_IdentStorageTo")
+  IdentCustomer            Int       @default(0, map: "DC_dSalesOrder_IdentCustomer")
+  IdentAddressLocation     Int       @default(0, map: "DC_dSalesOrder_IdentAddressLocation")
+  IdentAddressBill         Int       @default(0, map: "DC_dSalesOrder_IdentAddressBill")
+  IdentAddressShip         Int       @default(0, map: "DC_dSalesOrder_IdentAddressShip")
+  IdentAddressShipper      Int       @default(0, map: "DC_dSalesOrder_IdentAddressShipper")
+  IdentAddressCarrier      Int       @default(0, map: "DC_dSalesOrder_IdentAddressCarrier")
+  IdentAddressDestination  Int       @default(0, map: "DC_dSalesOrder_IdentAddressDestination")
+  IdentAddressDistribution Int       @default(0, map: "DC_dSalesOrder_IdentAddressDistribution")
+
+  @@unique([SalesOrder, Line, ItemNumber], map: "IN_dSalesOrder_SalesOrderLineItemNumber")
+  @@index([ExternalID, LineID], map: "IN_dSalesOrder_ExternalIDLineID")
+  @@schema("dbo")
+}
+
+model dStation {
+  Identifier      Int      @id(map: "PK_dStation_Identifer") @default(autoincrement())
+  Status          String   @default("A", map: "DC_dStation_Status") @db.Char(1)
+  Creation        DateTime @default(now(), map: "DC_dStation_Creation") @db.DateTime
+  CreationID      Int      @default(0, map: "DC_dStation_CreationID")
+  Maintenance     DateTime @default(now(), map: "DC_dStation_Maintenance") @db.DateTime
+  MaintenanceID   Int      @default(0, map: "DC_dStation_MaintenanceID")
+  StationType     String   @db.VarChar(10)
+  StationID       String   @unique(map: "IN_dStation_StationID") @db.VarChar(20)
+  StationName     String?  @unique(map: "IN_dStation_StationName") @db.VarChar(20)
+  StationMachine  String?  @db.VarChar(20)
+  StationMenu     String?  @db.VarChar(20)
+  StationNumber   Int      @default(0, map: "DC_dStation_StationNumber")
+  StationIP       String?  @db.VarChar(20)
+  StationPort     Int      @default(0, map: "DC_dStation_StationPort")
+  IdentAddress    Int      @default(0, map: "DC_dStation_IdentAddress")
+  LotCode         String?  @db.VarChar(8)
+  TransferProgram DateTime @default(dbgenerated("0"), map: "DC_dStation_TransferProgram") @db.DateTime
+  TransferTable   DateTime @default(dbgenerated("0"), map: "DC_dStation_TransferTable") @db.DateTime
+  Comment1        String?  @db.VarChar(100)
+  Comment2        String?  @db.VarChar(100)
+  Comment3        String?  @db.VarChar(100)
+  Comment4        String?  @db.VarChar(100)
+  Comment5        String?  @db.VarChar(100)
+  Comment6        String?  @db.VarChar(100)
+
+  @@schema("dbo")
+}
+
+model dStock {
+  Identifier           Int       @id(map: "PK_dStock_Identifer") @default(autoincrement())
+  Status               String    @default("A", map: "DC_dStock_Status") @db.Char(1)
+  Creation             DateTime  @default(now(), map: "DC_dStock_Creation") @db.DateTime
+  CreationID           Int       @default(0, map: "DC_dStock_CreationID")
+  Maintenance          DateTime  @default(now(), map: "DC_dStock_Maintenance") @db.DateTime
+  MaintenanceID        Int       @default(0, map: "DC_dStock_MaintenanceID")
+  TranCode             String?   @db.VarChar(1)
+  TranYear             Int       @default(dbgenerated("datepart(year,getdate())"), map: "DC_dStock_TranYear")
+  Season               String?   @db.VarChar(20)
+  Plant                String?   @db.VarChar(30)
+  Serial               String?   @unique(map: "IN_dStock_Serial") @db.VarChar(30)
+  Pallet               String?   @db.VarChar(30)
+  Lot                  String?   @db.VarChar(50)
+  Source               String?   @db.VarChar(30)
+  Void                 Boolean   @default(false, map: "DC_dStock_Void")
+  Split                Boolean   @default(false, map: "DC_dStock_Split")
+  Rebox                Boolean   @default(false, map: "DC_dStock_Rebox")
+  Remake               Boolean   @default(false, map: "DC_dStock_Remake")
+  UseCount             Boolean   @default(false, map: "DC_dStock_UseCount")
+  Edited               Boolean   @default(false, map: "DC_dStock_Edited")
+  IdentAddressCustomer Int       @default(0, map: "DC_dStock_IdentAddressCustomer")
+  IdentAddressVendor   Int       @default(0, map: "DC_dStock_IdentAddressVendor")
+  IdentProduct         Int       @default(0, map: "DC_dStock_IdentProduct")
+  IdentOrder           Int       @default(0, map: "DC_dStock_IdentOrder")
+  IdentPurchaseOrder   Int       @default(0, map: "DC_dStock_IdentPurchaseOrder")
+  IdentSalesOrder      Int       @default(0, map: "DC_dStock_IdentSalesOrder")
+  IdentWorkOrder       Int       @default(0, map: "DC_dStock_IdentWorkOrder")
+  IdentTransferOrder   Int       @default(0, map: "DC_dStock_IdentTransferOrder")
+  IdentStation         Int       @default(0, map: "DC_dStock_IdentStation")
+  IdentStorage         Int       @default(0, map: "DC_dStock_IdentStorage")
+  IdentPackage         Int       @default(0, map: "DC_dStock_IdentPackage")
+  IdentStage           Int       @default(0, map: "DC_dStock_IdentStage")
+  IdentNetSource       Int       @default(0, map: "DC_dStock_IdentNetSource")
+  IdentGrossSource     Int       @default(0, map: "DC_dStock_IdentGrossSource")
+  IdentTareSource      Int       @default(0, map: "DC_dStock_IdentTareSource")
+  IdentGelSource       Int       @default(0, map: "DC_dStock_IdenGelSource")
+  IdentVacSource       Int       @default(0, map: "DC_dStock_IdenVacSource")
+  IdentGlazeSource     Int       @default(0, map: "DC_dStock_IdenGlazeSource")
+  IdentLiveSource      Int       @default(0, map: "DC_dStock_IdentLiveSource")
+  IdentHotSource       Int       @default(0, map: "DC_dStock_IdentHotSource")
+  IdentColdSource      Int       @default(0, map: "DC_dStock_IdentColdSource")
+  IdentTargetSource    Int       @default(0, map: "DC_dStock_IdentTargetSource")
+  IdentWeightASource   Int       @default(0, map: "DC_dStock_IdentWeightASource")
+  IdentWeightBSource   Int       @default(0, map: "DC_dStock_IdentWeightBSource")
+  OrigWeight           Decimal   @default(0, map: "DC_dStock_OrigWeight") @db.Decimal(20, 4)
+  NetWeight            Decimal   @default(0, map: "DC_dStock_NetWeight") @db.Decimal(20, 4)
+  GrossWeight          Decimal   @default(0, map: "DC_dStock_GrossWeight") @db.Decimal(20, 4)
+  TareWeight           Decimal   @default(0, map: "DC_dStock_TareWeight") @db.Decimal(20, 4)
+  GelWeight            Decimal   @default(0, map: "DC_dStock_GelWeight") @db.Decimal(20, 4)
+  VacWeight            Decimal   @default(0, map: "DC_dStock_VacWeight") @db.Decimal(20, 4)
+  GlazeWeight          Decimal   @default(0, map: "DC_dStock_GlazeWeight") @db.Decimal(20, 4)
+  LiveWeight           Decimal?  @default(0, map: "DC_dStock_LiveWeight") @db.Decimal(20, 4)
+  HotWeight            Decimal?  @default(0, map: "DC_dStock_HotWeight") @db.Decimal(20, 4)
+  ColdWeight           Decimal?  @default(0, map: "DC_dStock_ColdWeight") @db.Decimal(20, 4)
+  TargetWeight         Decimal?  @default(0, map: "DC_dStock_TargetWeight") @db.Decimal(20, 4)
+  WeightA              Decimal?  @default(0, map: "DC_dStock_WeightA") @db.Decimal(20, 4)
+  WeightB              Decimal?  @default(0, map: "DC_dStock_WeightB") @db.Decimal(20, 4)
+  OrigQuantity         Decimal?  @default(0, map: "DC_dStock_OrigQuantity") @db.Decimal(6, 0)
+  Quantity             Decimal?  @default(0, map: "DC_dStock_Quantity") @db.Decimal(6, 0)
+  UnitsQuantity        Decimal   @default(0, map: "DC_dStock_UnitsQuantity") @db.Decimal(20, 4)
+  UnitsUOM             String?   @db.VarChar(20)
+  UOM                  String?   @db.VarChar(8)
+  HarvestDate          DateTime? @db.DateTime
+  PrepDate             DateTime? @db.DateTime
+  PackDate             DateTime? @db.DateTime
+  LoadDate             DateTime? @db.DateTime
+  ShipDate             DateTime? @db.DateTime
+  BuyDate              DateTime? @db.DateTime
+  UploadDate           DateTime? @db.DateTime
+  EditDate             DateTime? @db.DateTime
+  Glaze                String?   @db.VarChar(8)
+  GelPak               String?   @db.VarChar(8)
+  Julian               String?   @db.VarChar(8)
+  PalletLabel          String?   @db.VarChar(20)
+  StockLabel           String?   @db.VarChar(20)
+  GS1Barcode           String?   @db.VarChar(60)
+  AIN                  String?   @db.VarChar(20)
+  Tag                  String?   @db.VarChar(20)
+  Temperature          String?   @db.VarChar(20)
+  Quality              String?   @db.VarChar(20)
+  LabelNumber          String?   @db.VarChar(20)
+  Reference            String?   @db.VarChar(20)
+  Note                 String?   @db.VarChar(60)
+  Cost                 Decimal?  @default(0, map: "DC_dStock_Cost") @db.Decimal(20, 4)
+  TransferSource       String?   @db.VarChar(60)
+  TransferStamp        DateTime? @db.DateTime
+  ERPStamp             DateTime? @db.DateTime
+  ExportDate           DateTime? @db.DateTime
+  ImportDate           DateTime? @db.DateTime
+  ExternalID           Int?      @default(0, map: "DC_dStock_ExternalID")
+  PurchaseOrderText    String?   @db.VarChar(20)
+  OrderNumberText      String?   @db.VarChar(50)
+  HarvestDateOnly      DateTime? @db.Date
+  PrepDateOnly         DateTime? @db.Date
+  PackDateOnly         DateTime? @db.Date
+  LoadDateOnly         DateTime? @db.Date
+  ShipDateOnly         DateTime? @db.Date
+  BuyDateOnly          DateTime? @db.Date
+  UploadDateOnly       DateTime? @db.Date
+  EditDateOnly         DateTime? @db.Date
+
+  @@index([Identifier, Serial], map: "dStock_IdentifierSerial")
+  @@index([IdentAddressCustomer], map: "IN_dStock_AddressCustomer")
+  @@index([IdentAddressVendor], map: "IN_dStock_AddressVendor")
+  @@index([LoadDate], map: "IN_dStock_LoadDate")
+  @@index([LoadDateOnly], map: "IN_dStock_LoadDateOnly")
+  @@index([IdentOrder], map: "IN_dStock_Order")
+  @@index([PackDate], map: "IN_dStock_PackDate")
+  @@index([PackDateOnly], map: "IN_dStock_PackDateOnly")
+  @@index([Pallet], map: "IN_dStock_Pallet")
+  @@index([IdentProduct], map: "IN_dStock_Product")
+  @@index([IdentPurchaseOrder], map: "IN_dStock_PurchaseOrder")
+  @@index([IdentSalesOrder], map: "IN_dStock_SalesOrder")
+  @@index([ShipDateOnly], map: "IN_dStock_ShipDateOnly")
+  @@index([Source], map: "IN_dStock_Source")
+  @@index([IdentStation], map: "IN_dStock_Station")
+  @@index([IdentStorage], map: "IN_dStock_Storage")
+  @@index([IdentWorkOrder], map: "IN_dStock_WorkOrder")
+  @@schema("dbo")
+}
+
+model dStockAudit {
+  Identifier     Int      @id(map: "PK_dStockAudit_Identifer") @default(autoincrement())
+  Status         String   @default("A", map: "DC_dStockAudit_Status") @db.Char(1)
+  Creation       DateTime @default(now(), map: "DC_dStockAudit_Creation") @db.DateTime
+  CreationID     Int      @default(0, map: "DC_dStockAudit_CreationID")
+  Maintenance    DateTime @default(now(), map: "DC_dStockAudit_Maintenance") @db.DateTime
+  MaintenanceID  Int      @default(0, map: "DC_dStockAudit_MaintenanceID")
+  TranCode       String?  @db.Char(1)
+  StorageID      String?  @db.VarChar(30)
+  Serial         String?  @db.VarChar(30)
+  Pallet         String?  @db.VarChar(30)
+  Weight         Decimal? @default(0, map: "DC_dStockAudit_Weight") @db.Decimal(20, 4)
+  Quantity       Decimal? @default(0, map: "DC_dStockAudit_Quantity") @db.Decimal(20, 4)
+  WeightActual   Decimal? @default(0, map: "DC_dStockAudit_WeightActual") @db.Decimal(20, 4)
+  QuantityActual Decimal? @default(0, map: "DC_dStockAudit_QuantityActual") @db.Decimal(20, 4)
+  RecordDate     DateTime @default(now(), map: "DC_dStockAudit_RecordDate") @db.DateTime
+  GS1Barcode     String   @default("", map: "DC_dStockAudit_GS1Barcode") @db.VarChar(50)
+  IdentStock     Int      @default(0, map: "DC_dStockAudit_IdentStock")
+  IdentStorage   Int      @default(0, map: "DC_dStockAudit_IdentStorage")
+
+  @@index([Serial], map: "IN_dStockAudit_Serial")
+  @@index([StorageID, Serial], map: "IN_dStockAudit_StorageSerial")
+  @@schema("dbo")
+}
+
+model dStockProperty {
+  Identifier    Int      @id(map: "PK_dStockProperty_Identifer") @default(autoincrement())
+  Status        String   @default("A", map: "DC_dStockProperty_Status") @db.Char(1)
+  Creation      DateTime @default(now(), map: "DC_dStockProperty_Creation") @db.DateTime
+  CreationID    Int      @default(0, map: "DC_dStockProperty_CreationID")
+  Maintenance   DateTime @default(now(), map: "DC_dStockProperty_Maintenance") @db.DateTime
+  MaintenanceID Int      @default(0, map: "DC_dStockProperty_MaintenanceID")
+  IdentStock    Int
+  IdentProperty Int
+  IdentMeta     Int
+  Serial        String?  @db.VarChar(30)
+  Title         String?  @db.VarChar(20)
+  Name          String?  @db.VarChar(60)
+  Short         String?  @db.VarChar(20)
+  Barcode       String?  @db.VarChar(8)
+  Flags         String?  @db.VarChar(10)
+  Misc          String?  @db.VarChar(30)
+
+  @@unique([IdentStock, IdentProperty], map: "IN_dStockProperty_StockProperty")
+  @@index([IdentProperty], map: "IN_dStockProperty_Property")
+  @@index([IdentStock], map: "IN_dStockProperty_Stock")
+  @@schema("dbo")
+}
+
+model dStockPropertyPivot {
+  Identifier                  Int      @default(autoincrement())
+  Status                      String   @default("A", map: "DC_dStockPropertyPivot_Status") @db.Char(1)
+  Creation                    DateTime @default(now(), map: "DC_dStockPropertyPivot_Creation") @db.DateTime
+  CreationID                  Int      @default(0, map: "DC_dStockPropertyPivot_CreationID")
+  Maintenance                 DateTime @default(now(), map: "DC_dStockPropertyPivot_Maintenance") @db.DateTime
+  MaintenanceID               Int      @default(0, map: "DC_dStockPropertyPivot_MaintenanceID")
+  IdentStock                  Int      @id(map: "PK_dStockPropertyPivot_IdentStock") @default(0, map: "DC_dStockPropertyPivot_IdentStock")
+  Serial                      String   @unique(map: "IN_dStockPropertyPivot_Serial") @default("", map: "DC_dStockPropertyPivot_Serial") @db.VarChar(30)
+  UpdateFlag                  Boolean  @default(false, map: "DC_dStockPropertyPivot_UpdateFlag")
+  IdentStockPropertyGEAR      Int      @default(0, map: "DC_dStockPropertyertyPivot_IdentStockPropertyGEAR")
+  IdentStockPropertyGRADE     Int      @default(0, map: "DC_dStockPropertyertyPivot_IdentStockPropertyGRADE")
+  IdentStockPropertyCONDITION Int      @default(0, map: "DC_dStockPropertyertyPivot_IdentStockPropertyCONDITION")
+  IdentStockPropertyPACKAGE   Int      @default(0, map: "DC_dStockPropertyertyPivot_IdentStockPropertyPACKAGE")
+  IdentStockPropertyBOAT      Int      @default(0, map: "DC_dStockPropertyertyPivot_IdentStockPropertyBOAT")
+  IdentStockPropertyUSER      Int      @default(0, map: "DC_dStockPropertyertyPivot_IdentStockPropertyUSER")
+  IdentStockPropertyPORT      Int      @default(0, map: "DC_dStockPropertyertyPivot_IdentStockPropertyPORT")
+  IdentStockPropertyALLERGY   Int      @default(0, map: "DC_dStockPropertyertyPivot_IdentStockPropertyALLERGY")
+  IdentPropertyGEAR           Int      @default(0, map: "DC_dStockPropertyPivot_IdentPropertyGEAR")
+  IdentPropertyGRADE          Int      @default(0, map: "DC_dStockPropertyPivot_IdentPropertyGRADE")
+  IdentPropertyCONDITION      Int      @default(0, map: "DC_dStockPropertyPivot_IdentPropertyCONDITION")
+  IdentPropertyPACKAGE        Int      @default(0, map: "DC_dStockPropertyPivot_IdentPropertyPACKAGE")
+  IdentPropertyBOAT           Int      @default(0, map: "DC_dStockPropertyPivot_IdentPropertyBOAT")
+  IdentPropertyUSER           Int      @default(0, map: "DC_dStockPropertyPivot_IdentPropertyUSER")
+  IdentPropertyPORT           Int      @default(0, map: "DC_dStockPropertyPivot_IdentPropertyPORT")
+  IdentPropertyALLERGY        Int      @default(0, map: "DC_dStockPropertyPivot_IdentPropertyALLERGY")
+  NameGEAR                    String?  @db.VarChar(60)
+  NameGRADE                   String?  @db.VarChar(60)
+  NameCONDITION               String?  @db.VarChar(60)
+  NamePACKAGE                 String?  @db.VarChar(60)
+  NameBOAT                    String?  @db.VarChar(60)
+  NameUSER                    String?  @db.VarChar(60)
+  NamePORT                    String?  @db.VarChar(60)
+  NameALLERGY                 String?  @db.VarChar(60)
+  ShortGEAR                   String?  @db.VarChar(20)
+  ShortGRADE                  String?  @db.VarChar(20)
+  ShortCONDITION              String?  @db.VarChar(20)
+  ShortPACKAGE                String?  @db.VarChar(20)
+  ShortBOAT                   String?  @db.VarChar(20)
+  ShortUSER                   String?  @db.VarChar(20)
+  ShortPORT                   String?  @db.VarChar(20)
+  ShortALLERGY                String?  @db.VarChar(20)
+  BarcodeGEAR                 String?  @db.VarChar(8)
+  BarcodeGRADE                String?  @db.VarChar(8)
+  BarcodeCONDITION            String?  @db.VarChar(8)
+  BarcodePACKAGE              String?  @db.VarChar(8)
+  BarcodeBOAT                 String?  @db.VarChar(8)
+  BarcodeUSER                 String?  @db.VarChar(8)
+  BarcodePORT                 String?  @db.VarChar(8)
+  BarcodeALLERGY              String?  @db.VarChar(8)
+
+  @@schema("dbo")
+}
+
+model dStorage {
+  Identifier           Int      @id(map: "PK_dStorage_Identifer") @default(autoincrement())
+  Status               String   @default("A", map: "DC_dStorage_Status") @db.Char(1)
+  Creation             DateTime @default(now(), map: "DC_dStorage_Creation") @db.DateTime
+  CreationID           Int      @default(0, map: "DC_dStorage_CreationID")
+  Maintenance          DateTime @default(now(), map: "DC_dStorage_Maintenance") @db.DateTime
+  MaintenanceID        Int      @default(0, map: "DC_dStorage_MaintenanceID")
+  StorageID            String   @unique(map: "IN_dStorage_ID") @db.VarChar(20)
+  StorageName          String?  @db.VarChar(50)
+  Description          String?  @db.VarChar(60)
+  Minimum              Int      @default(0, map: "DC_dStorage_Minimum")
+  Maximum              Int      @default(0, map: "DC_dStorage_Maximum")
+  IdentParent          Int      @default(0, map: "DC_dStorage_IdentParent")
+  IdentAddressLocation Int      @default(0, map: "DC_dStorage_IdentAddressLocation")
+  IdentAddressShip     Int      @default(0, map: "DC_dStorage_IdentAddressShip")
+
+  @@index([Identifier, StorageID, StorageName], map: "dStorage_IdentifierStorageIDStorageName")
+  @@index([StorageName], map: "IN_dStorage_Name")
+  @@index([IdentParent], map: "IN_dStorage_Parent")
+  @@schema("dbo")
+}
+
+model dSupplier {
+  Identifier    Int      @id(map: "PK_dSupplier_Identifer") @default(autoincrement())
+  Status        String   @default("A", map: "DC_dSupplier_Status") @db.Char(1)
+  Creation      DateTime @default(now(), map: "DC_dSupplier_Creation") @db.DateTime
+  CreationID    Int      @default(0, map: "DC_dSupplier_CreationID")
+  Maintenance   DateTime @default(now(), map: "DC_dSupplier_Maintenance") @db.DateTime
+  MaintenanceID Int      @default(0, map: "DC_dSupplier_MaintenanceID")
+  SupplierID    String   @unique(map: "IN_dSupplier_SupplierID") @db.VarChar(20)
+  SupplierName  String   @db.VarChar(50)
+  IdentAddress  Int      @default(0, map: "DC_dSupplier_IdentAddress")
+  ExternalID    Int?     @default(0, map: "DC_dSupplier_ExternalID")
+
+  @@index([SupplierName], map: "IN_dSupplier_SupplierName")
+  @@schema("dbo")
+}
+
+model dSync {
+  Identifier     Int       @id(map: "PK_dSync_Identifer") @default(autoincrement())
+  Status         String?   @default("A", map: "DF_dSync_Status") @db.Char(1)
+  Creation       DateTime? @default(now(), map: "DF_dSync_Creation") @db.DateTime
+  CreationID     Int?      @default(0, map: "DF_dSync_CreationID")
+  Maintenance    DateTime? @default(now(), map: "DF_dSync_Maintenance") @db.DateTime
+  MaintenanceID  Int?      @default(0, map: "DF_dSync_MaintenanceID")
+  SyncName       String    @db.VarChar(60)
+  DateTimeUpdate DateTime? @default(dbgenerated("0"), map: "DC_dSync_DateTimeValue") @db.DateTime
+
+  @@index([SyncName], map: "IN_dSyncClassName")
+  @@schema("dbo")
+}
+
+model dText {
+  Identifier    Int       @id(map: "PK_dText_Identifer") @default(autoincrement())
+  Status        String?   @default("A", map: "DC_dText_Status") @db.Char(1)
+  Creation      DateTime? @default(now(), map: "DC_dText_Creation") @db.DateTime
+  CreationID    Int?      @default(0, map: "DC_dText_CreationID")
+  Maintenance   DateTime? @default(now(), map: "DC_dText_Maintenance") @db.DateTime
+  MaintenanceID Int?      @default(0, map: "DC_dText_MaintenanceID")
+  TextLanguage  String    @default("E", map: "DC_dText_Language") @db.VarChar(1)
+  TextSequence  Int       @default(0, map: "DC_dText_Sequence")
+  TextCategory  String    @db.VarChar(20)
+  TextName      String    @db.VarChar(60)
+  TextName2     String    @default("", map: "DC_dText_Name2") @db.VarChar(60)
+  TextNumber    Int       @default(0, map: "DC_dText_Number")
+  TextString    String?   @db.VarChar(8000)
+  TextString2   String?   @db.VarChar(8000)
+
+  @@index([TextLanguage, TextCategory, TextName], map: "IN_dText_LanguageCategoryName")
+  @@index([TextLanguage, TextCategory, TextName, TextNumber], map: "IN_dText_LanguageCategoryNameNumber")
+  @@schema("dbo")
+}
+
+model dTransferOrder {
+  Identifier       Int       @id(map: "PK_dTransferOrder_Identifer") @default(autoincrement())
+  Status           String?   @default("A", map: "DC_dTransferOrder_Status") @db.Char(1)
+  Creation         DateTime? @default(now(), map: "DC_dTransferOrder_Creation") @db.DateTime
+  CreationID       Int?      @default(0, map: "DC_dTransferOrder_CreationID")
+  Maintenance      DateTime? @default(now(), map: "DC_dTransferOrder_Maintenance") @db.DateTime
+  MaintenanceID    Int?      @default(0, map: "DC_dTransferOrder_MaintenanceID")
+  TransferOrder    String    @db.VarChar(50)
+  ImportDate       DateTime? @db.DateTime
+  ExportDate       DateTime? @db.DateTime
+  ExternalID       Int?      @default(0, map: "DC_dTransferOrder_ExternalID")
+  LineID           Int?      @default(0, map: "DC_dTransferOrder_LineID")
+  CommitID         Int?      @default(0, map: "DC_dTransferOrder_CommitID")
+  ItemID           Int?      @default(0, map: "DC_dTransferOrder_ItemID")
+  ItemIDTO         Int?      @default(0, map: "DC_dTransferOrder_ItemIDTO")
+  Type             String    @default("", map: "DC_dTransferOrder_Type") @db.VarChar(4)
+  Line             Int?      @default(0, map: "DC_dTransferOrder_Line")
+  ItemNumber       String?   @db.VarChar(20)
+  ItemNumberTo     String?   @db.VarChar(20)
+  Quantity         Decimal?  @default(0, map: "DC_dTransferOrder_Quantity") @db.Decimal(20, 4)
+  QuantityCommit   Decimal?  @default(0, map: "DC_dTransferOrder_QuantityCommit") @db.Decimal(20, 4)
+  QuantityReceived Decimal?  @default(0, map: "DC_dTransferOrder_QuantityRecieved") @db.Decimal(20, 4)
+  QuantityShipped  Decimal?  @default(0, map: "DC_dTransferOrder_QuantityShipped") @db.Decimal(20, 4)
+  UOM              String?   @db.VarChar(8)
+  UOMCommit        String?   @db.VarChar(8)
+  UOMReceived      String?   @db.VarChar(8)
+  UOMShipped       String?   @db.VarChar(8)
+  Weight           Decimal?  @default(0, map: "DC_dTransferOrder_Weight") @db.Decimal(20, 4)
+  UOMWeight        String?   @db.VarChar(8)
+  Lot              String?   @db.VarChar(50)
+  LotFrom          String?   @db.VarChar(50)
+  LotTo            String?   @db.VarChar(50)
+  Storage          String?   @db.VarChar(20)
+  StorageTo        String?   @db.VarChar(20)
+  Initial          DateTime  @default(now(), map: "DC_dTransferOrder_Initial") @db.DateTime
+  Expected         DateTime? @db.DateTime
+  Committed        DateTime? @db.DateTime
+  Completed        DateTime? @db.DateTime
+  Company          String?   @db.VarChar(60)
+  Owner            String?   @db.VarChar(60)
+  IdentProduct     Int       @default(0, map: "DC_dTransferOrder_IdentProduct")
+  IdentStorage     Int       @default(0, map: "DC_dTransferOrder_IdentStorage")
+  IdentStorageTo   Int       @default(0, map: "DC_dTransferOrder_IdentStorageTo")
+  IdentCompany     Int       @default(0, map: "DC_dTransferOrder_IdentCompany")
+
+  @@unique([TransferOrder, Line, ItemNumber], map: "IN_dTransferOrder_TransferOrderLineItemNumber")
+  @@index([ExternalID, LineID], map: "IN_dTransferOrder_ExternalIDLineID")
+  @@schema("dbo")
+}
+
+model dUser {
+  Identifier    Int      @id(map: "PK_dUser_Identifer") @default(autoincrement())
+  Status        String   @default("A", map: "DC_dUser_Status") @db.Char(1)
+  Creation      DateTime @default(now(), map: "DC_dUser_Creation") @db.DateTime
+  CreationID    Int      @default(0, map: "DC_dUser_CreationID")
+  Maintenance   DateTime @default(now(), map: "DC_dUser_Maintenance") @db.DateTime
+  MaintenanceID Int      @default(0, map: "DC_dUser_MaintenanceID")
+  UserID        String?  @unique(map: "IN_dUser_UserID") @db.VarChar(20)
+  UserName      String?  @db.VarChar(60)
+  UserNameOS    String?  @db.VarChar(60)
+  UserLevel     String?  @db.VarChar(2)
+  Operator      String?  @db.VarChar(10)
+  Station       String?  @db.VarChar(30)
+  IsLocked      Boolean  @default(false, map: "DC_dUser_IsLocked")
+  CrashFlag     Boolean  @default(false, map: "DC_dUser_CrashFlag")
+  CrashFile     String?  @db.VarChar(100)
+  CrashDate     DateTime @default(now(), map: "DC_dUser_CrashDate") @db.DateTime
+  FlagX         Boolean  @default(false, map: "DC_dUser_FlagX")
+  FlagY         Boolean  @default(false, map: "DC_dUser_FlagY")
+
+  @@schema("dbo")
+}
+
+model dVendor {
+  Identifier    Int      @id(map: "PK_dVendor_Identifer") @default(autoincrement())
+  Status        String   @default("A", map: "DC_dVendor_Status") @db.Char(1)
+  Creation      DateTime @default(now(), map: "DC_dVendor_Creation") @db.DateTime
+  CreationID    Int      @default(0, map: "DC_dVendor_CreationID")
+  Maintenance   DateTime @default(now(), map: "DC_dVendor_Maintenance") @db.DateTime
+  MaintenanceID Int      @default(0, map: "DC_dVendor_MaintenanceID")
+  VendorID      String   @unique(map: "IN_dVendor_VendorID") @db.VarChar(20)
+  VendorName    String   @db.VarChar(50)
+  IdentAddress  Int      @default(0, map: "DC_dVendor_IdentAddress")
+  ExternalID    Int?     @default(0, map: "DC_dVendor_ExternalID")
+  UsePrimary    Boolean  @default(false, map: "DC_dVendor_UsePrimary")
+  UseLocation   Boolean  @default(false, map: "DC_dVendor_UseLocation")
+  UseShip       Boolean  @default(false, map: "DC_dVendor_UseShip")
+  UseBill       Boolean  @default(false, map: "DC_dVendor_UseBill")
+  UseMail       Boolean  @default(false, map: "DC_dVendor_UseMail")
+  UseOther      Boolean  @default(false, map: "DC_dVendor_UseOther")
+  IdentParent   Int      @default(0, map: "DC_dVendor_IdentParent")
+
+  @@index([VendorName], map: "IN_dVendor_VendorName")
+  @@schema("dbo")
+}
+
+model dWorkOrder {
+  Identifier     Int       @id(map: "PK_dWorkOrder_Identifer") @default(autoincrement())
+  Status         String    @default("A", map: "DC_dWorkOrder_Status") @db.Char(1)
+  Creation       DateTime  @default(now(), map: "DC_dWorkOrder_Creation") @db.DateTime
+  CreationID     Int       @default(0, map: "DC_dWorkOrder_CreationID")
+  Maintenance    DateTime  @default(now(), map: "DC_dWorkOrder_Maintenance") @db.DateTime
+  MaintenanceID  Int       @default(0, map: "DC_dWorkOrder_MaintenanceID")
+  WorkOrder      String    @db.VarChar(50)
+  ImportDate     DateTime? @db.DateTime
+  ExportDate     DateTime? @db.DateTime
+  ExternalID     Int       @default(0, map: "DC_dWorkOrder_ExternalID")
+  LineID         Int       @default(0, map: "DC_dWorkOrder_LineID")
+  CommitID       Int       @default(0, map: "DC_dWorkOrder_CommitID")
+  ItemID         Int       @default(0, map: "DC_dWorkOrder_ItemID")
+  FGID           Int       @default(0, map: "DC_dWorkOrder_FGID")
+  RMID           Int       @default(0, map: "DC_dWorkOrder_RMID")
+  Type           String    @default("", map: "DC_dWorkOrder_Type") @db.VarChar(4)
+  Line           Int       @default(0, map: "DC_dWorkOrder_Line")
+  ItemNumber     String?   @db.VarChar(20)
+  Quantity       Decimal?  @default(0, map: "DC_dWorkOrder_Quantity") @db.Decimal(20, 4)
+  QuantityCommit Decimal?  @default(0, map: "DC_dWorkOrder_QuantityCommit") @db.Decimal(20, 4)
+  UOM            String?   @db.VarChar(8)
+  UOMCommit      String?   @db.VarChar(8)
+  Weight         Decimal?  @default(0, map: "DC_dWorkOrder_Weight") @db.Decimal(20, 4)
+  UOMWeight      String?   @db.VarChar(8)
+  Lot            String?   @db.VarChar(50)
+  Storage        String?   @db.VarChar(20)
+  StorageTo      String?   @db.VarChar(20)
+  Initial        DateTime  @default(now(), map: "DC_dWorkOrder_Initial") @db.DateTime
+  Committed      DateTime? @db.DateTime
+  Completed      DateTime? @db.DateTime
+  Package        Boolean   @default(false, map: "DC_dWorkOrder_Package")
+  Company        String?   @db.VarChar(60)
+  Owner          String?   @db.VarChar(60)
+  IdentProduct   Int       @default(0, map: "DC_dWorkOrder_IdentProduct")
+  IdentStorage   Int       @default(0, map: "DC_dWorkOrder_IdentStorage")
+  IdentStorageTo Int       @default(0, map: "DC_dWorkOrder_IdentStorageTo")
+  IdentCompany   Int       @default(0, map: "DC_dWorkOrder_IdentCompany")
+
+  @@unique([WorkOrder, Type, Line, ItemNumber], map: "IN_dWorkOrder_WorkOrderTypeLineItemNumber")
+  @@index([ExternalID, LineID], map: "IN_dWorkOrder_ExternalIDLineID")
+  @@schema("dbo")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model hAddress {
+  HistoryCode   String   @db.VarChar(1)
+  HistoryDate   DateTime @db.DateTime
+  HistoryUser   Int
+  Identifier    Int
+  Status        String   @db.Char(1)
+  Creation      DateTime @db.DateTime
+  CreationID    Int
+  Maintenance   DateTime @db.DateTime
+  MaintenanceID Int
+  AddressType   String?  @db.VarChar(20)
+  AddressLink   Int
+  AddressSource Int
+  AddressID     String   @db.VarChar(20)
+  AddressName   String?  @db.VarChar(60)
+  Address1      String?  @db.VarChar(60)
+  Address2      String?  @db.VarChar(60)
+  Address3      String?  @db.VarChar(60)
+  Address4      String?  @db.VarChar(60)
+  City          String?  @db.VarChar(60)
+  State         String?  @db.VarChar(2)
+  Zip           String?  @db.VarChar(10)
+  Country       String?  @db.VarChar(60)
+  Attention     String?  @db.VarChar(60)
+  Contact1      String?  @db.VarChar(60)
+  Contact2      String?  @db.VarChar(60)
+  Phone1        String?  @db.VarChar(20)
+  Phone2        String?  @db.VarChar(20)
+  Fax1          String?  @db.VarChar(20)
+  Fax2          String?  @db.VarChar(20)
+  Email1        String?  @db.VarChar(100)
+  Email2        String?  @db.VarChar(100)
+  URL1          String?  @db.VarChar(100)
+  URL2          String?  @db.VarChar(100)
+  UsePrimary    Boolean
+  UseLocation   Boolean
+  UseShip       Boolean
+  UseBill       Boolean
+  UseMail       Boolean
+  UseOther      Boolean
+  IdentParent   Int?
+
+  @@ignore
+  @@schema("dbo")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model hCode {
+  HistoryCode   String    @db.VarChar(1)
+  HistoryDate   DateTime  @db.DateTime
+  HistoryUser   Int
+  Identifier    Int
+  Status        String    @db.Char(1)
+  Creation      DateTime  @db.DateTime
+  CreationID    Int
+  Maintenance   DateTime  @db.DateTime
+  MaintenanceID Int
+  CodeSequence  Int
+  CodeCategory  String    @db.VarChar(20)
+  CodeValue     String    @db.VarChar(20)
+  CodeFlags     String?   @db.VarChar(10)
+  CodeLink      String?   @db.VarChar(20)
+  CodeInteger   Int?
+  CodeFloat     Decimal?  @db.Decimal(20, 4)
+  CodeDate      DateTime? @db.Date
+  CodeString    String?   @db.VarChar(100)
+
+  @@ignore
+  @@schema("dbo")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model hControl {
+  HistoryCode          String   @db.VarChar(1)
+  HistoryDate          DateTime @db.DateTime
+  HistoryUser          Int
+  Identifier           Int
+  Status               String   @db.Char(1)
+  Creation             DateTime @db.DateTime
+  CreationID           Int
+  Maintenance          DateTime @db.DateTime
+  MaintenanceID        Int
+  SiteName             String   @db.VarChar(60)
+  SerialNumber         String   @db.VarChar(60)
+  Subscription         String   @db.VarChar(400)
+  Name                 String   @db.VarChar(60)
+  Plant                String?  @db.VarChar(60)
+  PlantType            String?  @db.VarChar(20)
+  PlantID              String?  @db.VarChar(20)
+  CFN                  String?  @db.VarChar(20)
+  FDA                  String?  @db.VarChar(20)
+  GS1                  String?  @db.VarChar(100)
+  BranchWO             String?  @db.VarChar(20)
+  BranchTran           String?  @db.VarChar(20)
+  AirPort              String?  @db.VarChar(3)
+  Timeout              Int?
+  SortFile             String?  @db.VarChar(30)
+  ShipFile             String?  @db.VarChar(30)
+  ShipAccount          String?  @db.VarChar(30)
+  PortName             String?  @db.VarChar(30)
+  Season               String?  @db.VarChar(10)
+  IdentAddressLocation Int
+  IdentAddressBill     Int
+  IdentAddressShip     Int
+  SerialNext           BigInt?
+  PalletNext           BigInt?
+  ERPNext              BigInt?
+  BLNext               BigInt?
+  SerialLength         Int?
+  PalletLength         Int?
+  PalletWeight         Decimal? @db.Decimal(20, 4)
+  BoxWeight            Decimal? @db.Decimal(20, 4)
+  TierSize             Decimal? @db.Decimal(20, 4)
+  SerialTare           Decimal? @db.Decimal(20, 4)
+  Interval             Int?
+  Frequency            Int?
+  Location             String?  @db.VarChar(20)
+  DatePref             String?  @db.Char(1)
+  ReboxPref            String?  @db.Char(1)
+  ReboxMethod          String?  @db.Char(1)
+  Password             Boolean?
+  SelfStrip            Boolean?
+  Palletize            Boolean?
+  PalletDups           Boolean
+  AutoProc             Boolean
+  AddScanned           Boolean
+  PrepDate             Boolean
+  Reindex              Boolean
+  ColdStore            Boolean
+  Depth                Boolean
+  Julian               Boolean
+  Metric               Boolean
+  Network              Boolean
+  Mail                 Boolean
+  FTP                  Boolean
+  ERP                  Boolean?
+
+  @@ignore
+  @@schema("dbo")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model hCustomer {
+  HistoryCode   String   @db.VarChar(1)
+  HistoryDate   DateTime @db.DateTime
+  HistoryUser   Int
+  Identifier    Int
+  Status        String   @db.Char(1)
+  Creation      DateTime @db.DateTime
+  CreationID    Int
+  Maintenance   DateTime @db.DateTime
+  MaintenanceID Int
+  CustomerID    String   @db.VarChar(20)
+  CustomerName  String   @db.VarChar(60)
+  Transfer      Boolean
+  StockLabel    String?  @db.VarChar(20)
+  PalletLabel   String?  @db.VarChar(20)
+  LabelPrefix   String?  @db.VarChar(10)
+  Route         String?  @db.VarChar(60)
+  IdentAddress  Int
+  ExternalID    Int?
+  UsePrimary    Boolean?
+  UseLocation   Boolean?
+  UseShip       Boolean?
+  UseBill       Boolean?
+  UseMail       Boolean?
+  UseOther      Boolean?
+  IdentParent   Int?
+
+  @@ignore
+  @@schema("dbo")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model hData {
+  HistoryCode   String    @db.VarChar(1)
+  HistoryDate   DateTime  @db.DateTime
+  HistoryUser   String?   @db.NVarChar(128)
+  Identifier    Int
+  Status        String?   @db.Char(1)
+  Creation      DateTime? @db.DateTime
+  CreationID    Int?
+  Maintenance   DateTime? @db.DateTime
+  MaintenanceID Int?
+  DataClass     String    @db.VarChar(20)
+  DataName      String    @db.VarChar(60)
+  Sequence      Int
+  IntegerValue  Int?
+  FloatValue    Decimal?  @db.Decimal(20, 8)
+  DateTimeValue DateTime? @db.DateTime
+  StringValue   String?   @db.VarChar(8000)
+
+  @@ignore
+  @@schema("dbo")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model hDepth {
+  HistoryCode   String    @db.VarChar(1)
+  HistoryDate   DateTime  @db.DateTime
+  HistoryUser   Int
+  Identifier    Int
+  Status        String    @db.Char(1)
+  Creation      DateTime  @db.DateTime
+  CreationID    Int
+  Maintenance   DateTime  @db.DateTime
+  MaintenanceID Int
+  Type          String    @db.VarChar(4)
+  Season        String    @db.VarChar(4)
+  Serial        String    @db.VarChar(30)
+  Field         String?   @db.VarChar(20)
+  Data          String?   @db.VarChar(60)
+  Weight        Decimal   @db.Decimal(20, 4)
+  Quantity      Decimal   @db.Decimal(20, 4)
+  Void          Boolean
+  Deleted       Boolean
+  AddDate       DateTime? @db.DateTime
+  ExpDate       DateTime? @db.DateTime
+  IdentStock    Int
+  IdentStorage  Int
+
+  @@ignore
+  @@schema("dbo")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model hERP {
+  HistoryCode     String    @db.VarChar(1)
+  HistoryDate     DateTime  @db.DateTime
+  HistoryUser     Int
+  Identifier      Int
+  Status          String    @db.Char(1)
+  Creation        DateTime  @db.DateTime
+  CreationID      Int
+  Maintenance     DateTime  @db.DateTime
+  MaintenanceID   Int
+  TranCode        String    @db.Char(1)
+  TranStatus      String    @db.Char(1)
+  Product         String?   @db.VarChar(50)
+  ItemCode        String?   @db.VarChar(20)
+  Serial          String?   @db.VarChar(30)
+  Lot             String?   @db.VarChar(50)
+  Weight          Decimal?  @db.Decimal(20, 4)
+  Quantity        Decimal?  @db.Decimal(20, 4)
+  UOM             String?   @db.VarChar(10)
+  StorageFrom     String?   @db.VarChar(20)
+  StorageTo       String?   @db.VarChar(20)
+  Vendor          String?   @db.VarChar(50)
+  Customer        String?   @db.VarChar(50)
+  OrderNumber     String?   @db.VarChar(50)
+  PurchaseOrder   String?   @db.VarChar(50)
+  SalesOrder      String?   @db.VarChar(50)
+  WorkOrder       String?   @db.VarChar(50)
+  TransferOrder   String?   @db.VarChar(50)
+  BLSequence      Int?
+  Rate            Decimal?  @db.Decimal(20, 4)
+  BestBuyDate     DateTime? @db.DateTime
+  Origin          String?   @db.VarChar(20)
+  TransferDate    DateTime? @db.DateTime
+  TransferStamp   DateTime? @db.DateTime
+  Message         String?   @db.VarChar(100)
+  ERPStamp        DateTime? @db.DateTime
+  ExternalIDSales String?   @db.VarChar(10)
+  ExternalIDTrans String?   @db.VarChar(10)
+  ExternalIDFull  String?   @db.VarChar(10)
+  ExternalIDAsm   String?   @db.VarChar(10)
+
+  @@ignore
+  @@schema("dbo")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model hMeta {
+  HistoryCode   String   @db.VarChar(1)
+  HistoryDate   DateTime @db.DateTime
+  HistoryUser   Int
+  Identifier    Int
+  Status        String   @db.Char(1)
+  Creation      DateTime @db.DateTime
+  CreationID    Int
+  Maintenance   DateTime @db.DateTime
+  MaintenanceID Int
+  Sequence      Int?
+  Type          String?  @db.VarChar(6)
+  Field         String?  @db.VarChar(40)
+  Kind          String?  @db.VarChar(6)
+  Width         String?  @db.VarChar(6)
+  Places        String?  @db.VarChar(2)
+  Display       String?  @db.VarChar(40)
+  Code          String?  @db.VarChar(10)
+  Activity      String?  @db.VarChar(6)
+  Title         String?  @db.VarChar(40)
+  Position      String?  @db.VarChar(20)
+  Setup         String?  @db.VarChar(6)
+  Class         String?  @db.VarChar(20)
+  PropertyField String?  @db.VarChar(4)
+  ProductField  String?  @db.VarChar(4)
+  SetupField    String?  @db.VarChar(4)
+  LongField     String?  @db.VarChar(4)
+  TableName     String?  @db.VarChar(60)
+  Operation     String?  @db.VarChar(400)
+
+  @@ignore
+  @@schema("dbo")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model hOrder {
+  HistoryCode              String    @db.VarChar(1)
+  HistoryDate              DateTime  @db.DateTime
+  HistoryUser              Int
+  Identifier               Int
+  Status                   String    @db.Char(1)
+  Creation                 DateTime  @db.DateTime
+  CreationID               Int
+  Maintenance              DateTime  @db.DateTime
+  MaintenanceID            Int
+  OrderNumber              String    @db.VarChar(50)
+  ImportDate               DateTime? @db.DateTime
+  ExportDate               DateTime? @db.DateTime
+  ExternalID               Int
+  OrderType                String    @db.VarChar(4)
+  Seal                     String    @db.VarChar(30)
+  Carrier                  String?   @db.VarChar(30)
+  LoadDate                 DateTime? @db.DateTime
+  ShipDate                 DateTime? @db.DateTime
+  Department               String?   @db.VarChar(30)
+  Insurance                String?   @db.VarChar(30)
+  CatchArea                String?   @db.VarChar(30)
+  Vessel                   String?   @db.VarChar(30)
+  Voyage                   String?   @db.VarChar(30)
+  Mawb                     String?   @db.VarChar(30)
+  Awb                      String?   @db.VarChar(30)
+  PortName                 String?   @db.VarChar(30)
+  PortDispatcher           String?   @db.VarChar(30)
+  Destination              String?   @db.VarChar(30)
+  BoxSize                  String?   @db.VarChar(10)
+  BoxTare                  Decimal?  @db.Decimal(20, 4)
+  ToteTare                 Decimal?  @db.Decimal(20, 4)
+  Transfer                 Boolean
+  Rebox                    Boolean
+  BLType                   String?   @db.VarChar(10)
+  BLNumber                 String?   @db.VarChar(30)
+  BLSequence               Decimal?  @db.Decimal(20, 0)
+  PLType                   String?   @db.VarChar(10)
+  PLNumber                 String?   @db.VarChar(30)
+  PLSequence               Decimal?  @db.Decimal(20, 0)
+  ExportNumber             String?   @db.VarChar(30)
+  Booking                  String?   @db.VarChar(30)
+  ControlNumber            String?   @db.VarChar(30)
+  Processor                String?   @db.VarChar(30)
+  Collect                  String?   @db.VarChar(30)
+  Inspect                  String?   @db.VarChar(30)
+  BeyondCarrier            String?   @db.VarChar(30)
+  SetTemp                  String?   @db.VarChar(10)
+  DepartTemp               String?   @db.VarChar(10)
+  RecordBy                 String?   @db.VarChar(30)
+  SignBy                   String?   @db.VarChar(30)
+  Priority                 String?   @db.VarChar(10)
+  NSI                      String?   @db.VarChar(30)
+  Flight                   String?   @db.VarChar(20)
+  Handling1                String?   @db.VarChar(30)
+  Handling2                String?   @db.VarChar(30)
+  QualityControl           String?   @db.VarChar(30)
+  PRO                      String?   @db.VarChar(20)
+  SPI                      String?   @db.VarChar(20)
+  Shipment                 String?   @db.VarChar(30)
+  Brand                    String?   @db.VarChar(30)
+  Commodity                String?   @db.VarChar(30)
+  PalletsOut               String?   @db.VarChar(30)
+  PalletType               String?   @db.VarChar(30)
+  Bay                      String?   @db.VarChar(30)
+  Container                String?   @db.VarChar(30)
+  DateTaken                DateTime? @db.DateTime
+  DateExpected             DateTime? @db.DateTime
+  Date1                    DateTime? @db.DateTime
+  Date2                    DateTime? @db.DateTime
+  Date3                    DateTime? @db.DateTime
+  Date4                    DateTime? @db.DateTime
+  Text1                    String?   @db.VarChar(100)
+  Text2                    String?   @db.VarChar(100)
+  IdentCustomer            Int?
+  IdentStorage             Int?
+  IdentAddressLocation     Int?
+  IdentAddressBill         Int?
+  IdentAddressShip         Int?
+  IdentAddressShipper      Int?
+  IdentAddressCarrier      Int?
+  IdentAddressDestination  Int?
+  IdentAddressDistribution Int?
+  LoadDateOnly             DateTime? @db.Date
+  ShipDateOnly             DateTime? @db.Date
+
+  @@ignore
+  @@schema("dbo")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model hPage {
+  HistoryCode   String   @db.VarChar(1)
+  HistoryDate   DateTime @db.DateTime
+  HistoryUser   Int
+  Identifier    Int
+  Status        String   @db.Char(1)
+  Creation      DateTime @db.DateTime
+  CreationID    Int
+  Maintenance   DateTime @db.DateTime
+  MaintenanceID Int
+  PageNumber    String   @db.VarChar(8)
+  PageTitle     String   @db.VarChar(60)
+  Title         String   @db.VarChar(20)
+  Name          String   @db.VarChar(60)
+  BarCode       String?  @db.VarChar(8)
+  Stations      String?  @db.VarChar(32)
+  Flags         String?  @db.VarChar(10)
+  IsDefault     Boolean
+  IdentProperty Int
+
+  @@ignore
+  @@schema("dbo")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model hProduct {
+  HistoryCode   String   @db.VarChar(1)
+  HistoryDate   DateTime @db.DateTime
+  HistoryUser   Int
+  Identifier    Int
+  Status        String   @db.Char(1)
+  Creation      DateTime @db.DateTime
+  CreationID    Int
+  Maintenance   DateTime @db.DateTime
+  MaintenanceID Int
+  Product       String   @db.VarChar(30)
+  ItemCode      String?  @db.VarChar(30)
+  ProductKey    String?  @db.VarChar(30)
+  Description   String?  @db.VarChar(100)
+  Description2  String?  @db.VarChar(100)
+  Description3  String?  @db.VarChar(100)
+  PropertyGroup String?  @db.VarChar(4)
+  UPC           String?  @db.VarChar(20)
+  GTIN          String?  @db.VarChar(20)
+  GS1           String?  @db.VarChar(100)
+  PLU           String?  @db.VarChar(20)
+  IMP           String?  @db.VarChar(20)
+  NAMP          String?  @db.VarChar(20)
+  SeasonType    String?  @db.VarChar(1)
+  PageTitle     String?  @db.VarChar(30)
+  StockLabel    String?  @db.VarChar(20)
+  PalletLabel   String?  @db.VarChar(20)
+  Picked        Boolean
+  ReqRebox      String   @db.VarChar(1)
+  HoldCode      String   @db.VarChar(1)
+  Plants        String?  @db.VarChar(40)
+  Class         String?  @db.VarChar(20)
+  UOM           String?  @db.VarChar(8)
+  PackUnit      String?  @db.VarChar(8)
+  BreakUnit     String?  @db.VarChar(8)
+  BreakNumber   Decimal? @db.Decimal(20, 4)
+  SizeUnit      String?  @db.VarChar(8)
+  SizeNumber    Decimal? @db.Decimal(20, 4)
+  SizeQuantity  Decimal? @db.Decimal(20, 4)
+  ERPExempt     Boolean
+  IdentStorage  Int
+  ExternalID    Int?
+
+  @@ignore
+  @@schema("dbo")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model hProductProperty {
+  HistoryCode   String   @db.VarChar(1)
+  HistoryDate   DateTime @db.DateTime
+  HistoryUser   Int
+  Identifier    Int
+  Status        String   @db.Char(1)
+  Creation      DateTime @db.DateTime
+  CreationID    Int
+  Maintenance   DateTime @db.DateTime
+  MaintenanceID Int
+  IdentProduct  Int
+  IdentProperty Int
+  IdentMeta     Int
+  Product       String?  @db.VarChar(30)
+  Title         String?  @db.VarChar(20)
+  Name          String?  @db.VarChar(60)
+  Short         String?  @db.VarChar(20)
+  Barcode       String?  @db.VarChar(8)
+  Flags         String?  @db.VarChar(10)
+  Misc          String?  @db.VarChar(30)
+
+  @@ignore
+  @@schema("dbo")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model hProperty {
+  HistoryCode   String   @db.VarChar(1)
+  HistoryDate   DateTime @db.DateTime
+  HistoryUser   Int
+  Identifier    Int
+  Status        String   @db.Char(1)
+  Creation      DateTime @db.DateTime
+  CreationID    Int
+  Maintenance   DateTime @db.DateTime
+  MaintenanceID Int
+  Field         String   @db.VarChar(20)
+  Title         String   @db.VarChar(20)
+  Name          String   @db.VarChar(60)
+  Short         String   @db.VarChar(20)
+  Barcode       String?  @db.VarChar(8)
+  Flags         String?  @db.VarChar(10)
+  Misc          String?  @db.VarChar(100)
+  Quantity      Decimal? @db.Decimal(6, 0)
+  NetWeight     Decimal  @db.Decimal(20, 4)
+  GrossWeight   Decimal  @db.Decimal(20, 4)
+  TareWeight    Decimal  @db.Decimal(20, 4)
+  CanWeight     Decimal  @db.Decimal(20, 4)
+  CaseSize      Decimal  @db.Decimal(20, 4)
+  Latin         String?  @db.VarChar(60)
+  English       String?  @db.VarChar(60)
+  Spanish       String?  @db.VarChar(60)
+  French        String?  @db.VarChar(60)
+  Japanese      String?  @db.VarChar(60)
+  Hebrew        String?  @db.VarChar(60)
+  Chinese       String?  @db.VarChar(60)
+  Lang7         String?  @db.VarChar(60)
+  Lang8         String?  @db.VarChar(60)
+  ExternalID    Int?
+
+  @@ignore
+  @@schema("dbo")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model hPurchaseOrder {
+  HistoryCode          String    @db.VarChar(1)
+  HistoryDate          DateTime  @db.DateTime
+  HistoryUser          Int
+  Identifier           Int
+  Status               String    @db.Char(1)
+  Creation             DateTime  @db.DateTime
+  CreationID           Int
+  Maintenance          DateTime  @db.DateTime
+  MaintenanceID        Int
+  PurchaseOrder        String    @db.VarChar(50)
+  ImportDate           DateTime? @db.DateTime
+  ExportDate           DateTime? @db.DateTime
+  ExternalID           Int?
+  LineID               Int?
+  CommitID             Int?
+  ItemID               Int?
+  Type                 String    @db.VarChar(4)
+  Line                 Int?
+  ItemNumber           String?   @db.VarChar(20)
+  Quantity             Decimal?  @db.Decimal(20, 4)
+  QuantityCommit       Decimal?  @db.Decimal(20, 4)
+  UOM                  String?   @db.VarChar(8)
+  UOMCommit            String?   @db.VarChar(8)
+  Weight               Decimal?  @db.Decimal(20, 4)
+  UOMWeight            String?   @db.VarChar(8)
+  Lot                  String?   @db.VarChar(50)
+  Storage              String?   @db.VarChar(20)
+  StorageTo            String?   @db.VarChar(20)
+  Initial              DateTime  @db.DateTime
+  Expected             DateTime? @db.DateTime
+  Committed            DateTime? @db.DateTime
+  Completed            DateTime? @db.DateTime
+  Supplier             String?   @db.VarChar(60)
+  Customer             String?   @db.VarChar(60)
+  Owner                String?   @db.VarChar(60)
+  IdentProduct         Int
+  IdentStorage         Int
+  IdentStorageTo       Int
+  IdentCustomer        Int
+  IdentSupplier        Int
+  IdentAddressLocation Int
+  IdentAddressBill     Int
+  IdentAddressShip     Int
+
+  @@ignore
+  @@schema("dbo")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model hSalesOrder {
+  HistoryCode              String    @db.VarChar(1)
+  HistoryDate              DateTime  @db.DateTime
+  HistoryUser              Int
+  Identifier               Int
+  Status                   String    @db.Char(1)
+  Creation                 DateTime  @db.DateTime
+  CreationID               Int
+  Maintenance              DateTime  @db.DateTime
+  MaintenanceID            Int
+  SalesOrder               String    @db.VarChar(50)
+  ImportDate               DateTime? @db.DateTime
+  ExportDate               DateTime? @db.DateTime
+  ExternalID               Int?
+  LineID                   Int?
+  CommitID                 Int?
+  ItemID                   Int?
+  Type                     String    @db.VarChar(4)
+  Line                     Int?
+  ItemNumber               String?   @db.VarChar(20)
+  Quantity                 Decimal?  @db.Decimal(20, 4)
+  QuantityCommit           Decimal?  @db.Decimal(20, 4)
+  UOM                      String?   @db.VarChar(8)
+  UOMCommit                String?   @db.VarChar(8)
+  Weight                   Decimal?  @db.Decimal(20, 4)
+  UOMWeight                String?   @db.VarChar(8)
+  Lot                      String?   @db.VarChar(50)
+  Storage                  String?   @db.VarChar(20)
+  StorageTo                String?   @db.VarChar(20)
+  Initial                  DateTime  @db.DateTime
+  Expected                 DateTime? @db.DateTime
+  Committed                DateTime? @db.DateTime
+  Completed                DateTime? @db.DateTime
+  PurchaseOrder            String?   @db.VarChar(50)
+  Customer                 String?   @db.VarChar(60)
+  Owner                    String?   @db.VarChar(60)
+  IdentProduct             Int
+  IdentStorage             Int
+  IdentStorageTo           Int
+  IdentCustomer            Int
+  IdentAddressLocation     Int
+  IdentAddressBill         Int
+  IdentAddressShip         Int
+  IdentAddressShipper      Int
+  IdentAddressCarrier      Int
+  IdentAddressDestination  Int
+  IdentAddressDistribution Int
+
+  @@ignore
+  @@schema("dbo")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model hStation {
+  HistoryCode     String   @db.VarChar(1)
+  HistoryDate     DateTime @db.DateTime
+  HistoryUser     String?  @db.NVarChar(128)
+  Identifier      Int
+  Status          String   @db.Char(1)
+  Creation        DateTime @db.DateTime
+  CreationID      Int
+  Maintenance     DateTime @db.DateTime
+  MaintenanceID   Int
+  StationType     String   @db.VarChar(10)
+  StationID       String   @db.VarChar(20)
+  StationName     String?  @db.VarChar(20)
+  StationMachine  String?  @db.VarChar(20)
+  StationMenu     String?  @db.VarChar(20)
+  StationNumber   Int
+  StationIP       String?  @db.VarChar(20)
+  StationPort     Int
+  IdentAddress    Int
+  LotCode         String?  @db.VarChar(8)
+  TransferProgram DateTime @db.DateTime
+  TransferTable   DateTime @db.DateTime
+  Comment1        String?  @db.VarChar(100)
+  Comment2        String?  @db.VarChar(100)
+  Comment3        String?  @db.VarChar(100)
+  Comment4        String?  @db.VarChar(100)
+  Comment5        String?  @db.VarChar(100)
+  Comment6        String?  @db.VarChar(100)
+
+  @@ignore
+  @@schema("dbo")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model hStock {
+  HistoryCode          String    @db.VarChar(1)
+  HistoryDate          DateTime  @db.DateTime
+  HistoryUser          Int
+  Identifier           Int
+  Status               String    @db.Char(1)
+  Creation             DateTime  @db.DateTime
+  CreationID           Int
+  Maintenance          DateTime  @db.DateTime
+  MaintenanceID        Int
+  TranCode             String?   @db.VarChar(1)
+  TranYear             Int
+  Season               String?   @db.VarChar(20)
+  Plant                String?   @db.VarChar(30)
+  Serial               String?   @db.VarChar(30)
+  Pallet               String?   @db.VarChar(30)
+  Lot                  String?   @db.VarChar(50)
+  Source               String?   @db.VarChar(30)
+  Void                 Boolean
+  Split                Boolean
+  Rebox                Boolean
+  Remake               Boolean
+  UseCount             Boolean
+  Edited               Boolean
+  IdentAddressCustomer Int
+  IdentAddressVendor   Int
+  IdentProduct         Int
+  IdentOrder           Int
+  IdentPurchaseOrder   Int
+  IdentWorkOrder       Int
+  IdentSalesOrder      Int
+  IdentTransferOrder   Int
+  IdentStation         Int
+  IdentStorage         Int
+  IdentPackage         Int
+  IdentStage           Int
+  IdentNetSource       Int
+  IdentGrossSource     Int
+  IdentTareSource      Int
+  IdentGelSource       Int
+  IdentVacSource       Int
+  IdentGlazeSource     Int
+  IdentLiveSource      Int
+  IdentHotSource       Int
+  IdentColdSource      Int
+  IdentTargetSource    Int
+  IdentWeightASource   Int
+  IdentWeightBSource   Int
+  OrigWeight           Decimal   @db.Decimal(20, 4)
+  NetWeight            Decimal   @db.Decimal(20, 4)
+  GrossWeight          Decimal   @db.Decimal(20, 4)
+  TareWeight           Decimal   @db.Decimal(20, 4)
+  GelWeight            Decimal   @db.Decimal(20, 4)
+  VacWeight            Decimal   @db.Decimal(20, 4)
+  GlazeWeight          Decimal   @db.Decimal(20, 4)
+  LiveWeight           Decimal?  @db.Decimal(20, 4)
+  HotWeight            Decimal?  @db.Decimal(20, 4)
+  ColdWeight           Decimal?  @db.Decimal(20, 4)
+  TargetWeight         Decimal?  @db.Decimal(20, 4)
+  WeightA              Decimal?  @db.Decimal(20, 4)
+  WeightB              Decimal?  @db.Decimal(20, 4)
+  OrigQuantity         Decimal?  @db.Decimal(6, 0)
+  Quantity             Decimal?  @db.Decimal(6, 0)
+  UnitsQuantity        Decimal   @db.Decimal(20, 4)
+  UnitsUOM             String?   @db.VarChar(20)
+  UOM                  String?   @db.VarChar(8)
+  HarvestDate          DateTime? @db.DateTime
+  PrepDate             DateTime? @db.DateTime
+  PackDate             DateTime? @db.DateTime
+  LoadDate             DateTime? @db.DateTime
+  ShipDate             DateTime? @db.DateTime
+  BuyDate              DateTime? @db.DateTime
+  UploadDate           DateTime? @db.DateTime
+  EditDate             DateTime? @db.DateTime
+  Glaze                String?   @db.VarChar(8)
+  GelPak               String?   @db.VarChar(8)
+  Julian               String?   @db.VarChar(8)
+  StockLabel           String?   @db.VarChar(20)
+  PalletLabel          String?   @db.VarChar(20)
+  GS1Barcode           String?   @db.VarChar(60)
+  AIN                  String?   @db.VarChar(20)
+  Tag                  String?   @db.VarChar(20)
+  Temperature          String?   @db.VarChar(20)
+  Quality              String?   @db.VarChar(20)
+  LabelNumber          String?   @db.VarChar(20)
+  Reference            String?   @db.VarChar(20)
+  Note                 String?   @db.VarChar(60)
+  Cost                 Decimal?  @db.Decimal(20, 4)
+  TransferSource       String?   @db.VarChar(60)
+  TransferStamp        DateTime? @db.DateTime
+  ERPStamp             DateTime? @db.DateTime
+  ExportDate           DateTime? @db.DateTime
+  ImportDate           DateTime? @db.DateTime
+  ExternalID           Int?
+  PurchaseOrderText    String?   @db.VarChar(20)
+  OrderNumberText      String?   @db.VarChar(50)
+  HarvestDateOnly      DateTime? @db.Date
+  PrepDateOnly         DateTime? @db.Date
+  PackDateOnly         DateTime? @db.Date
+  LoadDateOnly         DateTime? @db.Date
+  ShipDateOnly         DateTime? @db.Date
+  BuyDateOnly          DateTime? @db.Date
+  UploadDateOnly       DateTime? @db.Date
+  EditDateOnly         DateTime? @db.Date
+
+  @@ignore
+  @@schema("dbo")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model hStockAudit {
+  HistoryCode    String   @db.VarChar(1)
+  HistoryDate    DateTime @db.DateTime
+  HistoryUser    String?  @db.NVarChar(128)
+  Identifier     Int
+  Status         String   @db.Char(1)
+  Creation       DateTime @db.DateTime
+  CreationID     Int
+  Maintenance    DateTime @db.DateTime
+  MaintenanceID  Int
+  TranCode       String?  @db.Char(1)
+  StorageID      String?  @db.VarChar(30)
+  Serial         String?  @db.VarChar(30)
+  Pallet         String?  @db.VarChar(30)
+  Weight         Decimal? @db.Decimal(20, 4)
+  Quantity       Decimal? @db.Decimal(20, 4)
+  WeightActual   Decimal? @db.Decimal(20, 4)
+  QuantityActual Decimal? @db.Decimal(20, 4)
+  RecordDate     DateTime @db.DateTime
+  GS1Barcode     String   @db.VarChar(50)
+  IdentStock     Int
+  IdentStorage   Int
+
+  @@ignore
+  @@schema("dbo")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model hStockProperty {
+  HistoryCode   String   @db.VarChar(1)
+  HistoryDate   DateTime @db.DateTime
+  HistoryUser   Int
+  Identifier    Int
+  Status        String   @db.Char(1)
+  Creation      DateTime @db.DateTime
+  CreationID    Int
+  Maintenance   DateTime @db.DateTime
+  MaintenanceID Int
+  IdentStock    Int
+  IdentProperty Int
+  IdentMeta     Int
+  Serial        String?  @db.VarChar(30)
+  Title         String?  @db.VarChar(20)
+  Name          String?  @db.VarChar(60)
+  Short         String?  @db.VarChar(20)
+  Barcode       String?  @db.VarChar(8)
+  Flags         String?  @db.VarChar(10)
+  Misc          String?  @db.VarChar(30)
+
+  @@ignore
+  @@schema("dbo")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model hStorage {
+  HistoryCode          String   @db.VarChar(1)
+  HistoryDate          DateTime @db.DateTime
+  HistoryUser          Int
+  Identifier           Int
+  Status               String   @db.Char(1)
+  Creation             DateTime @db.DateTime
+  CreationID           Int
+  Maintenance          DateTime @db.DateTime
+  MaintenanceID        Int
+  StorageID            String   @db.VarChar(20)
+  StorageName          String?  @db.VarChar(50)
+  Description          String?  @db.VarChar(60)
+  Minimum              Int
+  Maximum              Int
+  IdentParent          Int
+  IdentAddressLocation Int
+  IdentAddressShip     Int
+
+  @@ignore
+  @@schema("dbo")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model hSupplier {
+  HistoryCode   String   @db.VarChar(1)
+  HistoryDate   DateTime @db.DateTime
+  HistoryUser   Int
+  Identifier    Int
+  Status        String   @db.Char(1)
+  Creation      DateTime @db.DateTime
+  CreationID    Int
+  Maintenance   DateTime @db.DateTime
+  MaintenanceID Int
+  SupplierID    String   @db.VarChar(20)
+  SupplierName  String   @db.VarChar(50)
+  IdentAddress  Int
+  ExternalID    Int?
+
+  @@ignore
+  @@schema("dbo")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model hText {
+  HistoryCode   String    @db.VarChar(1)
+  HistoryDate   DateTime  @db.DateTime
+  HistoryUser   String?   @db.NVarChar(128)
+  Identifier    Int
+  Status        String?   @db.Char(1)
+  Creation      DateTime? @db.DateTime
+  CreationID    Int?
+  Maintenance   DateTime? @db.DateTime
+  MaintenanceID Int?
+  TextLanguage  String    @db.VarChar(1)
+  TextSequence  Int
+  TextCategory  String    @db.VarChar(20)
+  TextName      String    @db.VarChar(60)
+  TextName2     String    @db.VarChar(60)
+  TextNumber    Int
+  TextString    String?   @db.VarChar(8000)
+  TextString2   String?   @db.VarChar(8000)
+
+  @@ignore
+  @@schema("dbo")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model hTransferOrder {
+  HistoryCode      String    @db.VarChar(1)
+  HistoryDate      DateTime  @db.DateTime
+  HistoryUser      Int
+  Identifier       Int
+  Status           String?   @db.Char(1)
+  Creation         DateTime? @db.DateTime
+  CreationID       Int?
+  Maintenance      DateTime? @db.DateTime
+  MaintenanceID    Int?
+  TransferOrder    String    @db.VarChar(50)
+  ImportDate       DateTime? @db.DateTime
+  ExportDate       DateTime? @db.DateTime
+  ExternalID       Int?
+  LineID           Int?
+  CommitID         Int?
+  ItemID           Int?
+  ItemIDTO         Int?
+  Type             String    @db.VarChar(4)
+  Line             Int?
+  ItemNumber       String?   @db.VarChar(20)
+  ItemNumberTo     String?   @db.VarChar(20)
+  Quantity         Decimal?  @db.Decimal(20, 4)
+  QuantityCommit   Decimal?  @db.Decimal(20, 4)
+  QuantityReceived Decimal?  @db.Decimal(20, 4)
+  QuantityShipped  Decimal?  @db.Decimal(20, 4)
+  UOM              String?   @db.VarChar(8)
+  UOMCommit        String?   @db.VarChar(8)
+  UOMReceived      String?   @db.VarChar(8)
+  UOMShipped       String?   @db.VarChar(8)
+  Weight           Decimal?  @db.Decimal(20, 4)
+  UOMWeight        String?   @db.VarChar(8)
+  Lot              String?   @db.VarChar(50)
+  LotFrom          String?   @db.VarChar(50)
+  LotTo            String?   @db.VarChar(50)
+  Storage          String?   @db.VarChar(20)
+  StorageTo        String?   @db.VarChar(20)
+  Initial          DateTime  @db.DateTime
+  Committed        DateTime? @db.DateTime
+  Expected         DateTime? @db.DateTime
+  Completed        DateTime? @db.DateTime
+  Company          String?   @db.VarChar(60)
+  Owner            String?   @db.VarChar(60)
+  IdentProduct     Int
+  IdentStorage     Int
+  IdentStorageTo   Int
+  IdentCompany     Int
+
+  @@ignore
+  @@schema("dbo")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model hUser {
+  HistoryCode   String   @db.VarChar(1)
+  HistoryDate   DateTime @db.DateTime
+  HistoryUser   Int
+  Identifier    Int
+  Status        String   @db.Char(1)
+  Creation      DateTime @db.DateTime
+  CreationID    Int
+  Maintenance   DateTime @db.DateTime
+  MaintenanceID Int
+  UserID        String?  @db.VarChar(20)
+  UserName      String?  @db.VarChar(60)
+  UserNameOS    String?  @db.VarChar(60)
+  UserLevel     String?  @db.VarChar(2)
+  Operator      String?  @db.VarChar(10)
+  Station       String?  @db.VarChar(30)
+  IsLocked      Boolean
+  CrashFlag     Boolean
+  CrashFile     String?  @db.VarChar(100)
+  CrashDate     DateTime @db.DateTime
+  FlagX         Boolean
+  FlagY         Boolean
+
+  @@ignore
+  @@schema("dbo")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model hVendor {
+  HistoryCode   String   @db.VarChar(1)
+  HistoryDate   DateTime @db.DateTime
+  HistoryUser   Int
+  Identifier    Int
+  Status        String   @db.Char(1)
+  Creation      DateTime @db.DateTime
+  CreationID    Int
+  Maintenance   DateTime @db.DateTime
+  MaintenanceID Int
+  VendorID      String   @db.VarChar(20)
+  VendorName    String   @db.VarChar(50)
+  IdentAddress  Int
+  ExternalID    Int?
+  UsePrimary    Boolean?
+  UseLocation   Boolean?
+  UseShip       Boolean?
+  UseBill       Boolean?
+  UseMail       Boolean?
+  UseOther      Boolean?
+  IdentParent   Int?
+
+  @@ignore
+  @@schema("dbo")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model hWorkOrder {
+  HistoryCode    String    @db.VarChar(1)
+  HistoryDate    DateTime  @db.DateTime
+  HistoryUser    Int
+  Identifier     Int
+  Status         String    @db.Char(1)
+  Creation       DateTime  @db.DateTime
+  CreationID     Int
+  Maintenance    DateTime  @db.DateTime
+  MaintenanceID  Int
+  WorkOrder      String    @db.VarChar(50)
+  ImportDate     DateTime? @db.DateTime
+  ExportDate     DateTime? @db.DateTime
+  ExternalID     Int
+  LineID         Int
+  COmmitID       Int
+  ItemID         Int
+  FGID           Int
+  RMID           Int
+  Type           String    @db.VarChar(4)
+  Line           Int
+  ItemNumber     String?   @db.VarChar(20)
+  Quantity       Decimal?  @db.Decimal(20, 4)
+  QuantityCommit Decimal?  @db.Decimal(20, 4)
+  UOM            String?   @db.VarChar(8)
+  UOMCommit      String?   @db.VarChar(8)
+  Weight         Decimal?  @db.Decimal(20, 4)
+  UOMWeight      String?   @db.VarChar(8)
+  Lot            String?   @db.VarChar(50)
+  Storage        String?   @db.VarChar(20)
+  StorageTo      String?   @db.VarChar(20)
+  Initial        DateTime  @db.DateTime
+  Committed      DateTime? @db.DateTime
+  Completed      DateTime? @db.DateTime
+  Package        Boolean
+  Company        String?   @db.VarChar(60)
+  Owner          String?   @db.VarChar(60)
+  IdentProduct   Int
+  IdentStorage   Int
+  IdentStorageTo Int
+  IdentCompany   Int
+
+  @@ignore
+  @@schema("dbo")
+}
+
+model ItemSage {
+  Identifier       Int     @id(map: "PK_ItemSage") @default(autoincrement())
+  Item_ID          String? @map("Item ID") @db.VarChar(50)
+  Item_Description String? @map("Item Description") @db.VarChar(50)
+
+  @@schema("dbo")
+}
+
+model SageName {
+  Indentifier      Int     @id(map: "PK_SageName") @default(autoincrement())
+  SageID           String? @db.VarChar(100)
+  SageName         String? @db.VarChar(100)
+  IdentVendor      Int?
+  IdentAddressName Int?
+  IdentAttention   Int?
+
+  @@schema("dbo")
+}
+
+model SageVendor {
+  Identifier Int     @id(map: "PK__SageVend__821FB0183FA217CC")
+  VendorID   String? @db.NVarChar(50)
+  VendorName String? @db.NVarChar(50)
+
+  @@schema("dbo")
+}
+
+model sessions {
+  sid     String   @id(map: "PK__sessions__DDDFDD3677261FB9") @db.NVarChar(255)
+  session String   @db.NVarChar(Max)
+  expires DateTime @db.DateTime
+
+  @@schema("dbo")
+}
+
+model StockCremora {
+  ID        Int       @id(map: "PK__StockCre__3214EC27E7F04086") @default(autoincrement())
+  IdentItem Int?
+  Estado    Boolean
+  Shipdate  DateTime? @db.Date
+  Buydate   DateTime? @db.Date
+
+  @@schema("dbo")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model StockCremoraItem {
+  ID            Int?
+  Item          String?  @db.NVarChar(100)
+  Descripci_n   String?  @map("Descripción") @db.NVarChar(255)
+  Precio_Compra Decimal? @db.Decimal(20, 2)
+  Precio_Venta  Decimal? @db.Decimal(20, 2)
+
+  @@ignore
+  @@schema("dbo")
+}
+
+model sysdiagrams {
+  name         String @db.NVarChar(128)
+  principal_id Int
+  diagram_id   Int    @id(map: "PK__sysdiagr__C2B05B6157C063B2") @default(autoincrement())
+  version      Int?
+  definition   Bytes?
+
+  @@unique([principal_id, name], map: "UK_principal_name")
+  @@schema("dbo")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model tContext {
+  Section String? @db.VarChar(30)
+  Item    String? @db.VarChar(60)
+  Value   String? @db.VarChar(250)
+
+  @@ignore
+  @@schema("dbo")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model tDepth {
+  Identifier    Int?
+  Status        String    @default("A", map: "DF__tDepth__Status__1512995B") @db.Char(1)
+  Creation      DateTime  @default(now(), map: "DF__tDepth__Creation__1606BD94") @db.DateTime
+  CreationID    Int       @default(0, map: "DF__tDepth__Creation__16FAE1CD")
+  Maintenance   DateTime  @default(now(), map: "DF__tDepth__Maintena__17EF0606") @db.DateTime
+  MaintenanceID Int       @default(0, map: "DF__tDepth__Maintena__18E32A3F")
+  Type          String    @db.VarChar(4)
+  Season        String    @default("datepart(year,getdate())", map: "DF__tDepth__Season__19D74E78") @db.VarChar(4)
+  Serial        String    @db.VarChar(30)
+  Field         String?   @db.VarChar(20)
+  Data          String?   @db.VarChar(60)
+  Weight        Decimal   @default(0, map: "DF__tDepth__Weight__1ACB72B1") @db.Decimal(20, 4)
+  Quantity      Decimal   @default(0, map: "DF__tDepth__Quantity__1BBF96EA") @db.Decimal(20, 4)
+  Void          Boolean   @default(false, map: "DF__tDepth__Void__1CB3BB23")
+  Deleted       Boolean   @default(false, map: "DF__tDepth__Deleted__1DA7DF5C")
+  AddDate       DateTime? @default(now(), map: "DF__tDepth__AddDate__1E9C0395") @db.DateTime
+  ExpDate       DateTime? @db.DateTime
+  IdentStock    Int       @default(0, map: "DF__tDepth__IdentSto__1F9027CE")
+  IdentStorage  Int       @default(0, map: "DF__tDepth__IdentSto__20844C07")
+  SQLMarker     String?   @db.VarChar(20)
+
+  @@index([SQLMarker], map: "tDepth_SQLMARKER")
+  @@ignore
+  @@schema("dbo")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model tOrder {
+  Identifier               Int?
+  Status                   String    @default("A", map: "DF__tOrder__Status__226C9479") @db.Char(1)
+  Creation                 DateTime  @default(now(), map: "DF__tOrder__Creation__2360B8B2") @db.DateTime
+  CreationID               Int       @default(0, map: "DF__tOrder__Creation__2454DCEB")
+  Maintenance              DateTime  @default(now(), map: "DF__tOrder__Maintena__25490124") @db.DateTime
+  MaintenanceID            Int       @default(0, map: "DF__tOrder__Maintena__263D255D")
+  OrderNumber              String    @db.VarChar(50)
+  ImportDate               DateTime? @db.DateTime
+  ExportDate               DateTime? @db.DateTime
+  ExternalID               Int       @default(0, map: "DF__tOrder__External__27314996")
+  OrderType                String    @default("", map: "DF__tOrder__OrderTyp__28256DCF") @db.VarChar(4)
+  Seal                     String    @default("", map: "DF__tOrder__Seal__29199208") @db.VarChar(30)
+  Carrier                  String?   @db.VarChar(30)
+  LoadDate                 DateTime? @db.DateTime
+  ShipDate                 DateTime? @db.DateTime
+  Department               String?   @db.VarChar(30)
+  Insurance                String?   @db.VarChar(30)
+  CatchArea                String?   @db.VarChar(30)
+  Vessel                   String?   @db.VarChar(30)
+  Voyage                   String?   @db.VarChar(30)
+  Mawb                     String?   @db.VarChar(30)
+  Awb                      String?   @db.VarChar(30)
+  PortName                 String?   @db.VarChar(30)
+  PortDispatcher           String?   @db.VarChar(30)
+  Destination              String?   @db.VarChar(30)
+  BoxSize                  String?   @db.VarChar(10)
+  BoxTare                  Decimal?  @default(0, map: "DF__tOrder__BoxTare__2A0DB641") @db.Decimal(20, 4)
+  ToteTare                 Decimal?  @default(0, map: "DF__tOrder__ToteTare__2B01DA7A") @db.Decimal(20, 4)
+  Transfer                 Boolean   @default(false, map: "DF__tOrder__Transfer__2BF5FEB3")
+  Rebox                    Boolean   @default(false, map: "DF__tOrder__Rebox__2CEA22EC")
+  BLType                   String?   @db.VarChar(10)
+  BLNumber                 String?   @db.VarChar(30)
+  BLSequence               Decimal?  @default(0, map: "DF__tOrder__BLSequen__2DDE4725") @db.Decimal(20, 0)
+  PLType                   String?   @db.VarChar(10)
+  PLNumber                 String?   @db.VarChar(30)
+  PLSequence               Decimal?  @default(0, map: "DF__tOrder__PLSequen__2ED26B5E") @db.Decimal(20, 0)
+  ExportNumber             String?   @db.VarChar(30)
+  Booking                  String?   @db.VarChar(30)
+  ControlNumber            String?   @db.VarChar(30)
+  Processor                String?   @db.VarChar(30)
+  Collect                  String?   @db.VarChar(30)
+  Inspect                  String?   @db.VarChar(30)
+  BeyondCarrier            String?   @db.VarChar(30)
+  SetTemp                  String?   @db.VarChar(10)
+  DepartTemp               String?   @db.VarChar(10)
+  RecordBy                 String?   @db.VarChar(30)
+  SignBy                   String?   @db.VarChar(30)
+  Priority                 String?   @db.VarChar(10)
+  NSI                      String?   @db.VarChar(30)
+  Flight                   String?   @db.VarChar(20)
+  Handling1                String?   @db.VarChar(30)
+  Handling2                String?   @db.VarChar(30)
+  QualityControl           String?   @db.VarChar(30)
+  PRO                      String?   @db.VarChar(20)
+  SPI                      String?   @db.VarChar(20)
+  Shipment                 String?   @db.VarChar(30)
+  Brand                    String?   @db.VarChar(30)
+  Commodity                String?   @db.VarChar(30)
+  PalletsOut               String?   @db.VarChar(30)
+  PalletType               String?   @db.VarChar(30)
+  Bay                      String?   @db.VarChar(30)
+  Container                String?   @db.VarChar(30)
+  DateTaken                DateTime? @db.DateTime
+  DateExpected             DateTime? @db.DateTime
+  Date1                    DateTime? @db.DateTime
+  Date2                    DateTime? @db.DateTime
+  Date3                    DateTime? @db.DateTime
+  Date4                    DateTime? @db.DateTime
+  Text1                    String?   @db.VarChar(100)
+  Text2                    String?   @db.VarChar(100)
+  IdentCustomer            Int?      @default(0, map: "DF__tOrder__IdentCus__2FC68F97")
+  IdentStorage             Int?      @default(0, map: "DF__tOrder__IdentSto__30BAB3D0")
+  IdentAddressLocation     Int?      @default(0, map: "DF__tOrder__IdentAdd__31AED809")
+  IdentAddressBill         Int?      @default(0, map: "DF__tOrder__IdentAdd__32A2FC42")
+  IdentAddressShip         Int?      @default(0, map: "DF__tOrder__IdentAdd__3397207B")
+  IdentAddressShipper      Int?      @default(0, map: "DF__tOrder__IdentAdd__348B44B4")
+  IdentAddressCarrier      Int?      @default(0, map: "DF__tOrder__IdentAdd__357F68ED")
+  IdentAddressDestination  Int?      @default(0, map: "DF__tOrder__IdentAdd__36738D26")
+  IdentAddressDistribution Int?      @default(0, map: "DF__tOrder__IdentAdd__3767B15F")
+  SQLMarker                String?   @db.VarChar(20)
+
+  @@index([SQLMarker], map: "tOrder_SQLMARKER")
+  @@ignore
+  @@schema("dbo")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model tPage {
+  Identifier    Int      @default(100000, map: "DC_tPage_Identifier")
+  Status        String   @default("A", map: "DC_tPage_Status") @db.Char(1)
+  Creation      DateTime @default(now(), map: "DC_tPage_Creation") @db.DateTime
+  CreationID    Int      @default(0, map: "DC_tPage_CreationID")
+  Maintenance   DateTime @default(now(), map: "DC_tPage_Maintenance") @db.DateTime
+  MaintenanceID Int      @default(0, map: "DC_tPage_MaintenanceID")
+  PageNumber    String?  @db.VarChar(8)
+  PageTitle     String?  @db.VarChar(60)
+  Title         String?  @db.VarChar(20)
+  Name          String?  @db.VarChar(60)
+  BarCode       String?  @db.VarChar(8)
+  Stations      String?  @db.VarChar(32)
+  Flags         String?  @db.VarChar(10)
+  IsDefault     Boolean  @default(false, map: "DC_tPage_IsDefault")
+  IdentProperty Int      @default(0, map: "DC_tPage_IdentProperty")
+
+  @@index([PageNumber, Title, Name], map: "IN_tPage_PageTitleName")
+  @@ignore
+  @@schema("dbo")
+}
+
+model tProperty {
+  Identifier    Int      @id(map: "PK_tProperty_Identifer") @default(100000, map: "DC_tProperty_Identifier")
+  Status        String   @default("A", map: "DC_tProperty_Status") @db.Char(1)
+  Creation      DateTime @default(now(), map: "DC_tProperty_Creation") @db.DateTime
+  CreationID    Int      @default(0, map: "DC_tProperty_CreationID")
+  Maintenance   DateTime @default(now(), map: "DC_tProperty_Maintenance") @db.DateTime
+  MaintenanceID Int      @default(0, map: "DC_tProperty_MaintenanceID")
+  Field         String?  @db.VarChar(20)
+  Title         String?  @db.VarChar(20)
+  Name          String?  @db.VarChar(60)
+  Short         String?  @db.VarChar(20)
+  Barcode       String?  @db.VarChar(8)
+  Flags         String?  @db.VarChar(10)
+  Misc          String?  @db.VarChar(30)
+  IntValue1     Int?     @default(0, map: "DC_tProperty_IntValue1")
+  IntValue2     Int?     @default(0, map: "DC_tProperty_IntValue2")
+  IntValue3     Int?     @default(0, map: "DC_tProperty_IntValue3")
+  FloatValue1   Decimal? @default(0, map: "DC_tProperty_FloatValue1") @db.Decimal(20, 4)
+  FloatValue2   Decimal? @default(0, map: "DC_tProperty_FloatValue2") @db.Decimal(20, 4)
+  FloatValue3   Decimal? @default(0, map: "DC_tProperty_FloatValue3") @db.Decimal(20, 4)
+  StringValue1  String?  @db.VarChar(100)
+  StringValue2  String?  @db.VarChar(100)
+  StringValue3  String?  @db.VarChar(100)
+  Chinese       String?  @db.VarChar(60)
+  Latin         String?  @db.VarChar(60)
+  Japanese      String?  @db.VarChar(60)
+  Hebrew        String?  @db.VarChar(60)
+  Lang5         String?  @db.VarChar(60)
+  Lang6         String?  @db.VarChar(60)
+  Lang7         String?  @db.VarChar(60)
+  Lang8         String?  @db.VarChar(60)
+  IdentMeta     Int      @default(0, map: "DC_tProperty_IdentMeta")
+  SortOrder     Int      @default(0, map: "DC_tProperty_SortOrder")
+
+  @@unique([Title, Barcode], map: "IN_tProperty_TitleBarcode")
+  @@unique([Title, Name], map: "IN_tProperty_TitleName")
+  @@unique([Title, Short], map: "IN_tProperty_TitleShort")
+  @@schema("dbo")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model tStock {
+  Identifier           Int?
+  Status               String    @default("A", map: "DF__tStock__Status__7EB943E8") @db.Char(1)
+  Creation             DateTime  @default(now(), map: "DF__tStock__Creation__7FAD6821") @db.DateTime
+  CreationID           Int       @default(0, map: "DF__tStock__Creation__00A18C5A")
+  Maintenance          DateTime  @default(now(), map: "DF__tStock__Maintena__0195B093") @db.DateTime
+  MaintenanceID        Int       @default(0, map: "DF__tStock__Maintena__0289D4CC")
+  TranCode             String?   @db.VarChar(1)
+  TranYear             Int       @default(dbgenerated("datepart(year,getdate())"), map: "DF__tStock__TranYear__037DF905")
+  Season               String?   @db.VarChar(20)
+  Plant                String?   @db.VarChar(30)
+  Serial               String?   @db.VarChar(30)
+  Pallet               String?   @db.VarChar(30)
+  Lot                  String?   @db.VarChar(50)
+  Source               String?   @db.VarChar(30)
+  Void                 Boolean   @default(false, map: "DF__tStock__Void__04721D3E")
+  Split                Boolean   @default(false, map: "DF__tStock__Split__05664177")
+  Rebox                Boolean   @default(false, map: "DF__tStock__Rebox__065A65B0")
+  Remake               Boolean   @default(false, map: "DF__tStock__Remake__074E89E9")
+  UseCount             Boolean   @default(false, map: "DF__tStock__UseCount__0842AE22")
+  Edited               Boolean   @default(false, map: "DF__tStock__Edited__0936D25B")
+  IdentAddressCustomer Int       @default(0, map: "DF__tStock__IdentAdd__0A2AF694")
+  IdentAddressVendor   Int       @default(0, map: "DF__tStock__IdentAdd__0B1F1ACD")
+  IdentProduct         Int       @default(0, map: "DF__tStock__IdentPro__0C133F06")
+  IdentOrder           Int       @default(0, map: "DF__tStock__IdentOrd__0D07633F")
+  IdentPurchaseOrder   Int       @default(0, map: "DF__tStock__IdentPur__0DFB8778")
+  IdentSalesOrder      Int       @default(0, map: "DF__tStock__IdentSal__0EEFABB1")
+  IdentWorkOrder       Int       @default(0, map: "DF__tStock__IdentWor__0FE3CFEA")
+  IdentTransferOrder   Int       @default(0, map: "DF__tStock__IdentTra__10D7F423")
+  IdentStation         Int       @default(0, map: "DF__tStock__IdentSta__11CC185C")
+  IdentStorage         Int       @default(0, map: "DF__tStock__IdentSto__12C03C95")
+  IdentPackage         Int       @default(0, map: "DF__tStock__IdentPac__13B460CE")
+  IdentStage           Int       @default(0, map: "DF__tStock__IdentSta__14A88507")
+  IdentNetSource       Int       @default(0, map: "DF__tStock__IdentNet__159CA940")
+  IdentGrossSource     Int       @default(0, map: "DF__tStock__IdentGro__1690CD79")
+  IdentTareSource      Int       @default(0, map: "DF__tStock__IdentTar__1784F1B2")
+  IdentGelSource       Int       @default(0, map: "DF__tStock__IdentGel__187915EB")
+  IdentVacSource       Int       @default(0, map: "DF__tStock__IdentVac__196D3A24")
+  IdentGlazeSource     Int       @default(0, map: "DF__tStock__IdentGla__1A615E5D")
+  IdentLiveSource      Int       @default(0, map: "DF__tStock__IdentLiv__1B558296")
+  IdentHotSource       Int       @default(0, map: "DF__tStock__IdentHot__1C49A6CF")
+  IdentColdSource      Int       @default(0, map: "DF__tStock__IdentCol__1D3DCB08")
+  IdentTargetSource    Int       @default(0, map: "DF__tStock__IdentTar__1E31EF41")
+  IdentWeightASource   Int       @default(0, map: "DF__tStock__IdentWei__1F26137A")
+  IdentWeightBSource   Int       @default(0, map: "DF__tStock__IdentWei__201A37B3")
+  OrigWeight           Decimal   @default(0, map: "DF__tStock__OrigWeig__210E5BEC") @db.Decimal(20, 4)
+  NetWeight            Decimal   @default(0, map: "DF__tStock__NetWeigh__22028025") @db.Decimal(20, 4)
+  GrossWeight          Decimal   @default(0, map: "DF__tStock__GrossWei__22F6A45E") @db.Decimal(20, 4)
+  TareWeight           Decimal   @default(0, map: "DF__tStock__TareWeig__23EAC897") @db.Decimal(20, 4)
+  GelWeight            Decimal   @default(0, map: "DF__tStock__GelWeigh__24DEECD0") @db.Decimal(20, 4)
+  VacWeight            Decimal   @default(0, map: "DF__tStock__VacWeigh__25D31109") @db.Decimal(20, 4)
+  GlazeWeight          Decimal   @default(0, map: "DF__tStock__GlazeWei__26C73542") @db.Decimal(20, 4)
+  LiveWeight           Decimal?  @default(0, map: "DF__tStock__LiveWeig__27BB597B") @db.Decimal(20, 4)
+  HotWeight            Decimal?  @default(0, map: "DF__tStock__HotWeigh__28AF7DB4") @db.Decimal(20, 4)
+  ColdWeight           Decimal?  @default(0, map: "DF__tStock__ColdWeig__29A3A1ED") @db.Decimal(20, 4)
+  TargetWeight         Decimal?  @default(0, map: "DF__tStock__TargetWe__2A97C626") @db.Decimal(20, 4)
+  WeightA              Decimal?  @default(0, map: "DF__tStock__WeightA__2B8BEA5F") @db.Decimal(20, 4)
+  WeightB              Decimal?  @default(0, map: "DF__tStock__WeightB__2C800E98") @db.Decimal(20, 4)
+  OrigQuantity         Decimal?  @default(0, map: "DF__tStock__OrigQuan__2D7432D1") @db.Decimal(6, 0)
+  Quantity             Decimal?  @default(0, map: "DF__tStock__Quantity__2E68570A") @db.Decimal(6, 0)
+  UnitsQuantity        Decimal   @default(0, map: "DF__tStock__UnitsQua__2F5C7B43") @db.Decimal(20, 4)
+  UnitsUOM             String?   @db.VarChar(20)
+  UOM                  String?   @db.VarChar(8)
+  HarvestDate          DateTime? @db.DateTime
+  PrepDate             DateTime? @db.DateTime
+  PackDate             DateTime? @db.DateTime
+  LoadDate             DateTime? @db.DateTime
+  ShipDate             DateTime? @db.DateTime
+  BuyDate              DateTime? @db.DateTime
+  UploadDate           DateTime? @db.DateTime
+  EditDate             DateTime? @db.DateTime
+  Glaze                String?   @db.VarChar(8)
+  GelPak               String?   @db.VarChar(8)
+  Julian               String?   @db.VarChar(8)
+  PalletLabel          String?   @db.VarChar(20)
+  StockLabel           String?   @db.VarChar(20)
+  GS1Barcode           String?   @db.VarChar(60)
+  AIN                  String?   @db.VarChar(20)
+  Tag                  String?   @db.VarChar(20)
+  Temperature          String?   @db.VarChar(20)
+  Quality              String?   @db.VarChar(20)
+  LabelNumber          String?   @db.VarChar(20)
+  Reference            String?   @db.VarChar(20)
+  Note                 String?   @db.VarChar(60)
+  Cost                 Decimal?  @default(0, map: "DF__tStock__Cost__30509F7C") @db.Decimal(20, 4)
+  TransferSource       String?   @db.VarChar(60)
+  TransferStamp        DateTime? @db.DateTime
+  ERPStamp             DateTime? @db.DateTime
+  ExportDate           DateTime? @db.DateTime
+  ImportDate           DateTime? @db.DateTime
+  ExternalID           Int?      @default(0, map: "DF__tStock__External__3144C3B5")
+  PurchaseOrderText    String?   @db.VarChar(20)
+  OrderNumberText      String?   @db.VarChar(50)
+  SQLMarker            String?   @db.VarChar(20)
+
+  @@index([SQLMarker], map: "tStock_SQLMARKER")
+  @@ignore
+  @@schema("dbo")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model tStockAudit {
+  Identifier     Int?
+  Status         String   @default("A", map: "DF__tStockAud__Statu__394FF9D1") @db.Char(1)
+  Creation       DateTime @default(now(), map: "DF__tStockAud__Creat__3A441E0A") @db.DateTime
+  CreationID     Int      @default(0, map: "DF__tStockAud__Creat__3B384243")
+  Maintenance    DateTime @default(now(), map: "DF__tStockAud__Maint__3C2C667C") @db.DateTime
+  MaintenanceID  Int      @default(0, map: "DF__tStockAud__Maint__3D208AB5")
+  TranCode       String?  @db.Char(1)
+  StorageID      String?  @db.VarChar(30)
+  Serial         String?  @db.VarChar(30)
+  Pallet         String?  @db.VarChar(30)
+  Weight         Decimal? @default(0, map: "DF__tStockAud__Weigh__3E14AEEE") @db.Decimal(20, 4)
+  Quantity       Decimal? @default(0, map: "DF__tStockAud__Quant__3F08D327") @db.Decimal(20, 4)
+  WeightActual   Decimal? @default(0, map: "DF__tStockAud__Weigh__3FFCF760") @db.Decimal(20, 4)
+  QuantityActual Decimal? @default(0, map: "DF__tStockAud__Quant__40F11B99") @db.Decimal(20, 4)
+  RecordDate     DateTime @default(now(), map: "DF__tStockAud__Recor__41E53FD2") @db.DateTime
+  GS1Barcode     String   @default("", map: "DF__tStockAud__GS1Ba__42D9640B") @db.VarChar(50)
+  IdentStock     Int      @default(0, map: "DF__tStockAud__Ident__43CD8844")
+  IdentStorage   Int      @default(0, map: "DF__tStockAud__Ident__44C1AC7D")
+  SQLMarker      String?  @db.VarChar(20)
+
+  @@index([SQLMarker], map: "tStockAudit_SQLMARKER")
+  @@ignore
+  @@schema("dbo")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model tStockPropertyPivot {
+  Identifier                  Int?
+  Status                      String   @default("A", map: "DF__tStockPro__Statu__7D3B0FCA") @db.Char(1)
+  Creation                    DateTime @default(now(), map: "DF__tStockPro__Creat__7E2F3403") @db.DateTime
+  CreationID                  Int      @default(0, map: "DF__tStockPro__Creat__7F23583C")
+  Maintenance                 DateTime @default(now(), map: "DF__tStockPro__Maint__00177C75") @db.DateTime
+  MaintenanceID               Int      @default(0, map: "DF__tStockPro__Maint__010BA0AE")
+  IdentStock                  Int      @default(0, map: "DF__tStockPro__Ident__01FFC4E7")
+  Serial                      String   @default("", map: "DF__tStockPro__Seria__02F3E920") @db.VarChar(30)
+  UpdateFlag                  Boolean  @default(false, map: "DF__tStockPro__Updat__03E80D59")
+  IdentStockPropertyGEAR      Int      @default(0, map: "DF__tStockPro__Ident__04DC3192")
+  IdentStockPropertyGRADE     Int      @default(0, map: "DF__tStockPro__Ident__05D055CB")
+  IdentStockPropertyCONDITION Int      @default(0, map: "DF__tStockPro__Ident__06C47A04")
+  IdentStockPropertyPACKAGE   Int      @default(0, map: "DF__tStockPro__Ident__07B89E3D")
+  IdentStockPropertyBOAT      Int      @default(0, map: "DF__tStockPro__Ident__08ACC276")
+  IdentStockPropertyUSER      Int      @default(0, map: "DF__tStockPro__Ident__09A0E6AF")
+  IdentStockPropertyPORT      Int      @default(0, map: "DF__tStockPro__Ident__0A950AE8")
+  IdentStockPropertyALLERGY   Int      @default(0, map: "DF__tStockPro__Ident__0B892F21")
+  IdentPropertyGEAR           Int      @default(0, map: "DF__tStockPro__Ident__0C7D535A")
+  IdentPropertyGRADE          Int      @default(0, map: "DF__tStockPro__Ident__0D717793")
+  IdentPropertyCONDITION      Int      @default(0, map: "DF__tStockPro__Ident__0E659BCC")
+  IdentPropertyPACKAGE        Int      @default(0, map: "DF__tStockPro__Ident__0F59C005")
+  IdentPropertyBOAT           Int      @default(0, map: "DF__tStockPro__Ident__104DE43E")
+  IdentPropertyUSER           Int      @default(0, map: "DF__tStockPro__Ident__11420877")
+  IdentPropertyPORT           Int      @default(0, map: "DF__tStockPro__Ident__12362CB0")
+  IdentPropertyALLERGY        Int      @default(0, map: "DF__tStockPro__Ident__132A50E9")
+  NameGEAR                    String?  @db.VarChar(60)
+  NameGRADE                   String?  @db.VarChar(60)
+  NameCONDITION               String?  @db.VarChar(60)
+  NamePACKAGE                 String?  @db.VarChar(60)
+  NameBOAT                    String?  @db.VarChar(60)
+  NameUSER                    String?  @db.VarChar(60)
+  NamePORT                    String?  @db.VarChar(60)
+  NameALLERGY                 String?  @db.VarChar(60)
+  ShortGEAR                   String?  @db.VarChar(20)
+  ShortGRADE                  String?  @db.VarChar(20)
+  ShortCONDITION              String?  @db.VarChar(20)
+  ShortPACKAGE                String?  @db.VarChar(20)
+  ShortBOAT                   String?  @db.VarChar(20)
+  ShortUSER                   String?  @db.VarChar(20)
+  ShortPORT                   String?  @db.VarChar(20)
+  ShortALLERGY                String?  @db.VarChar(20)
+  BarcodeGEAR                 String?  @db.VarChar(8)
+  BarcodeGRADE                String?  @db.VarChar(8)
+  BarcodeCONDITION            String?  @db.VarChar(8)
+  BarcodePACKAGE              String?  @db.VarChar(8)
+  BarcodeBOAT                 String?  @db.VarChar(8)
+  BarcodeUSER                 String?  @db.VarChar(8)
+  BarcodePORT                 String?  @db.VarChar(8)
+  BarcodeALLERGY              String?  @db.VarChar(8)
+  SQLMarker                   String?  @db.VarChar(20)
+
+  @@index([SQLMarker], map: "tStockPropertyPivot_SQLMARKER")
+  @@ignore
+  @@schema("dbo")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model uInventory {
+  Serial String? @db.VarChar(Max)
+
+  @@ignore
+  @@schema("dbo")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model zStock10 {
+  Identifier           Int       @default(autoincrement())
+  Status               String    @db.Char(1)
+  Creation             DateTime  @db.DateTime
+  CreationID           Int
+  Maintenance          DateTime  @db.DateTime
+  MaintenanceID        Int
+  TranCode             String?   @db.VarChar(1)
+  TranYear             Int
+  Season               String?   @db.VarChar(20)
+  Plant                String?   @db.VarChar(30)
+  Serial               String?   @db.VarChar(30)
+  Pallet               String?   @db.VarChar(30)
+  Lot                  String?   @db.VarChar(50)
+  Source               String?   @db.VarChar(30)
+  Void                 Boolean
+  Split                Boolean
+  Rebox                Boolean
+  Remake               Boolean
+  UseCount             Boolean
+  Edited               Boolean
+  IdentAddressCustomer Int
+  IdentAddressVendor   Int
+  IdentProduct         Int
+  IdentOrder           Int
+  IdentPurchaseOrder   Int
+  IdentSalesOrder      Int
+  IdentWorkOrder       Int
+  IdentTransferOrder   Int
+  IdentStation         Int
+  IdentStorage         Int
+  IdentPackage         Int
+  IdentStage           Int
+  IdentNetSource       Int
+  IdentGrossSource     Int
+  IdentTareSource      Int
+  IdentGelSource       Int
+  IdentVacSource       Int
+  IdentGlazeSource     Int
+  IdentLiveSource      Int
+  IdentHotSource       Int
+  IdentColdSource      Int
+  IdentTargetSource    Int
+  IdentWeightASource   Int
+  IdentWeightBSource   Int
+  OrigWeight           Decimal   @db.Decimal(20, 4)
+  NetWeight            Decimal   @db.Decimal(20, 4)
+  GrossWeight          Decimal   @db.Decimal(20, 4)
+  TareWeight           Decimal   @db.Decimal(20, 4)
+  GelWeight            Decimal   @db.Decimal(20, 4)
+  VacWeight            Decimal   @db.Decimal(20, 4)
+  GlazeWeight          Decimal   @db.Decimal(20, 4)
+  LiveWeight           Decimal?  @db.Decimal(20, 4)
+  HotWeight            Decimal?  @db.Decimal(20, 4)
+  ColdWeight           Decimal?  @db.Decimal(20, 4)
+  TargetWeight         Decimal?  @db.Decimal(20, 4)
+  WeightA              Decimal?  @db.Decimal(20, 4)
+  WeightB              Decimal?  @db.Decimal(20, 4)
+  OrigQuantity         Decimal?  @db.Decimal(6, 0)
+  Quantity             Decimal?  @db.Decimal(6, 0)
+  UnitsQuantity        Decimal   @db.Decimal(20, 4)
+  UnitsUOM             String?   @db.VarChar(20)
+  UOM                  String?   @db.VarChar(8)
+  HarvestDate          DateTime? @db.DateTime
+  PrepDate             DateTime? @db.DateTime
+  PackDate             DateTime? @db.DateTime
+  LoadDate             DateTime? @db.DateTime
+  ShipDate             DateTime? @db.DateTime
+  BuyDate              DateTime? @db.DateTime
+  UploadDate           DateTime? @db.DateTime
+  EditDate             DateTime? @db.DateTime
+  Glaze                String?   @db.VarChar(8)
+  GelPak               String?   @db.VarChar(8)
+  Julian               String?   @db.VarChar(8)
+  PalletLabel          String?   @db.VarChar(20)
+  StockLabel           String?   @db.VarChar(20)
+  GS1Barcode           String?   @db.VarChar(60)
+  AIN                  String?   @db.VarChar(20)
+  Tag                  String?   @db.VarChar(20)
+  Temperature          String?   @db.VarChar(20)
+  Quality              String?   @db.VarChar(20)
+  LabelNumber          String?   @db.VarChar(20)
+  Reference            String?   @db.VarChar(20)
+  Note                 String?   @db.VarChar(60)
+  Cost                 Decimal?  @db.Decimal(20, 4)
+  TransferSource       String?   @db.VarChar(60)
+  TransferStamp        DateTime? @db.DateTime
+  ERPStamp             DateTime? @db.DateTime
+  ExportDate           DateTime? @db.DateTime
+  ImportDate           DateTime? @db.DateTime
+  ExternalID           Int?
+  PurchaseOrderText    String?   @db.VarChar(20)
+  OrderNumberText      String?   @db.VarChar(50)
+
+  @@ignore
+  @@schema("dbo")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model zStock11 {
+  Identifier           Int       @default(autoincrement())
+  Status               String    @db.Char(1)
+  Creation             DateTime  @db.DateTime
+  CreationID           Int
+  Maintenance          DateTime  @db.DateTime
+  MaintenanceID        Int
+  TranCode             String?   @db.VarChar(1)
+  TranYear             Int
+  Season               String?   @db.VarChar(20)
+  Plant                String?   @db.VarChar(30)
+  Serial               String?   @db.VarChar(30)
+  Pallet               String?   @db.VarChar(30)
+  Lot                  String?   @db.VarChar(50)
+  Source               String?   @db.VarChar(30)
+  Void                 Boolean
+  Split                Boolean
+  Rebox                Boolean
+  Remake               Boolean
+  UseCount             Boolean
+  Edited               Boolean
+  IdentAddressCustomer Int
+  IdentAddressVendor   Int
+  IdentProduct         Int
+  IdentOrder           Int
+  IdentPurchaseOrder   Int
+  IdentSalesOrder      Int
+  IdentWorkOrder       Int
+  IdentTransferOrder   Int
+  IdentStation         Int
+  IdentStorage         Int
+  IdentPackage         Int
+  IdentStage           Int
+  IdentNetSource       Int
+  IdentGrossSource     Int
+  IdentTareSource      Int
+  IdentGelSource       Int
+  IdentVacSource       Int
+  IdentGlazeSource     Int
+  IdentLiveSource      Int
+  IdentHotSource       Int
+  IdentColdSource      Int
+  IdentTargetSource    Int
+  IdentWeightASource   Int
+  IdentWeightBSource   Int
+  OrigWeight           Decimal   @db.Decimal(20, 4)
+  NetWeight            Decimal   @db.Decimal(20, 4)
+  GrossWeight          Decimal   @db.Decimal(20, 4)
+  TareWeight           Decimal   @db.Decimal(20, 4)
+  GelWeight            Decimal   @db.Decimal(20, 4)
+  VacWeight            Decimal   @db.Decimal(20, 4)
+  GlazeWeight          Decimal   @db.Decimal(20, 4)
+  LiveWeight           Decimal?  @db.Decimal(20, 4)
+  HotWeight            Decimal?  @db.Decimal(20, 4)
+  ColdWeight           Decimal?  @db.Decimal(20, 4)
+  TargetWeight         Decimal?  @db.Decimal(20, 4)
+  WeightA              Decimal?  @db.Decimal(20, 4)
+  WeightB              Decimal?  @db.Decimal(20, 4)
+  OrigQuantity         Decimal?  @db.Decimal(6, 0)
+  Quantity             Decimal?  @db.Decimal(6, 0)
+  UnitsQuantity        Decimal   @db.Decimal(20, 4)
+  UnitsUOM             String?   @db.VarChar(20)
+  UOM                  String?   @db.VarChar(8)
+  HarvestDate          DateTime? @db.DateTime
+  PrepDate             DateTime? @db.DateTime
+  PackDate             DateTime? @db.DateTime
+  LoadDate             DateTime? @db.DateTime
+  ShipDate             DateTime? @db.DateTime
+  BuyDate              DateTime? @db.DateTime
+  UploadDate           DateTime? @db.DateTime
+  EditDate             DateTime? @db.DateTime
+  Glaze                String?   @db.VarChar(8)
+  GelPak               String?   @db.VarChar(8)
+  Julian               String?   @db.VarChar(8)
+  PalletLabel          String?   @db.VarChar(20)
+  StockLabel           String?   @db.VarChar(20)
+  GS1Barcode           String?   @db.VarChar(60)
+  AIN                  String?   @db.VarChar(20)
+  Tag                  String?   @db.VarChar(20)
+  Temperature          String?   @db.VarChar(20)
+  Quality              String?   @db.VarChar(20)
+  LabelNumber          String?   @db.VarChar(20)
+  Reference            String?   @db.VarChar(20)
+  Note                 String?   @db.VarChar(60)
+  Cost                 Decimal?  @db.Decimal(20, 4)
+  TransferSource       String?   @db.VarChar(60)
+  TransferStamp        DateTime? @db.DateTime
+  ERPStamp             DateTime? @db.DateTime
+  ExportDate           DateTime? @db.DateTime
+  ImportDate           DateTime? @db.DateTime
+  ExternalID           Int?
+  PurchaseOrderText    String?   @db.VarChar(20)
+  OrderNumberText      String?   @db.VarChar(50)
+
+  @@ignore
+  @@schema("dbo")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model zStock12 {
+  Identifier           Int       @default(autoincrement())
+  Status               String    @db.Char(1)
+  Creation             DateTime  @db.DateTime
+  CreationID           Int
+  Maintenance          DateTime  @db.DateTime
+  MaintenanceID        Int
+  TranCode             String?   @db.VarChar(1)
+  TranYear             Int
+  Season               String?   @db.VarChar(20)
+  Plant                String?   @db.VarChar(30)
+  Serial               String?   @db.VarChar(30)
+  Pallet               String?   @db.VarChar(30)
+  Lot                  String?   @db.VarChar(50)
+  Source               String?   @db.VarChar(30)
+  Void                 Boolean
+  Split                Boolean
+  Rebox                Boolean
+  Remake               Boolean
+  UseCount             Boolean
+  Edited               Boolean
+  IdentAddressCustomer Int
+  IdentAddressVendor   Int
+  IdentProduct         Int
+  IdentOrder           Int
+  IdentPurchaseOrder   Int
+  IdentSalesOrder      Int
+  IdentWorkOrder       Int
+  IdentTransferOrder   Int
+  IdentStation         Int
+  IdentStorage         Int
+  IdentPackage         Int
+  IdentStage           Int
+  IdentNetSource       Int
+  IdentGrossSource     Int
+  IdentTareSource      Int
+  IdentGelSource       Int
+  IdentVacSource       Int
+  IdentGlazeSource     Int
+  IdentLiveSource      Int
+  IdentHotSource       Int
+  IdentColdSource      Int
+  IdentTargetSource    Int
+  IdentWeightASource   Int
+  IdentWeightBSource   Int
+  OrigWeight           Decimal   @db.Decimal(20, 4)
+  NetWeight            Decimal   @db.Decimal(20, 4)
+  GrossWeight          Decimal   @db.Decimal(20, 4)
+  TareWeight           Decimal   @db.Decimal(20, 4)
+  GelWeight            Decimal   @db.Decimal(20, 4)
+  VacWeight            Decimal   @db.Decimal(20, 4)
+  GlazeWeight          Decimal   @db.Decimal(20, 4)
+  LiveWeight           Decimal?  @db.Decimal(20, 4)
+  HotWeight            Decimal?  @db.Decimal(20, 4)
+  ColdWeight           Decimal?  @db.Decimal(20, 4)
+  TargetWeight         Decimal?  @db.Decimal(20, 4)
+  WeightA              Decimal?  @db.Decimal(20, 4)
+  WeightB              Decimal?  @db.Decimal(20, 4)
+  OrigQuantity         Decimal?  @db.Decimal(6, 0)
+  Quantity             Decimal?  @db.Decimal(6, 0)
+  UnitsQuantity        Decimal   @db.Decimal(20, 4)
+  UnitsUOM             String?   @db.VarChar(20)
+  UOM                  String?   @db.VarChar(8)
+  HarvestDate          DateTime? @db.DateTime
+  PrepDate             DateTime? @db.DateTime
+  PackDate             DateTime? @db.DateTime
+  LoadDate             DateTime? @db.DateTime
+  ShipDate             DateTime? @db.DateTime
+  BuyDate              DateTime? @db.DateTime
+  UploadDate           DateTime? @db.DateTime
+  EditDate             DateTime? @db.DateTime
+  Glaze                String?   @db.VarChar(8)
+  GelPak               String?   @db.VarChar(8)
+  Julian               String?   @db.VarChar(8)
+  PalletLabel          String?   @db.VarChar(20)
+  StockLabel           String?   @db.VarChar(20)
+  GS1Barcode           String?   @db.VarChar(60)
+  AIN                  String?   @db.VarChar(20)
+  Tag                  String?   @db.VarChar(20)
+  Temperature          String?   @db.VarChar(20)
+  Quality              String?   @db.VarChar(20)
+  LabelNumber          String?   @db.VarChar(20)
+  Reference            String?   @db.VarChar(20)
+  Note                 String?   @db.VarChar(60)
+  Cost                 Decimal?  @db.Decimal(20, 4)
+  TransferSource       String?   @db.VarChar(60)
+  TransferStamp        DateTime? @db.DateTime
+  ERPStamp             DateTime? @db.DateTime
+  ExportDate           DateTime? @db.DateTime
+  ImportDate           DateTime? @db.DateTime
+  ExternalID           Int?
+  PurchaseOrderText    String?   @db.VarChar(20)
+  OrderNumberText      String?   @db.VarChar(50)
+
+  @@ignore
+  @@schema("dbo")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model ztstock {
+  Identifier           Int?
+  Status               String    @db.Char(1)
+  Creation             DateTime  @db.DateTime
+  CreationID           Int
+  Maintenance          DateTime  @db.DateTime
+  MaintenanceID        Int
+  TranCode             String?   @db.VarChar(1)
+  TranYear             Int
+  Season               String?   @db.VarChar(20)
+  Plant                String?   @db.VarChar(30)
+  Serial               String?   @db.VarChar(30)
+  Pallet               String?   @db.VarChar(30)
+  Lot                  String?   @db.VarChar(50)
+  Source               String?   @db.VarChar(30)
+  Void                 Boolean
+  Split                Boolean
+  Rebox                Boolean
+  Remake               Boolean
+  UseCount             Boolean
+  Edited               Boolean
+  IdentAddressCustomer Int
+  IdentAddressVendor   Int
+  IdentProduct         Int
+  IdentOrder           Int
+  IdentPurchaseOrder   Int
+  IdentSalesOrder      Int
+  IdentWorkOrder       Int
+  IdentTransferOrder   Int
+  IdentStation         Int
+  IdentStorage         Int
+  IdentPackage         Int
+  IdentStage           Int
+  IdentNetSource       Int
+  IdentGrossSource     Int
+  IdentTareSource      Int
+  IdentGelSource       Int
+  IdentVacSource       Int
+  IdentGlazeSource     Int
+  IdentLiveSource      Int
+  IdentHotSource       Int
+  IdentColdSource      Int
+  IdentTargetSource    Int
+  IdentWeightASource   Int
+  IdentWeightBSource   Int
+  OrigWeight           Decimal   @db.Decimal(20, 4)
+  NetWeight            Decimal   @db.Decimal(20, 4)
+  GrossWeight          Decimal   @db.Decimal(20, 4)
+  TareWeight           Decimal   @db.Decimal(20, 4)
+  GelWeight            Decimal   @db.Decimal(20, 4)
+  VacWeight            Decimal   @db.Decimal(20, 4)
+  GlazeWeight          Decimal   @db.Decimal(20, 4)
+  LiveWeight           Decimal?  @db.Decimal(20, 4)
+  HotWeight            Decimal?  @db.Decimal(20, 4)
+  ColdWeight           Decimal?  @db.Decimal(20, 4)
+  TargetWeight         Decimal?  @db.Decimal(20, 4)
+  WeightA              Decimal?  @db.Decimal(20, 4)
+  WeightB              Decimal?  @db.Decimal(20, 4)
+  OrigQuantity         Decimal?  @db.Decimal(6, 0)
+  Quantity             Decimal?  @db.Decimal(6, 0)
+  UnitsQuantity        Decimal   @db.Decimal(20, 4)
+  UnitsUOM             String?   @db.VarChar(20)
+  UOM                  String?   @db.VarChar(8)
+  HarvestDate          DateTime? @db.DateTime
+  PrepDate             DateTime? @db.DateTime
+  PackDate             DateTime? @db.DateTime
+  LoadDate             DateTime? @db.DateTime
+  ShipDate             DateTime? @db.DateTime
+  BuyDate              DateTime? @db.DateTime
+  UploadDate           DateTime? @db.DateTime
+  EditDate             DateTime? @db.DateTime
+  Glaze                String?   @db.VarChar(8)
+  GelPak               String?   @db.VarChar(8)
+  Julian               String?   @db.VarChar(8)
+  PalletLabel          String?   @db.VarChar(20)
+  StockLabel           String?   @db.VarChar(20)
+  GS1Barcode           String?   @db.VarChar(60)
+  AIN                  String?   @db.VarChar(20)
+  Tag                  String?   @db.VarChar(20)
+  Temperature          String?   @db.VarChar(20)
+  Quality              String?   @db.VarChar(20)
+  LabelNumber          String?   @db.VarChar(20)
+  Reference            String?   @db.VarChar(20)
+  Note                 String?   @db.VarChar(60)
+  Cost                 Decimal?  @db.Decimal(20, 4)
+  TransferSource       String?   @db.VarChar(60)
+  TransferStamp        DateTime? @db.DateTime
+  ERPStamp             DateTime? @db.DateTime
+  ExportDate           DateTime? @db.DateTime
+  ImportDate           DateTime? @db.DateTime
+  ExternalID           Int?
+  PurchaseOrderText    String?   @db.VarChar(20)
+  OrderNumberText      String?   @db.VarChar(50)
+  SQLMarker            String?   @db.VarChar(20)
+
+  @@ignore
+  @@schema("dbo")
+}

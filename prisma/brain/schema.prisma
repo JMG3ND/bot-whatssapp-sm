@@ -1,0 +1,16 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../../src/database/prisma-client"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Conversation {
+  id           String   @id @default(cuid())
+  user         String
+  user_message String
+  bot_response String
+  createdAt    DateTime @default(now())
+}

@@ -20,7 +20,7 @@ const config: runtime.GetPrismaClientConfig = {
   "clientVersion": "7.3.0",
   "engineVersion": "9d6ad21cbbceab97458517b147a6a09ff43aa735",
   "activeProvider": "sqlite",
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client\"\n  output   = \"../src/database/prisma-client\"\n}\n\ndatasource db {\n  provider = \"sqlite\"\n}\n\nmodel Conversation {\n  id           String   @id @default(cuid())\n  user         String\n  user_message String\n  bot_response String\n  createdAt    DateTime @default(now())\n}\n",
+  "inlineSchema": "generator client {\n  provider = \"prisma-client\"\n  output   = \"../../src/database/prisma-client\"\n}\n\ndatasource db {\n  provider = \"sqlite\"\n}\n\nmodel Conversation {\n  id           String   @id @default(cuid())\n  user         String\n  user_message String\n  bot_response String\n  createdAt    DateTime @default(now())\n}\n",
   "runtimeDataModel": {
     "models": {},
     "enums": {},

@@ -21,6 +21,7 @@ pnpm install
 5. Configura las variables de entorno necesarias. Crea un archivo `.env` en la raíz del proyecto y añade las siguientes variables:
 ```bash
 LLM_API_KEY=tu_api_key_aqui
+LLM_API_BASE_URL=https://api.llm_definido.com
 DATABASE_URL=tu_url_de_base_de_datos_aqui
 ```
 
