@@ -8,16 +8,24 @@ export const listCommands: ListCommands[] = [
   {
     comandName: 'help',
     description: 'Muestra la lista de comandos disponibles',
-    regex: /^\/help\b/i,
   },
   {
     comandName: 'ai',
     description: 'Interactúa con la inteligencia artificial',
-    regex: /^\/ai\b/i,
+  },
+  {
+    comandName: 'trazability',
+    description: 'Envía los reportes de trazabilidad de estación, ejemplo:\n/trazability bodega',
   },
   {
     comandName: 'clear-momory',
     description: 'Limpia la memoria de la conversación actual',
-    regex: /^\/clear-momory\b/i,
   },
-]
+].map(command => ({
+  ...command,
+  regex: new RegExp(`^/${command.comandName}`, 'i'),
+}))
+
+export const namesComands = Object.fromEntries(
+  listCommands.map(command => [command.comandName, command.comandName]),
+)
