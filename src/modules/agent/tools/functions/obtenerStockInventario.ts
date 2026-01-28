@@ -12,7 +12,7 @@ export const obtener_stock_inventario: ChatCompletionTool = {
       properties: {
         descripción: {
           type: 'string',
-          description: 'Descripción del producto a buscar en el inventario, puede ser el nombre el upc o la especie',
+          description: 'Descripción del producto a buscar en el inventario, puede ser el nombre, el item, el upc o la especie',
         },
       },
       required: ['descripción'],

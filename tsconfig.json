@@ -7,7 +7,13 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "outDir": "./dist",
-    "rootDir": "./src"
+    "rootDir": "./src",
+    "baseUrl": "./",
+    "paths": {
+      "@utils": ["src/utils"],
+      "@utils/*": ["src/utils/*"],
+      "@env": ["src/app/config/env"],
+    }
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules"]

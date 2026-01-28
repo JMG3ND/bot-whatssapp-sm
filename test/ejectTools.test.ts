@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
-import { ejectTools } from '../src/core/agent/tools/ejectTools'
-import type { ChatCompletionMessageToolCall } from '../src/core/agent/types'
+import { ejectTools } from '../src/modules/agent/tools/ejectTools'
+import type { ChatCompletionMessageToolCall } from '../src/modules/agent/types'
 
 describe('ejectTools', () => {
   it('Debería procesar llamadas a herramientas y devolver resultados formateados', async () => {

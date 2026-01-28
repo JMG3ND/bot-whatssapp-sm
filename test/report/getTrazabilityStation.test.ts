@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { getTrazabilityStation } from '../../src/core/reports/trazability/getTrazabilityStation'
+import { getTrazabilityStation } from '../../src/modules/reports/trazability/getTrazabilityStation'
 
 describe('getTrazabilityStation', () => {
   it('Genera el reporte de trazabilidad según la estación', async () => {

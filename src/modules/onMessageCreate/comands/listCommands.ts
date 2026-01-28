@@ -18,7 +18,7 @@ export const listCommands: ListCommands[] = [
     description: 'Envía los reportes de trazabilidad de estación, ejemplo:\n/trazability bodega',
   },
   {
-    comandName: 'clear-momory',
+    comandName: 'clear-memory',
     description: 'Limpia la memoria de la conversación actual',
   },
 ].map(command => ({

@@ -10,6 +10,5 @@ export async function callAgentWithTools(message: string, tools?: ChatCompletion
     tools: tools,
     tool_choice: tools ? 'auto' : 'none',
     temperature: 0.1,
-    max_tokens: 1000,
   })
 }

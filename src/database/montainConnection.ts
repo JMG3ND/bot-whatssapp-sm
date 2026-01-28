@@ -1,12 +1,12 @@
 import { PrismaClient } from './montain/client'
 import { PrismaMssql } from '@prisma/adapter-mssql'
-import 'dotenv/config';
+import { ENV } from '@env'
 
 const sqlConfig = {
-  user: process.env.DB_USER || '',
-  password: process.env.DB_PASSWORD || '',
-  database: process.env.DB_NAME || '',
-  server: process.env.DB_HOST || '',
+  user: ENV.DB_USER || '',
+  password: ENV.DB_PASSWORD || '',
+  database: ENV.DB_NAME || '',
+  server: ENV.DB_HOST || '',
   options: {
     encrypt: false,
     trustServerCertificate: true
