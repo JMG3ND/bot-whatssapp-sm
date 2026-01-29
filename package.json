@@ -9,6 +9,7 @@
     "test": "vitest",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
+    "build:bundle": "ncc build src/app/index.ts -o bundle",
     "generate:brain": "pnpx prisma generate --schema=./prisma/brain/schema.prisma",
     "generate:simba": "pnpx prisma generate --schema=./prisma/simba/schema.prisma"
   },
@@ -36,6 +37,7 @@
     "@types/better-sqlite3": "^7.6.13",
     "@types/node": "^25.0.10",
     "@types/qrcode-terminal": "^0.12.2",
+    "@vercel/ncc": "^0.38.4",
     "eslint": "^9.39.2",
     "globals": "^17.1.0",
     "prisma": "^7.3.0",
