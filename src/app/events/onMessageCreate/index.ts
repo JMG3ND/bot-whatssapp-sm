@@ -6,6 +6,11 @@ import { replyClearMemory } from './functions/clearMemory'
 import { namesComands } from './comands/listCommands'
 import { replyTrazabilityReport } from './functions/replyTrazabilityReport'
 
+/**
+ * Redirección de mensajes entrantes a la función correspondiente según el comando detectado.
+ * @param message Mensaje entrante de WhatsApp
+ * @returns void
+ */
 export async function onMessageCreate(message: Message) {
   const command = readCommand(message)
 

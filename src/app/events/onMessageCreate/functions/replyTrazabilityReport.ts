@@ -1,6 +1,6 @@
 import type { Message } from 'whatsapp-web.js'
-import { getTrazabilityStation } from '../../reports/trazability/getTrazabilityStation'
-import { responseAnalisis , addInstructionsToReport } from '../../agent'
+import { getTrazabilityStation } from '@modules/reports'
+import { responseAnalisis , addInstructionsToReport } from '@modules/agent'
 
 function readStationFromMessage(message: Message): string {
   const parts = message.body.split(' ')

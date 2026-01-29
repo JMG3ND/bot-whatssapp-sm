@@ -1,7 +1,5 @@
 import type { Client } from 'whatsapp-web.js'
-import printQrOnConsole from '../../../modules/onQR/printQrOnConsole'
-import printReadyClient from '../../../modules/onReady/printReadyClient'
-import { onMessageCreate } from '../../../modules/onMessageCreate'
+import { onMessageCreate, printQrOnConsole, printReadyClient } from '@/events'
 
 /**
  * Configura los manejadores de eventos en la instancia del cliente de WhatsApp Web.js.

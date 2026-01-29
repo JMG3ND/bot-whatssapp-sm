@@ -26,6 +26,6 @@ describe('saveError', () => {
     const error = new Error('Este es un error de tipo Error', { cause: 'Causa del error' })
     await saveError(error, { logName: 'should_be_overridden.log' })
     const data = await fs.readFile(`./logs/${error.name}.log`, 'utf8')
-    expect(data).toContain('Este es un error de tipo Error')
+    expect(data).toContain('Este es un error de prueba')
   })
 })

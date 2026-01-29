@@ -1,6 +1,6 @@
 import { exectTrazabiltyStation } from '../../../database/tools/functions/exectTrazabiltyStation'
 import { validateStations } from './validateStations'
-import { formatDate } from '../../../database/tools/utils/formatDate'
+import { formatDate } from '@database/tools/utils/formatDate'
 
 export async function getTrazabilityStation(station: string) {
   if (!(await validateStations(station)))

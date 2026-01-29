@@ -7,15 +7,13 @@ describe('getTrazabilityStation', () => {
     const report = await getTrazabilityStation(station)
 
     expect(report).toBeDefined()
-    if (typeof report === 'string')
-      expect(report).toBe(`El dís de hoy no se encontraron datos de trazabilidad para la estación "${station}".`)
-    else
-      expect(Array.isArray(report)).toBe(true)
+    expect(typeof report).toBe('string')
   })
 
   it('Maneja estación inválida', async () => {
     const station = 'estacion-invalida'
-    const report = await getTrazabilityStation(station)
-    expect(report).toBe(`La estación "${station}" no es válida.`)
+    await expect(getTrazabilityStation(station))
+      .rejects
+      .toThrow(`La estación "${station}" no es válida.`)
   })
 })

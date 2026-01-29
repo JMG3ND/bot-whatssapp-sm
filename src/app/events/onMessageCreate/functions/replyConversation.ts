@@ -1,9 +1,8 @@
 import type { Message } from 'whatsapp-web.js'
-import { responseMessage, getInstruction } from '../../agent'
+import { responseMessage, getInstruction } from '@modules/agent'
 import { validateCommand } from '../comands/validateComands'
-import { readPrompt } from '../../utils/readPrompt'
-import { readUserId } from '../../utils/readUser'
-import { registerConversation, getUserConversation } from '../../../database/tools'
+import { readPrompt, readUserId } from '@/utils'
+import { registerConversation, getUserConversation } from '@database'
 
 export async function replyConversation(message: Message) {
   if (!validateCommand(message.body)) return

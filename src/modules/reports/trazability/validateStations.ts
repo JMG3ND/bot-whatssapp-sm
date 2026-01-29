@@ -1,4 +1,4 @@
-import { getStationList } from '../../../database/tools/functions/getStationList'
+import { getStationList } from '@database/tools/functions/getStationList'
 
 export async function validateStations(station: string) {
   const stationList = await getStationList()

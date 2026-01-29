@@ -9,9 +9,9 @@ const sqlConfig = {
   server: ENV.DB_HOST || '',
   options: {
     encrypt: false,
-    trustServerCertificate: true
-  }
+    trustServerCertificate: true,
+  },
 }
 
 const adapter = new PrismaMssql(sqlConfig)
-export const montainConnection = new PrismaClient({ adapter });
+export const montainConnection = new PrismaClient({ adapter })

@@ -13,6 +13,12 @@
       "@utils": ["src/utils"],
       "@utils/*": ["src/utils/*"],
       "@env": ["src/app/config/env"],
+      "@": ["src/app"],
+      "@/*": ["src/app/*"],
+      "@modules": ["src/modules"],
+      "@modules/*": ["src/modules/*"],
+      "@database": ["src/database"],
+      "@database/*": ["src/database/*"]
     }
   },
   "include": ["src/**/*"],
