@@ -1,4 +1,4 @@
-import { montainConnection } from '../../montainConnection'
+import { montainConnection } from '../../../database/montainConnection'
 
 interface Stock {
   UPC: string

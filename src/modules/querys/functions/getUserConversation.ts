@@ -1,5 +1,5 @@
-import { brainConnection } from '../../index'
-import { formatConversation } from '../utils/formatConversation'
+import { brainConnection } from '@database'
+import { formatConversation } from '@modules/querys/utils/formatConversation'
 
 export async function getUserConversation(user: string, newMessage: string) {
   return formatConversation(

@@ -107,3 +107,7 @@ Datos para análisis:
 export function getInstruction(tool: keyof typeof instructions, content?: string): string {
   return instructions[tool] + (content ? `\n\n${content}` : '')
 }
+
+export function addInstructionsToReport(report: string) {
+  return `${getInstruction('trazability')}\n${report}`
+}

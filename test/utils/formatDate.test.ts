@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { formatDate } from '../../../../src/database/tools/utils/formatDate'
+import { formatDate } from '../../src/utils/functions/formatDate'
 
 describe('formatDate', () => {
   it('should format date correctly', () => {

@@ -21,7 +21,7 @@ export async function onMessageCreate(message: Message) {
     await replyCommandsList(message)
     break
   case namesComands.trazability:
-    await replyTrazabilityReport(message)
+    await activeTyping(message, replyTrazabilityReport)
     break
   case namesComands['clear-memory']:
     await replyClearMemory(message)

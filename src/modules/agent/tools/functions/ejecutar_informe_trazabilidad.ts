@@ -1,5 +1,5 @@
-import type { ChatCompletionTool } from '../../types'
-import { isObject } from '../../utils'
+import type { ChatCompletionTool } from '@modules/agent/types'
+import { isObject } from '@modules/agent/utils'
 import { getTrazabilityStation } from '@modules/reports'
 import { responseAnalisis , addInstructionsToReport } from '@modules/agent'
 

@@ -1,4 +1,3 @@
 export * from './brainConnection'
 export * from './montainConnection'
-export * from './tools'
-
+export * from '../modules/querys'

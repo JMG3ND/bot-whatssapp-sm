@@ -1,4 +1,4 @@
-import { montainConnection } from '../../montainConnection'
+import { montainConnection } from '../../../database/montainConnection'
 
 export async function getStationList() {
   const stations = await montainConnection.$queryRaw`

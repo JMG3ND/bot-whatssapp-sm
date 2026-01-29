@@ -1,4 +1,4 @@
-import { brainConnection } from '../../index'
+import { brainConnection } from '../../../database/index'
 
 interface RegisterConversationProps {
   user: string

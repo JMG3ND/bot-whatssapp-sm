@@ -1,6 +1,6 @@
 import type { ChatCompletionTool } from '../../types'
 import { getStock } from '@database'
-import { isObject } from '../../utils'
+import { isObject } from '@modules/agent/utils'
 
 export const obtener_stock_inventario: ChatCompletionTool = {
   type: 'function',

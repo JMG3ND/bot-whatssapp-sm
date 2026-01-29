@@ -1,5 +1,5 @@
-import { montainConnection } from '../../montainConnection'
-import { formatDate } from '../utils/formatDate'
+import { montainConnection } from '@database/montainConnection'
+import { formatDate } from '@utils'
 
 type TrazabilityStationResult = {
   ESPECIE: string;

@@ -1,4 +1,4 @@
-import type { Conversation } from '../../brain/client'
+import type { Conversation } from '@database/brain/client'
 
 export function formatConversation(conversations: Conversation[], newMessage?: string): string {
   return conversations.map(convo => {

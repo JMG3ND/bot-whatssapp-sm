@@ -1,4 +1,4 @@
-import { brainConnection } from '../../brainConnection'
+import { brainConnection } from '../../../database/brainConnection'
 
 export async function clearConversation(user: string) {
   await brainConnection.conversation.deleteMany({
