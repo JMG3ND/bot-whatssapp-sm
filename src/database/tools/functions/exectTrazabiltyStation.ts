@@ -12,10 +12,10 @@ type TrazabilityStationResult = {
   ETIQUETA_SALIDA: string;
 }
 
-export async function exectTrazabiltyStation(station: string) {
-  const date = formatDate()
+export async function exectTrazabiltyStation(station: string, date?: string) {
+  const queryDate = date || formatDate()
   const result = await montainConnection.$queryRaw`
-    exec trasabilitystation ${date}, ${station}
+    exec trasabilitystation ${queryDate}, ${station}
   `
   return result as TrazabilityStationResult[]
 }

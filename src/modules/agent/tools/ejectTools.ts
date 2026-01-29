@@ -1,5 +1,5 @@
 import type { ChatCompletionMessageToolCall } from '../types'
-import { obtenerStockInventario } from './functions'
+import { obtenerStockInventario, obtenerInformeTrazabilidad } from './functions'
 
 export async function ejectTools(
   toolCalls: ChatCompletionMessageToolCall[],
@@ -10,6 +10,10 @@ export async function ejectTools(
       switch (toolCall.function.name) {
       case 'obtener_stock_inventario': {
         response.push(await obtenerStockInventario(toolCall.function.arguments))
+        break
+      }
+      case 'ejecutar_informe_trazabilidad': {
+        response.push(await obtenerInformeTrazabilidad(toolCall.function.arguments))
         break
       }
       default:

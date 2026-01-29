@@ -4,7 +4,6 @@ import { callReasonerAgent } from './callReasonerAgent'
 export async function responseAnalisis(message: string) {
   try {
     const response = await callReasonerAgent(message)
-    console.log(response)
     const aiResponse = readAiResponse(response)
 
     return aiResponse

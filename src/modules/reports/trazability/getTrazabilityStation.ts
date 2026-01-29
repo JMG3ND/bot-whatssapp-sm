@@ -2,11 +2,11 @@ import { exectTrazabiltyStation } from '../../../database/tools/functions/exectT
 import { validateStations } from './validateStations'
 import { formatDate } from '@database/tools/utils/formatDate'
 
-export async function getTrazabilityStation(station: string) {
+export async function getTrazabilityStation(station: string, date?: string) {
   if (!(await validateStations(station)))
     throw `La estación "${station}" no es válida.`
 
-  const report = await exectTrazabiltyStation(station)
+  const report = await exectTrazabiltyStation(station, date)
 
   if (report.length === 0) {
     throw `El día de hoy no se encontraron datos de trazabilidad para la estación "${station}".`

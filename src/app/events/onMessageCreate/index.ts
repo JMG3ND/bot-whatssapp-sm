@@ -5,7 +5,7 @@ import { replyCommandsList } from './functions/replyCommandsList'
 import { replyClearMemory } from './functions/clearMemory'
 import { namesComands } from './comands/listCommands'
 import { replyTrazabilityReport } from './functions/replyTrazabilityReport'
-
+import { activeTyping } from '@/utils'
 /**
  * Redirección de mensajes entrantes a la función correspondiente según el comando detectado.
  * @param message Mensaje entrante de WhatsApp
@@ -13,10 +13,9 @@ import { replyTrazabilityReport } from './functions/replyTrazabilityReport'
  */
 export async function onMessageCreate(message: Message) {
   const command = readCommand(message)
-
   switch (command) {
   case namesComands.ai:
-    await replyConversation(message)
+    await activeTyping(message, replyConversation)
     break
   case namesComands.help:
     await replyCommandsList(message)
