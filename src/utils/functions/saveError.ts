@@ -22,7 +22,7 @@ function writePath(options?: Options): string {
 }
 
 function writeMessage(error: unknown): string {
-  return `${new Date().toISOString()} - ${error}\n`
+  return `${new Date().toISOString()} - ${error}\n\n\n`
 }
 
 function modifyOptions(error: unknown, options: Options = {}) {

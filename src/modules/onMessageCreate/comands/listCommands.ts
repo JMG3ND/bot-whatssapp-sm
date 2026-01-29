@@ -1,10 +1,17 @@
-type ListCommands = {
-  comandName: string;
+interface ListCommands {
+  comandName: NamesComands;
   description: string;
-  regex: RegExp
-};
+  regex: RegExp;
+}
 
-export const listCommands: ListCommands[] = [
+interface CommandsInfo {
+  comandName: NamesComands;
+  description: string;
+}
+
+type NamesComands = 'help' | 'ai' | 'trazability' | 'clear-memory';
+
+const comandsInfo: CommandsInfo[] = [
   {
     comandName: 'help',
     description: 'Muestra la lista de comandos disponibles',
@@ -21,11 +28,13 @@ export const listCommands: ListCommands[] = [
     comandName: 'clear-memory',
     description: 'Limpia la memoria de la conversación actual',
   },
-].map(command => ({
+]
+
+export const listCommands: ListCommands[] = comandsInfo.map(command => ({
   ...command,
   regex: new RegExp(`^/${command.comandName}`, 'i'),
 }))
 
 export const namesComands = Object.fromEntries(
   listCommands.map(command => [command.comandName, command.comandName]),
-)
+) as Record<NamesComands, NamesComands>

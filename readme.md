@@ -46,3 +46,4 @@ Te pedirá escanear un código QR con tu aplicación de WhatsApp para autenticar
 ## Pendientes
 
 - [x] Configurar el entorno de desarrollo para que deapseek conteste.
+- [ ] Corregir error de lectura de comandos.

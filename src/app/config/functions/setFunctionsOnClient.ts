@@ -10,7 +10,7 @@ import { onMessageCreate } from '../../../modules/onMessageCreate'
 export function setFunctionsOnClient(clientInstance: Client) {
   clientInstance.on('ready', printReadyClient)
   clientInstance.on('qr', printQrOnConsole)
-  clientInstance.on('message', onMessageCreate)
+  clientInstance.on('message_create', onMessageCreate)
   clientInstance.on('auth_failure', (message) => {
     console.error('Authentication failure:', message)
   })

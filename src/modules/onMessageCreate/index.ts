@@ -8,7 +8,7 @@ import { replyTrazabilityReport } from './functions/replyTrazabilityReport'
 
 export async function onMessageCreate(message: Message) {
   const command = readCommand(message)
-  console.log('Received command:', command)
+
   switch (command) {
   case namesComands.ai:
     await replyConversation(message)
@@ -19,7 +19,7 @@ export async function onMessageCreate(message: Message) {
   case namesComands.trazability:
     await replyTrazabilityReport(message)
     break
-  case namesComands['clear-momory']:
+  case namesComands['clear-memory']:
     await replyClearMemory(message)
     break
   default:
