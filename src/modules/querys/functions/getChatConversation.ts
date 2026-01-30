@@ -1,7 +1,7 @@
 import { brainConnection } from '@database'
 import { formatConversation } from '@modules/querys/utils/formatConversation'
 
-export async function getUserConversation(chat: string, newMessage: string) {
+export async function getChatConversation(chat: string, userName: string, newMessage: string) {
   return formatConversation(
     await brainConnection.conversation.findMany({
       where: {
@@ -11,5 +11,5 @@ export async function getUserConversation(chat: string, newMessage: string) {
       orderBy: {
         createdAt: 'asc',
       },
-    }), newMessage)
+    }), `${userName}: ${newMessage}`)
 }

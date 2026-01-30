@@ -10,6 +10,7 @@ datasource db {
 model Conversation {
   id           String   @id @default(cuid())
   chat         String
+  userName     String
   user_message String
   bot_response String
   createdAt    DateTime @default(now())
