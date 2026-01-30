@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { getStationList } from '../../../../src/database/tools/functions/getStationList'
+import { getStationList } from '../../../../src/modules/querys/functions/getStationList'
 
 describe('getStationList', () => {
   it('Debe retornar una lista con StationName válidas', async () => {

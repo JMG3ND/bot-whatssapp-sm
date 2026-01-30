@@ -1,5 +1,5 @@
 import { describe, it, expect  } from 'vitest'
-import { exectTrazabiltyStation } from '../../../../src/database/tools/functions/exectTrazabiltyStation'
+import { exectTrazabiltyStation } from '../../../../src/modules/querys/functions/exectTrazabiltyStation'
 
 describe('exectTrazabilityStation', () => {
   it('should execute trazability station function', async () => {
