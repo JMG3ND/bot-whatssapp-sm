@@ -1,9 +1,9 @@
 import type { Message } from 'whatsapp-web.js'
-import { readUserId } from '@/utils'
+import { readChatName } from '@/utils'
 import { clearConversation } from '@database'
 
 export async function replyClearMemory(message: Message) {
-  const userId = readUserId(message)
-  await clearConversation(userId)
+  const chatName = await readChatName(message)
+  await clearConversation(chatName)
   await message.reply('Memoria de conversación limpiada correctamente.')
 }

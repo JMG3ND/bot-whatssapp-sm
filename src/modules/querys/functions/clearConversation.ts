@@ -1,9 +1,9 @@
 import { brainConnection } from '@database/brainConnection'
 
-export async function clearConversation(user: string) {
+export async function clearConversation(chat: string) {
   await brainConnection.conversation.deleteMany({
     where: {
-      user: user,
+      chat: chat,
     },
   })
 }

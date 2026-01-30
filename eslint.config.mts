@@ -4,11 +4,11 @@ import tseslint from 'typescript-eslint'
 import { defineConfig } from 'eslint/config'
 
 export default defineConfig([
-  { ignores: ['dist/**', 'node_modules/**', 'src/database/brain/**', 'src/database/montain/**'] },
+  { ignores: ['dist/**', 'node_modules/**', 'bundle/**', 'src/database/brain/**', 'src/database/montain/**'] },
   js.configs.recommended,
   ...tseslint.configs.recommended,
   {
-    files: ['**/*.{js,mjs,cjs,ts,mts,cts}'],
+    files: ['**/*.{js,mjs,cjs,ts,mts,cts}', './src/**/*.ts'],
     languageOptions: {
       globals: { ...globals.node },
     },

@@ -1,21 +1,21 @@
 import type { Message } from 'whatsapp-web.js'
 import { responseMessage, getInstruction } from '@modules/agent'
-import { validateCommand } from '../comands/validateComands'
-import { readPrompt, readUserId } from '@/utils'
+import { readPrompt, readChatName, readUserName } from '@/utils'
 import { registerConversation, getUserConversation } from '@database'
 
 export async function replyConversation(message: Message) {
-  if (!validateCommand(message.body)) return
-  const user = readUserId(message)
+  const chatName = await readChatName(message)
   const newMessage = readPrompt(message)
-  const conversation = await getUserConversation(user, newMessage)
+  const userName = await readUserName(message)
+  const messageFromUser = `${userName}: ${newMessage}`
+  const conversation = await getUserConversation(chatName, messageFromUser)
   const instruction = getInstruction('conversation', conversation)
   const aiResponse = await responseMessage(instruction, async (msg) => {
     await message.reply(msg)
   })
   await registerConversation({
-    user: user,
-    user_message: newMessage,
+    chat: chatName,
+    user_message: messageFromUser,
     bot_response: aiResponse,
   })
   await message.reply(aiResponse)
