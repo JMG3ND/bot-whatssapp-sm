@@ -1,5 +1,5 @@
 import type { Message } from 'whatsapp-web.js'
-import { getCommandsList } from '../comands/getCommandsList'
+import { getCommandsList } from '../commands/getCommandsList'
 
 export async function replyCommandsList(message: Message) {
   const commandsList = getCommandsList()

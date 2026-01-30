@@ -1,4 +1,4 @@
-import { listCommands } from '@/events/onMessageCreate/comands/listCommands'
+import { listCommands } from '@/events/onMessageCreate/commands/listCommands'
 import type { Message } from 'whatsapp-web.js'
 
 const regexCommand = listCommands.find(cmd => cmd.comandName === 'ai')?.regex

@@ -1,9 +1,9 @@
 import { Message } from 'whatsapp-web.js'
 import { replyConversation } from './functions/replyConversation'
-import { readCommand } from './comands/readCommand'
+import { readCommand } from './commands/readCommand'
 import { replyCommandsList } from './functions/replyCommandsList'
 import { replyClearMemory } from './functions/clearMemory'
-import { namesComands } from './comands/listCommands'
+import { namesComands } from './commands/listCommands'
 import { replyTrazabilityReport } from './functions/replyTrazabilityReport'
 import { activeTyping } from '@/utils'
 /**
