@@ -10,7 +10,9 @@ export async function replyConversation(message: Message) {
   const newMessage = readPrompt(message)
   const conversation = await getUserConversation(user, newMessage)
   const instruction = getInstruction('conversation', conversation)
-  const aiResponse = await responseMessage(instruction)
+  const aiResponse = await responseMessage(instruction, async (msg) => {
+    await message.reply(msg)
+  })
   await registerConversation({
     user: user,
     user_message: newMessage,

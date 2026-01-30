@@ -1,5 +1,5 @@
 const instructions = {
-  conversation: 'Sigue la conversación de manera coherente y relevante.',
+  conversation: 'Sigue la conversación y responde de forma corta y derecta con solo lo necesario.',
   trazability: `
 Rol: Eres un sistema de auditoría de datos. Tu función es analizar un JSON de producción, cuantificar errores y generar un reporte que será enviado como mensaje de WhatsApp. Cíñete estrictamente a todas las siguientes reglas.
 

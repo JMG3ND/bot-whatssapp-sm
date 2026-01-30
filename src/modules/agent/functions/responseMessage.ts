@@ -3,7 +3,12 @@ import { readToolCalls, readAiResponse, addMessageToConversation } from '../util
 import { ejectTools } from '../tools/ejectTools'
 import { callAgentWithTools } from './callAgent'
 
-export async function responseMessage(message: string) {
+type OnToolsCalls = (message: string) => Promise<void>
+
+export async function responseMessage(
+  message: string,
+  onToolsCalls?: OnToolsCalls )
+{
   try {
     const response = await callAgentWithTools(message, allTools)
 
@@ -11,10 +16,11 @@ export async function responseMessage(message: string) {
     const toolCalls = readToolCalls(response)
 
     if (toolCalls) {
+      if (aiResponse && onToolsCalls) await onToolsCalls(aiResponse)
       const updateConversation = addMessageToConversation(message, aiResponse)
       const responseFromTools = await ejectTools(toolCalls)
       const finalMessage = addMessageToConversation(updateConversation, responseFromTools)
-      return await responseMessage(finalMessage)
+      return await responseMessage(finalMessage, onToolsCalls)
     }
 
     return aiResponse
