@@ -1,5 +1,5 @@
 import type { ChatCompletionTool } from '../../types'
-import { getStock } from '@database'
+import { getStock } from '@modules/querys'
 import { isObject } from '@modules/agent/utils'
 
 export const obtener_stock_inventario: ChatCompletionTool = {

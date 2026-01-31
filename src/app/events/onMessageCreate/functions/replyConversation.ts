@@ -1,7 +1,7 @@
 import type { Message } from 'whatsapp-web.js'
 import { responseMessage, getInstruction } from '@modules/agent'
 import { readPrompt, readChatName, readUserName } from '@/utils'
-import { registerConversation, getChatConversation } from '@database'
+import { registerConversation, getChatConversation } from '@modules/querys'
 
 export async function replyConversation(message: Message) {
   const chatName = await readChatName(message)

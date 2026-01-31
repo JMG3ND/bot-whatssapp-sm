@@ -1,5 +1,5 @@
 import type { ChatCompletionMessageToolCall } from '../types'
-import { obtenerStockInventario, obtenerInformeTrazabilidad } from './functions'
+import { obtenerStockInventario, obtenerInformeTrazabilidad, getToolGetFrozenPacking, getCurrentDate } from './functions'
 
 export async function ejectTools(
   toolCalls: ChatCompletionMessageToolCall[],
@@ -14,6 +14,14 @@ export async function ejectTools(
       }
       case 'ejecutar_informe_trazabilidad': {
         response.push(await obtenerInformeTrazabilidad(toolCall.function.arguments))
+        break
+      }
+      case 'obtener_empaque_congelado': {
+        response.push(await getToolGetFrozenPacking(toolCall.function.arguments))
+        break
+      }
+      case 'obtener_fecha_actual': {
+        response.push(await getCurrentDate())
         break
       }
       default:
