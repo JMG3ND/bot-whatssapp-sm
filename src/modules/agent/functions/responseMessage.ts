@@ -1,7 +1,6 @@
-import { allTools } from '../tools'
+import { allInformationTools, ejectTools } from '../tools'
 import { readToolCalls, readAiResponse, addMessageToConversation } from '../utils'
-import { ejectTools } from '../tools/ejectTools'
-import { callAgentWithTools } from './callAgent'
+import { callAgentWithTools } from './callAgentWithTools'
 
 type OnToolsCalls = (message: string) => Promise<void>
 
@@ -10,7 +9,7 @@ export async function responseMessage(
   onToolsCalls?: OnToolsCalls )
 {
   try {
-    const response = await callAgentWithTools(message, allTools)
+    const response = await callAgentWithTools(message, allInformationTools)
 
     const aiResponse = readAiResponse(response)
     const toolCalls = readToolCalls(response)
