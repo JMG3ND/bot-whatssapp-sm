@@ -6,8 +6,14 @@ const mockObtenerStockInventario = vi.fn()
 const mockObtenerInformeTrazabilidad = vi.fn()
 
 vi.mock('../../../../src/modules/agent/tools/functions', () => ({
-  obtenerStockInventario: (args: string) => mockObtenerStockInventario(args),
-  obtenerInformeTrazabilidad: (args: string) => mockObtenerInformeTrazabilidad(args),
+  toolGetStock: {
+    name: 'obtener_stock_inventario',
+    ejectTool: (args: string) => mockObtenerStockInventario(args),
+  },
+  toolRunTraceabilityReport: {
+    name: 'ejecutar_informe_trazabilidad',
+    ejectTool: (args: string) => mockObtenerInformeTrazabilidad(args),
+  },
 }))
 
 import { ejectTools } from '../../../../src/modules/agent/tools/ejectTools'
