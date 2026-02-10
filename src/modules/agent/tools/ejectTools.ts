@@ -5,6 +5,7 @@ import { readArguments } from '../utils/readArguments'
 export async function ejectTools(
   toolCalls: ChatCompletionMessageToolCall[],
 ) {
+  const startTime = performance.now()
   const response: string[] = []
   const ejectTolls = toolCalls.map(async (toolCall) => {
     if (toolCall.type === 'function') {
@@ -29,5 +30,12 @@ export async function ejectTools(
 
   await Promise.all(ejectTolls)
 
+  const endTime = performance.now()
+
+  if (response.length > 0) {
+    response.push(`
+      Tiempo de ejecución de las herramientas: ${(endTime - startTime).toFixed(2)} ms`,
+    )
+  }
   return response.join('\n')
 }
