@@ -32,17 +32,26 @@ export const toolRunTraceabilityReport = new Tool({
     },
   },
   onEjectTool: async function ejectTool(args: string) {
-    const { station, date } = readArguments(args)
+    try {
+      const { station, date } = readArguments(args)
 
-    const report = await getTrazabilityStation(station, date)
-    const instructions = addInstructionsToReport(report)
-    const response = await responseAnalisis(instructions)
+      const report = await getTrazabilityStation(station, date)
+      const instructions = addInstructionsToReport(report)
+      const response = await responseAnalisis(instructions)
 
-    const addInformation = addContextToReport(response)
+      const addInformation = addContextToReport(response)
 
-    const informeString = JSON.stringify(addInformation, null, 2)
-    return informeString
-
+      const informeString = JSON.stringify(addInformation, null, 2)
+      return informeString
+    } catch (error) {
+      if (error instanceof ToolError) {
+        throw error
+      }
+      if (typeof error === 'string') {
+        throw new ToolError(error)
+      }
+      throw error
+    }
   },
 })
 
