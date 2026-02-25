@@ -1,0 +1,1 @@
+pm2 start ./bundle/index.js --name "bot-ws"

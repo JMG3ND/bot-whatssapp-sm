@@ -11,6 +11,8 @@ export async function replyConversation(message: Message) {
   const instruction = getInstruction('conversation', conversation)
   const aiResponse = await responseMessage(instruction, async (msg) => {
     await message.reply(msg)
+    const chat = await message.getChat()
+    await chat.sendStateTyping()
   })
   await registerConversation({
     chat: chatName,
