@@ -9,7 +9,7 @@ interface CommandsInfo {
   description: string;
 }
 
-type NamesComands = 'help' | 'ai' | 'trazability' | 'clear-memory';
+type NamesComands = 'help' | 'ai' | 'trazability' | 'clear-memory' | 'ac';
 
 const comandsInfo: CommandsInfo[] = [
   {
@@ -27,6 +27,10 @@ const comandsInfo: CommandsInfo[] = [
   {
     comandName: 'clear-memory',
     description: 'Limpia la memoria de la conversación actual',
+  },
+  {
+    comandName: 'ac',
+    description: 'gestion de ventas ac',
   },
 ]
 

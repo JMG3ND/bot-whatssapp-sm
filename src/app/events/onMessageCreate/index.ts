@@ -6,6 +6,7 @@ import { replyClearMemory } from './functions/clearMemory'
 import { namesComands } from './commands/listCommands'
 import { replyTrazabilityReport } from './functions/replyTrazabilityReport'
 import { activeTyping } from '@/utils'
+import { replyAC } from './functions/replyAC'
 /**
  * Redirección de mensajes entrantes a la función correspondiente según el comando detectado.
  * @param message Mensaje entrante de WhatsApp
@@ -25,6 +26,9 @@ export async function onMessageCreate(message: Message) {
     break
   case namesComands['clear-memory']:
     await replyClearMemory(message)
+    break
+  case namesComands.ac:
+    await replyAC(message)
     break
   default:
     return
