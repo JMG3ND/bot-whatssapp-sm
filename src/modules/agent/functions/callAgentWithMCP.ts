@@ -3,7 +3,7 @@ import { getMcpTools, callMcpTool } from '../config/mcpClient'
 import { readToolCalls, readAiResponse, readArgumentsv2 } from '../utils'
 import type { ChatCompletionMessageParam } from 'openai/resources/chat/completions'
 
-const MAX_TOOL_ROUNDS = 20
+const MAX_TOOL_ROUNDS = 50
 
 export async function callAgentWithMCP(message: string, onToolCall?: (message: string) => Promise<void>) {
   const tools = await getMcpTools()
@@ -24,9 +24,9 @@ export async function callAgentWithMCP(message: string, onToolCall?: (message: s
     const toolCalls = readToolCalls(response)
     const aiResponse = readAiResponse(response)
 
-    if (!toolCalls) {
-      return aiResponse
-    }
+    if (!toolCalls) return aiResponse
+
+    if (onToolCall) await onToolCall(aiResponse)
 
     messages.push(response.choices[0].message)
 
@@ -34,10 +34,6 @@ export async function callAgentWithMCP(message: string, onToolCall?: (message: s
       const { args, name } = readArgumentsv2(toolCall)
       const argsString = JSON.parse(args)
       const result = await callMcpTool(name, argsString)
-
-      if (onToolCall) {
-        await onToolCall(result)
-      }
 
       messages.push({
         role: 'tool',

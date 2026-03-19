@@ -9,7 +9,11 @@ export async function replyAC(message: Message) {
   const userName = await readUserName(message)
   const conversation = await getChatConversation(`ac_${chatName}`, userName, newMessage)
   const instruction = getInstruction('agentAC', conversation)
-  const aiResponse = await callAgentWithMCP(instruction)
+  const aiResponse = await callAgentWithMCP(instruction, async (msg) => {
+    if(!msg) return
+    const chat = await message.getChat()
+    await chat.sendMessage(msg)
+  })
   await registerConversation({
     chat: `ac_${chatName}`,
     userName: userName,
